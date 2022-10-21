@@ -7,14 +7,16 @@ body {
 }
 
 a {
-  color: inherit;
+  color: rgb(55, 65, 42);
   text-decoration: none;
 }
 
 * {
   box-sizing: border-box;
 }
-
+p {
+  color:rgb(1, 179, 255)
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
