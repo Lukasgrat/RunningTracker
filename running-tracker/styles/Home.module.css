@@ -1,7 +1,11 @@
 .container {
   padding: 0 2rem;
+  background-color: #660d0d;
 }
-
+.heading{
+  color: #b08802;
+  background-color: #3700ff;
+}
 .main {
   min-height: 100vh;
   padding: 4rem 0;
@@ -10,8 +14,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #660d0d;
 }
-
+.jumbotron{
+  background-color: #660d0d;
+}
 .footer {
   display: flex;
   flex: 1;
@@ -57,8 +64,8 @@
 }
 
 .code {
-  background: #fafafa;
   border-radius: 5px;
+  background-color: #660d0d;
   padding: 0.75rem;
   font-size: 1.1rem;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
@@ -81,6 +88,7 @@
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
+  background-color: #b08802;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 300px;
 }
@@ -88,8 +96,8 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0f3a6b;
-  border-color: #0070f3;
+  color: #4c34c7;
+  border-color: #57c5a4;
 }
 
 .card h2 {
@@ -126,4 +134,12 @@
   .logo img {
     filter: invert(1);
   }
+}
+.Navtext{
+  color:#3700ff;
+  background-color: #3d0000 ;
+}
+.NavTextRight{
+  background-color: #3d0000 ;
+  text-align: right;
 }
