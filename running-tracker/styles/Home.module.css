@@ -3,8 +3,7 @@
   background-color: #660d0d;
 }
 .heading{
-  color: #b08802;
-  background-color: #3700ff;
+  color: #b08802 !important;
 }
 .main {
   min-height: 100vh;
