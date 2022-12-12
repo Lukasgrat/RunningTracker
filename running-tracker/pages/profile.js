@@ -49,8 +49,8 @@ export default function Home() {
 
 
         <div className={styles.grid}>
-          <a className={styles.card}>
-            <h2>Races </h2>
+          <a href="https://nextjs.org/docs" className={styles.card}>
+            <h2>Races &rarr;</h2>
             <p>Look at a collective database of races across the area to find info on them with ease.</p>
           </a>
 
@@ -60,9 +60,10 @@ export default function Home() {
           </a>
 
           <a
+            href="https://github.com/vercel/next.js/tree/canary/examples"
             className={styles.card}
           >
-            <h2>Teams</h2>
+            <h2>Teams &rarr;</h2>
             <p>Register your team or join a team you've been invited to and see other stats and join on races together!.</p>
           </a>
         </div>

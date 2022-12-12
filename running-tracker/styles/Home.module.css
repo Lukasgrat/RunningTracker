@@ -3,7 +3,7 @@
   background-color: #660d0d;
 }
 .heading{
-  color: #b08802 !important;
+  color: #b08802;
 }
 .main {
   min-height: 100vh;
@@ -16,7 +16,7 @@
   background-color: #660d0d;
 }
 .jumbotron{
-  background-color: #660d0d;
+  background-color: #b08802 !important;
 }
 .footer {
   display: flex;
@@ -34,8 +34,8 @@
   flex-grow: 1;
 }
 
-.title a {
-  color: #91ff00;
+.title{
+  color: #65b200 !important;
   text-decoration: none;
 }
 
@@ -83,7 +83,7 @@
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
-  color: inherit;
+  color: #000000 !important;
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
@@ -91,7 +91,19 @@
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 300px;
 }
-
+.titleCard {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: #3700ff !important;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  background-color: #b08802;
+  
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 700px;
+}
 .card:hover,
 .card:focus,
 .card:active {
@@ -108,6 +120,13 @@
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
+  color: #000000 !important;
+}
+.titleCard p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: #000000 !important;
 }
 
 .logo {
@@ -133,6 +152,10 @@
   .logo img {
     filter: invert(1);
   }
+}
+
+.footer {
+  color:#b08802 !important;
 }
 .Navtext{
   color:#3700ff;
