@@ -40,32 +40,22 @@ export default function Home() {
                             <h1 className = {styles.heading}>Running Tracker</h1>
                         </div>
                     </div>
-                    <h1 className={styles.title}>
-                        What We Do
-                    </h1>
-                    <a className={styles.titleCard}>
-                        <p>Running Tracker brings running organizers, teams, and individuals together to share info on races, organize your running data, and have a more unified team to race with.</p>
-                    </a>
-
-
-                    <div className={styles.grid}>
-                        <a className={styles.card}>
-                            <h2>Races </h2>
-                            <p>Look at a collective database of races across the area to find info on them with ease.</p>
-                        </a>
-
-                        <a className={styles.card}>
-                            <h2>Profile</h2>
-                            <p>Record your personal data on running, to get back stastics on where you are improving or where you need to!</p>
-                        </a>
-
-                        <a
-                            className={styles.card}
-                            >
-                            <h2>Teams</h2>
-                            <p>Register your team or join a team you've been invited to and see other stats and join on races together!.</p>
-                        </a>
-                    </div>
+                    <table>
+                        <tr>
+                            <th>Race</th>
+                            <th>Organizer</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Length</th>
+                        </tr>
+                        <tr>
+                            <td>5K Race</td>
+                            <td>John Running</td>
+                            <td>01/15/2023</td>
+                            <td>123 Main Street, Somewhere, NJ</td>
+                            <td>3.1 miles</td>
+                        </tr>
+                    </table>
                 </main>
 
                 <footer className={styles.footer}>
