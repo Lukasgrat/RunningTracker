@@ -40,22 +40,28 @@ export default function Home() {
                             <h1 className = {styles.heading}>Running Tracker</h1>
                         </div>
                     </div>
-                    <table>
-                        <tr>
-                            <th>Race</th>
-                            <th>Organizer</th>
-                            <th>Date</th>
-                            <th>Location</th>
-                            <th>Length</th>
-                        </tr>
-                        <tr>
-                            <td>5K Race</td>
-                            <td>John Running</td>
-                            <td>01/15/2023</td>
-                            <td>123 Main Street, Somewhere, NJ</td>
-                            <td>3.1 miles</td>
-                        </tr>
-                    </table>
+                    <div>
+                        <table>
+                            <thead >
+                                <tr>
+                                    <th>Race</th>
+                                    <th>Organizer</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Length</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>5K Race</td>
+                                    <td>John Running</td>
+                                    <td>01/15/2023</td>
+                                    <td>123 Main Street, Somewhere, NJ</td>
+                                    <td>3.1 miles</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </main>
 
                 <footer className={styles.footer}>

@@ -40,16 +40,22 @@ export default function Home() {
                             <h1 className = {styles.heading}>Running Tracker</h1>
                         </div>
                     </div>
-                    <table>
-                        <tr>
-                            <th>Team</th>
-                            <th>Races</th>
-                        </tr>
-                        <tr>
-                            <td>Racing Polygon Team</td>
-                            <td>64K, GCN Marathon</td>
-                        </tr>
-                    </table>
+                    <div>
+                        <table>
+                            <thead >
+                                <tr>
+                                    <th scope="col">Team</th>
+                                    <th scope="col">Races</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Racing Polygon Team</td>
+                                    <td>64K, GCN Marathon</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </main>
 
                 <footer className={styles.footer}>
