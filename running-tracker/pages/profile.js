@@ -56,7 +56,7 @@ export default function Home() {
 
           <a className={styles.card}>
             <h2>Profile</h2>
-            <p>Record your personal data on running, to get back stastics on where you are improving or where you need to!</p>
+            <p>Record your personal data on running, to get back statistics on where you are improving or where you need to!</p>
           </a>
 
           <a
@@ -64,7 +64,7 @@ export default function Home() {
             className={styles.card}
           >
             <h2>Teams &rarr;</h2>
-            <p>Register your team or join a team you've been invited to and see other stats and join on races together!.</p>
+            <p>Register your team, or join a team you've been invited to and see other stats and join races together!.</p>
           </a>
         </div>
       </main>
