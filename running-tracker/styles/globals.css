@@ -26,3 +26,9 @@ p {
     background: black;
   }
 }
+h2 {
+  color:#891200 !important;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  text-align: left;
+  margin-right: 70%;
+}

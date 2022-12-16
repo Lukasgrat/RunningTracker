@@ -35,7 +35,7 @@
 }
 
 .title{
-  color: #65b200 !important;
+  color: #b08802 !important;
   text-decoration: none;
 }
 
@@ -89,7 +89,8 @@
   border-radius: 10px;
   background-color: #b08802;
   transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
+  max-width: 350px;
+  max-height: 500px;
 }
 .titleCard {
   margin: 1rem;
@@ -115,7 +116,18 @@
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
 }
-
+.card h3{
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+} 
+.outsideText{
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  color:#b08802 !important;
+  font-size: 200%;
+  padding-top: 15%;
+  padding-right: 80%;
+}
 .card p {
   margin: 0;
   font-size: 1.25rem;
@@ -164,4 +176,27 @@
 .NavTextRight{
   background-color: #3d0000 ;
   text-align: right;
+}
+.profileCard{
+  vertical-align: top;
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: #000000 !important;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  background-color: #b08802;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 350px;
+  max-height: 500px;
+  align-content:stretch;
+}
+.profileTitle{
+  color:#3d0000;
+
+}
+.stats {
+  color: #b08802 !important;
+  text-align: center;
 }
