@@ -55,6 +55,7 @@ export default function Home() {
                                 </tr>
                             </tbody>
                         </table>
+                        <button type="button">Register Team</button>
                     </div>
                 </main>
 
