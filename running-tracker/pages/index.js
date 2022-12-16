@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import Script from 'next/Script';
+import Script from 'next/script';
 export default function Home() {
   
   return (
@@ -56,14 +56,14 @@ export default function Home() {
 
           <a className={styles.card}>
             <h2>Profile</h2>
-            <p>Record your personal data on running, to get back stastics on where you are improving or where you need to!</p>
+            <p>Record your personal data on running, to get back statistics on where you are improving or where you need to!</p>
           </a>
 
           <a
             className={styles.card}
           >
             <h2>Teams</h2>
-            <p>Register your team or join a team you've been invited to and see other stats and join on races together!.</p>
+            <p>Register your team, or join a team you've been invited to and see other stats and join on races together!.</p>
           </a>
         </div>
       </main>
