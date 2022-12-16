@@ -55,8 +55,8 @@ export default function Home() {
                                 </tr>
                             </tbody>
                         </table>
-                        <button type="button">Register Team</button>
                     </div>
+                    <button type="button">Register Team</button>
                 </main>
 
                 <footer className={styles.footer}>
