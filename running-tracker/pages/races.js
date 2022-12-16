@@ -27,8 +27,8 @@ export default function Home() {
                             <ul class="nav navbar-nav">
                                 <li><a href="\" className={styles.Navtext}>Home</a></li>
                                 <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
-                                <li><a href="#" className={styles.Navtext}>Team</a></li>
-                                <li><a href="#" className={styles.Navtext}>Races</a></li>
+                                <li><a href="\teams" className={styles.Navtext}>Team</a></li>
+                                <li><a href="\races" className={styles.Navtext}>Races</a></li>
                                 <li><a href="#" className={styles.NavTextRight}>Login</a></li>
                             </ul>
                         </div>
