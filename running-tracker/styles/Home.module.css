@@ -194,9 +194,26 @@
 }
 .profileTitle{
   color:#3d0000;
+  display:inline;
 
 }
 .stats {
   color: #b08802 !important;
   text-align: center;
+}
+.racesTable{
+  color:#b08802 !important;
+}
+.racesTable td{
+  min-width: 5%;
+  min-height: 5%;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid #b08802;
+}
+.racesTable th{
+  min-width: 5%;
+  min-height: 5%;
+  padding-left: 20px;
+  padding-right: 20px;
 }

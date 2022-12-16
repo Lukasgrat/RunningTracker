@@ -56,30 +56,28 @@ export default function Home() {
       <h1 className={styles.stats}>Statistics on Recent Races</h1>
       <Image className= {styles.image} src = {CHART} alt="stats picture"/>
       <p>Add a race below by inserting the race distance(in kms) and time below</p>
-      <h3>Race Distance</h3>
-      <Script
+      <h3 className= {styles.stats}>Race Distance</h3>
+      <div className={styles.grid}>
+        <h3 className= {styles.stats}>Length|Time</h3>
+      </div>
+      <div className={styles.grid}>
+        <input id = "raceDistance" type = "text" color=''></input>
+        <input id = "raceTime" type = "text"></input>
+      </div>
+      <button id = "addDataButton">Insert Data</button>
+      <Script 
       src="https://connect.facebook.net/en_US/sdk.js"
       strategy="lazyOnload"
       onLoad={() =>
         {
           var x = "";
           var y = "";
-        const input = document.createElement("input");
-        input.setAttribute("id", "raceDistance");
-        input.setAttribute("type", "text");
-        document.body.appendChild(input);
-        const input2 = document.createElement("input");
-        input2.setAttribute("id", "raceTime");
-        input2.setAttribute("type", "text");
-        document.body.appendChild(input2);
-        const button = document.createElement('button')
-        button.innerText = 'Add data'
+        const button = document.getElementById('addDataButton')
       button.addEventListener('click', () => {
             x  = document.getElementById("raceTime").value;
             y = document.getElementById("raceDistance").value;
             alert("Added race With time "+x+" and distance "+y+" (km)to the graph.");
           })
-        document.body.appendChild(button)
       }
     }
   />

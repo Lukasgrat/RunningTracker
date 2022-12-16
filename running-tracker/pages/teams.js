@@ -41,7 +41,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div>
-                        <table>
+                        <table className= {styles.racesTable}>
                             <thead >
                                 <tr>
                                     <th scope="col">Team</th>

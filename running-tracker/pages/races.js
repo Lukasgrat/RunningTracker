@@ -41,7 +41,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div>
-                        <table>
+                        <table className= {styles.racesTable}>
                             <thead >
                                 <tr>
                                     <th>Race</th>
@@ -58,6 +58,13 @@ export default function Home() {
                                     <td>01/15/2023</td>
                                     <td>123 Main Street, Somewhere, NJ</td>
                                     <td>3.1 miles</td>
+                                </tr>
+                                <tr>
+                                    <td>10mi Race</td>
+                                    <td>V-Day Memorial Run</td>
+                                    <td>05/3/2023</td>
+                                    <td>123 Side Street, Somethere, NJ</td>
+                                    <td>10.1 miles</td>
                                 </tr>
                             </tbody>
                         </table>
