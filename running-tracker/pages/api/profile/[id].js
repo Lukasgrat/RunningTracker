@@ -19,6 +19,6 @@ export default async function handler(req, res) {
     if (method === "GET") {
         const { id } = req.query;
         // TODO: Query DB to get information that matches the ID
-        return response.status(200).json(rows); // Incomplete; still need to get the running data, but this should get the basics
+        return res.status(200).json(rows); // Incomplete; still need to get the running data, but this should get the basics
     }
 }
