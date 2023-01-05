@@ -4,7 +4,7 @@ import Script from 'next/script';
 import Image from 'next/image';
 import PFP from '../images/testPFP.jpg'
 import CHART from '../images/chart.png'
-export default function Home() {
+export default function Profile() {
   
   return (
     <div className={styles.container}>

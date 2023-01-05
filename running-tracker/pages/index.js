@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script';
+import Username from '../pages/userComponenets';
+import { Component,React } from 'react';
 export default function Home() {
   
   return (
@@ -29,12 +31,13 @@ export default function Home() {
               <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
               <li><a href="\teams" className={styles.Navtext}>Team</a></li>
               <li><a href="\races" className={styles.Navtext}>Races</a></li>
-              <li><a href="#" className={styles.NavTextRight}>Login</a></li>
+              <li>
+              </li>
             </ul>
           </div>
         </nav>
       </Head>
-      <main className={styles.main}> 
+      <main className={styles.main}>
         <div class="container">
         <div class="jumbotron text-center background-color: #b08802 !important">
             <h1 className = {styles.heading}>Running Tracker</h1>
@@ -74,8 +77,6 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           Powered by Power{' '}
-          <span className={styles.logo}>
-          </span>
         </a>
       </footer>
     </div>
