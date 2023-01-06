@@ -4,7 +4,7 @@ import Script from 'next/script';
 import Image from 'next/image';
 import PFP from '../images/testPFP.jpg'
 import CHART from '../images/chart.png'
-export default function Home() {
+const Home = ( {user} ) => {
   
   return (
     <div className={styles.container}>
@@ -85,3 +85,21 @@ export default function Home() {
     </div>
   )
 }
+
+export async function getServerSideProps(context) {
+    const { id } = context.params;
+    const user = await fetch(`http://localhost:3000/api/profile/${id}`);
+    const data = await user.json();
+
+    if (!data) {
+        return {
+            notFound: true
+        };
+    }
+
+    return {
+        props: { user: data }
+    };
+}
+
+export default Home;
