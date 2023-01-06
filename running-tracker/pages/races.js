@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script';
-export default function Home() {
+
+const Races = ({ races }) => {
 
     return (
             <div className={styles.container}>
@@ -85,3 +86,20 @@ export default function Home() {
             </div>
             )
 }
+
+export async function getServerSideProps(context) {
+    const { id } = context.params;
+    const races = await fetch(`http://localhost:3000/api/races`);
+    const data = await races.json();
+
+    if (!data) {
+        return {
+            notFound: true
+        };
+    }
+
+    return {
+        props: { races: data }
+    };
+}
+export default Races;
