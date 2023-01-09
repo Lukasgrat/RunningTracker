@@ -9,7 +9,7 @@ export default function FirstPost() {
       onLoad={() =>
         {const button = document.createElement('button')
         button.innerText = 'Can you click me?'
-  
+        
         button.id = 'mainButton'
         const input = document.createElement("input");
         input.setAttribute("id", "username");
