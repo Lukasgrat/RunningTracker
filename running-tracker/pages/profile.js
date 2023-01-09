@@ -2,7 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
-import Username from '../pages/userComponenets';
+import Username from '../pages/userComponents';
 import Image from 'next/image';
 import PFP from '../images/testPFP.jpg';
 import CHART from '../images/chart.png';
