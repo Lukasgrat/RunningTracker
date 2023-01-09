@@ -18,6 +18,7 @@ export default async function handler(req, res) {
 
     if (method === "GET") {
         const [rows, fields] = await connection.execute('SELECT * FROM `Race`');
+        console.log(rows);
         return res.status(200).json(rows);
     }
 }

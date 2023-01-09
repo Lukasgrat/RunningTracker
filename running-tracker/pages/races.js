@@ -88,7 +88,6 @@ const Races = ({ races }) => {
 }
 
 export async function getServerSideProps(context) {
-    const { id } = context.params;
     const races = await fetch(`http://localhost:3000/api/races`);
     const data = await races.json();
 
