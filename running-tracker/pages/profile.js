@@ -13,7 +13,7 @@ export default function Profile() {
   return (
     <div className={styles.container}>
        <header className ={styles.main}>
-        <title>Running Tracker | Profile</title>
+        <title>All in Run | Profile</title>
         <link rel="icon" href="/favicon.ico" />
             <link
           rel="stylesheet"
@@ -28,7 +28,7 @@ export default function Profile() {
         <nav class="navbar navbar-inverse navbar-fixed-top">
           <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" href="\">Running Tracker</a>
+              <a class="navbar-brand" href="\">All in Run</a>
             </div>
             <ul class="nav navbar-nav">
               <li><a href="\" className={styles.Navtext}>Home</a></li>
@@ -92,7 +92,7 @@ export default function Profile() {
     return (
       <div className={styles.container}>
       <header className ={styles.main}>
-       <title>Running Tracker | Profile</title>
+       <title>All in Run | Login</title>
        <link rel="icon" href="/favicon.ico" />
            <link
          rel="stylesheet"
@@ -107,7 +107,7 @@ export default function Profile() {
        <nav class="navbar navbar-inverse navbar-fixed-top">
          <div class="container-fluid">
            <div class="navbar-header">
-             <a class="navbar-brand" href="\">Running Tracker</a>
+             <a class="navbar-brand" href="\">All in Run</a>
            </div>
            <ul class="nav navbar-nav">
              <li><a href="\" className={styles.Navtext}>Home</a></li>
