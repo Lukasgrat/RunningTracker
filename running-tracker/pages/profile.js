@@ -1,15 +1,19 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script';
+import {useUser} from '@auth0/nextjs-auth0/client';
+import Username from '../pages/userComponents';
 import Image from 'next/image';
-import PFP from '../images/testPFP.jpg'
-import CHART from '../images/chart.png'
-export default function Home() {
-  
+import PFP from '../images/testPFP.jpg';
+import CHART from '../images/chart.png';
+export default function Profile() {
+  const{user, error, isLoading} = useUser();
+  const test1 = Username(user,error,isLoading);
+  if(!isLoading && user){
   return (
     <div className={styles.container}>
-       <Head className ={styles.main}>
-        <title>Running Tracker | Profile</title>
+       <header className ={styles.main}>
+        <title>All in Run | Profile</title>
         <link rel="icon" href="/favicon.ico" />
             <link
           rel="stylesheet"
@@ -24,20 +28,20 @@ export default function Home() {
         <nav class="navbar navbar-inverse navbar-fixed-top">
           <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" href="\">Running Tracker</a>
+              <a class="navbar-brand" href="\">All in Run</a>
             </div>
             <ul class="nav navbar-nav">
               <li><a href="\" className={styles.Navtext}>Home</a></li>
               <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
               <li><a href="\teams" className={styles.Navtext}>Team</a></li>
               <li><a href="\races" className={styles.Navtext}>Races</a></li>
-              <li><a href="#" className={styles.NavTextRight}>Login</a></li>
+              <li>{test1}</li>
             </ul>
           </div>
         </nav>
-      </Head>
+      </header>
       <main className={styles.main}> 
-        <h3 className={styles.outsideText}>Welcome Erik</h3>
+        <h3 className={styles.outsideText}>Welcome {user.name}</h3>
       <div className={styles.grid}>
       <a className= {styles.card}>
         <Image className= {styles.image} src = {PFP} alt="profile picture" width = {300} height = {444}/>
@@ -83,5 +87,46 @@ export default function Home() {
   />
       </main>
     </div>
+  )}
+  else{
+    return (
+      <div className={styles.container}>
+      <header className ={styles.main}>
+       <title>All in Run | Login</title>
+       <link rel="icon" href="/favicon.ico" />
+           <link
+         rel="stylesheet"
+         href=
+   "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+       <Script src=
+   "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+       </Script>
+       <Script src=
+   "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+       </Script>
+       <nav class="navbar navbar-inverse navbar-fixed-top">
+         <div class="container-fluid">
+           <div class="navbar-header">
+             <a class="navbar-brand" href="\">All in Run</a>
+           </div>
+           <ul class="nav navbar-nav">
+             <li><a href="\" className={styles.Navtext}>Home</a></li>
+             <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
+             <li><a href="\teams" className={styles.Navtext}>Team</a></li>
+             <li><a href="\races" className={styles.Navtext}>Races</a></li>
+             <li>{test1}</li>
+           </ul>
+         </div>
+       </nav>
+     </header>
+     <main className={styles.main}>
+    <div class="container">
+        <div class="jumbotron text-center background-color: #b08802 !important">
+            <h1 className = {styles.heading}>{test1}</h1>
+      </div>
+        </div>
+    </main>
+    </div>
   )
+}
 }
