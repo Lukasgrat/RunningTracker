@@ -133,6 +133,7 @@ const Profile = ( { userData } ) => {
 
 export async function getServerSideProps(context) {
     const {id} = context.params;
+    const {user, error, isLoading} = useUser();
     const userData = await fetch(`http://localhost:3000/api/profile/${id}`);
     const data = await userData.json();
 

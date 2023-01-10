@@ -89,8 +89,9 @@ const Profile = ({ user }) => {
 
 export async function getServerSideProps(context) {
     const { id } = context.params;
-    const user = await fetch(`http://localhost:3000/api/profile/${id}`);
-    const data = await user.json();
+    const {user, error, isLoading} = useUser();
+    const userData = await fetch(`http://localhost:3000/api/profile/${id}`);
+    const data = await userData.json();
 
     if (!data) {
         return {
@@ -99,7 +100,7 @@ export async function getServerSideProps(context) {
     }
 
     return {
-        props: { user: data }
+        props: { userData: data }
     };
 }
 
