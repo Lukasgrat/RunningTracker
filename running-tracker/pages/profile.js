@@ -12,7 +12,7 @@ export default function Profile() {
   if(!isLoading && user){
   return (
     <div className={styles.container}>
-       <header className ={styles.main}>
+       <header className ={styles.header}>
         <title>All in Run | Profile</title>
         <link rel="icon" href="/favicon.ico" />
             <link
@@ -91,7 +91,7 @@ export default function Profile() {
   else{
     return (
       <div className={styles.container}>
-      <header className ={styles.main}>
+      <header className ={styles.header}>
        <title>All in Run | Login</title>
        <link rel="icon" href="/favicon.ico" />
            <link
