@@ -7,6 +7,12 @@ import Username from '../pages/userComponents';
 const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
     const logTab = Username(user,error,isLoading);
+    var x = Object.keys(races).length;
+    const raceList = [];
+    for(var key  = 0; key < x;key++){
+        raceList[key] = races[key];
+    }
+    const displayedRaces = displayRaces(raceList);
     return (
             <div className={styles.container}>
                 <header className ={styles.main}>
@@ -55,7 +61,8 @@ const Races = ({ races }) => {
                                     <th>Length</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id = "races">
+                                {displayedRaces}
                                 <tr>
                                     <td>5K Race</td>
                                     <td>John Running</td>
@@ -93,7 +100,6 @@ const Races = ({ races }) => {
 export async function getServerSideProps(context) {
     const races = await fetch(`http://localhost:3000/api/races`);
     const data = await races.json();
-
     if (!data) {
         return {
             notFound: true
@@ -104,4 +110,18 @@ export async function getServerSideProps(context) {
         props: { races: data }
     };
 }
+const RaceDisplay = ({race}) => {
+    let display = new Date(race.raceDate);
+    return (<tr><td>{race.raceID}</td>
+    <td>{race.organizerID}</td>
+    <td>{display.getMonth()+1}/{display.getDate()}/{display.getFullYear()}</td>
+    <td>{race.raceLocation}</td>
+    <td>{race.raceLength}km</td>
+    </tr>);
+}
+const displayRaces = ( raceArray ) => { 
+    return (
+      (raceArray || []).map(race => <RaceDisplay key={race.raceID} race={race} />)
+    );
+   }
 export default Races;
