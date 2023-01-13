@@ -19,10 +19,7 @@ const Loading = ( {} ) => {
 
         dispatch({ type: "CLEAR" });
         const userJSON = await response.json();
-        if (userJSON.length !== 0) {
-            return true;
-        }
-        return false;
+        return userJSON.length !== 0;
     }
 
     const postData = async () => {
@@ -40,10 +37,7 @@ const Loading = ( {} ) => {
 
         dispatch({ type: "CLEAR" });
         const userJSON = await response.json();
-        if (userJSON.length !== 0) {
-            return true;
-        }
-        return false;
+        return userJSON.length !== 0;
     }
 
     if (!isLoading && user) {
