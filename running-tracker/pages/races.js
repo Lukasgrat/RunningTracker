@@ -46,9 +46,7 @@ const Races = ({ races }) => {
                 </header>
                 <main className={styles.main}> 
                     <div class="container">
-                        <div class="jumbotron text-center background-color: #b08802 !important">
-                            <h1 className = {styles.heading}>All in Run</h1>
-                        </div>
+                        <h1 className = {styles.jumbotron}>All in Run</h1>
                     </div>
                     <div>
                         <table className= {styles.racesTable}>
