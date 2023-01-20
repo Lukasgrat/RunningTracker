@@ -19,12 +19,14 @@ export default async function handler(req, res) {
     
 
     if (method === "GET") {
-        // TODO: Query DB: Select * from Person where Person.email = body.email and return that json
+        // TODO?: Query DB: Select * from Person where Person.email = body.email and return that json
+        const [rows, fields] = await connection.execute('SELECT * from `Person` where Person.email = body.email');
         return res.status(200).json(rows);
     }
     else if (method === "POST") {
         // TODO: Query DB to input user information. All information should be in body.
-        //TODO: Query the DB: Select * from Person where Person.email = body.email and return that json
+        //TODO?: Query the DB: Select * from Person where Person.email = body.email and return that json
+        const [rows, fields] = await connection.execute('SELECT * from `Person` where Person.email = body.email');
     }
 }
 
