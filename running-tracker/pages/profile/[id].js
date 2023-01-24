@@ -10,6 +10,9 @@ import CHART from '../images/chart.png';
 export default function Profile() {
     const {user, error, isLoading} = useUser();
     const test1 = Username(user, error, isLoading);
+    const putDataInDatabase = () => {
+        
+    }
     if (!isLoading && user) {
         return (
             <div className={styles.container}>
