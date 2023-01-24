@@ -9,10 +9,10 @@ import CHART from '../images/chart.png';
 
 export default function Profile() {
     const {user, error, isLoading} = useUser();
-    const test1 = Username(user, error, isLoading);
     const putDataInDatabase = () => {
         
     }
+    const userNameText = Username(user, error, isLoading);
     if (!isLoading && user) {
         return (
             <div className={styles.container}>
@@ -39,7 +39,7 @@ export default function Profile() {
                                 <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
                                 <li><a href="\teams" className={styles.Navtext}>Team</a></li>
                                 <li><a href="\races" className={styles.Navtext}>Races</a></li>
-                                <li>{test1}</li>
+                                <li>{userNameText}</li>
                             </ul>
                         </div>
                     </nav>
@@ -117,7 +117,7 @@ export default function Profile() {
                                 <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
                                 <li><a href="\teams" className={styles.Navtext}>Team</a></li>
                                 <li><a href="\races" className={styles.Navtext}>Races</a></li>
-                                <li>{test1}</li>
+                                <li>{userNameText}</li>
                             </ul>
                         </div>
                     </nav>
@@ -125,7 +125,7 @@ export default function Profile() {
                 <main className={styles.main}>
                     <div class="container">
                         <div class="jumbotron text-center background-color: #b08802 !important">
-                            <h1 className={styles.heading}>{test1}</h1>
+                            <h1 className={styles.heading}>{userNameText}</h1>
                         </div>
                     </div>
                 </main>
