@@ -9,8 +9,25 @@ import CHART from '../images/chart.png';
 
 export default function Profile() {
     const {user, error, isLoading} = useUser();
-    const putDataInDatabase = () => {
-        
+    const putDataInDatabase = async () => {
+        const response = await fetch("../api/login.", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+
+        dispatch({ type: "CLEAR" });
+        const res = await response.json();
+        if (res) {
+            return true;
+        }
+        return false;
     }
     const userNameText = Username(user, error, isLoading);
     if (!isLoading && user) {
