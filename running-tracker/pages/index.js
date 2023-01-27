@@ -8,6 +8,10 @@ import Username from '../pages/userComponents';
 export default function Home() {
   const{user, error, isLoading} = useUser();
   const test1 = Username(user,error,isLoading);
+  var profileRoute = "";
+  if(user){
+    profileRoute = "/profile/"+user.email.toString();
+    }
   return (
     <div className={styles.container}>
        <header className ={styles.header}>
@@ -31,7 +35,7 @@ export default function Home() {
             </div>
             <ul class="nav navbar-nav">
               <li><a href="\" className={styles.Navtext}>Home</a></li>
-              <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
+              <li><a href={profileRoute} className={styles.Navtext}>Profile</a></li>
               <li><a href="\teams" className={styles.Navtext}>Team</a></li>
               <li><a href="\races" className={styles.Navtext}>Races</a></li>
               <li>{test1}</li>
