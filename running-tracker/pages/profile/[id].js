@@ -1,16 +1,17 @@
 
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
-import Username from '../pages/userComponents';
+import Username from '../../pages/userComponents';
 import Image from 'next/image';
 import PFP from '../../images/testPFP.jpg';
-import CHART from '../images/chart.png';
+import CHART from '../../images/chart.png';
 
 export default function Profile() {
     const {user, error, isLoading} = useUser();
+    //route them to /profile/{user.email}
     const putDataInDatabase = async () => {
-        const response = await fetch("../api/login.js", {
+        const response = await fetch("../api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -30,7 +31,8 @@ export default function Profile() {
         return false;
     }
     const userNameText = Username(user, error, isLoading);
-    if (!isLoading && user) {
+    if (!isLoading && user && putDataInDatabase()) {
+
         return (
             <div className={styles.container}>
                 <header className={styles.header}>
