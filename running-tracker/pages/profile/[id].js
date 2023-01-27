@@ -30,7 +30,7 @@ export default function Profile() {
         return false;
     }
     const userNameText = Username(user, error, isLoading);
-    if (!isLoading && user) {
+    if (!isLoading && user && putDataInDatabase()) {
         return (
             <div className={styles.container}>
                 <header className={styles.header}>
