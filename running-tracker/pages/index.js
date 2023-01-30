@@ -4,10 +4,10 @@ import {Component, React} from 'react';
 import {UserProvider} from '@auth0/nextjs-auth0/client';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import {render} from 'react-dom';
-import Username from '../pages/userComponents';
+import Navbar from '../componenets/navbar.js';
 export default function Home() {
   const{user, error, isLoading} = useUser();
-  const test1 = Username(user,error,isLoading);
+  const navigationBar = Navbar();
   return (
     <div className={styles.container}>
        <header className ={styles.header}>
@@ -24,20 +24,7 @@ export default function Home() {
         <Script src=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
         </Script>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <a class="navbar-brand" href="\">All in Run</a>
-            </div>
-            <ul class="nav navbar-nav">
-              <li><a href="\" className={styles.Navtext}>Home</a></li>
-              <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
-              <li><a href="\teams" className={styles.Navtext}>Team</a></li>
-              <li><a href="\races" className={styles.Navtext}>Races</a></li>
-              <li>{test1}</li>
-            </ul>
-          </div>
-        </nav>
+        {navigationBar}
       </header>
       <main className={styles.main}>
         <div class="container">

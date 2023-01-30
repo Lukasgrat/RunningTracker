@@ -2,11 +2,11 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
-import Username from '../pages/userComponents';
+import Navbar from '../componenets/navbar';
 
 const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
-    const logTab = Username(user,error,isLoading);
+    const navigationBar = Navbar();
     var x = Object.keys(races).length;
     const raceList = [];
     for(var key  = 0; key < x;key++){
@@ -29,20 +29,7 @@ const Races = ({ races }) => {
                     <Script src=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
-                    <nav class="navbar navbar-inverse navbar-fixed-top">
-                        <div class="container-fluid">
-                            <div class="navbar-header">
-                                <a class="navbar-brand" href="\">All in Run</a>
-                            </div>
-                            <ul class="nav navbar-nav">
-                                <li><a href="\" className={styles.Navtext}>Home</a></li>
-                                <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
-                                <li><a href="\teams" className={styles.Navtext}>Team</a></li>
-                                <li><a href="\races" className={styles.Navtext}>Races</a></li>
-                                <li>{logTab}</li>
-                            </ul>
-                        </div>
-                    </nav>
+                    {navigationBar}
                 </header>
                 <main className={styles.main}> 
                     <div class="container">

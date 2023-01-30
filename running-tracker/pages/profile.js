@@ -6,9 +6,11 @@ import Username from '../pages/userComponents';
 import Image from 'next/image';
 import PFP from '../images/testPFP.jpg';
 import CHART from '../images/chart.png';
+import Navbar from '../componenets/navbar';
 export default function Profile() {
   const{user, error, isLoading} = useUser();
   const test1 = Username(user,error,isLoading);
+  const navigationBar = Navbar();
   if(!isLoading && user){
   return (
     <div className={styles.container}>
@@ -25,20 +27,7 @@ export default function Profile() {
         <Script src=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
         </Script>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <a class="navbar-brand" href="\">All in Run</a>
-            </div>
-            <ul class="nav navbar-nav">
-              <li><a href="\" className={styles.Navtext}>Home</a></li>
-              <li><a href="\profile" className={styles.Navtext}>Profile</a></li>
-              <li><a href="\teams" className={styles.Navtext}>Team</a></li>
-              <li><a href="\races" className={styles.Navtext}>Races</a></li>
-              <li>{test1}</li>
-            </ul>
-          </div>
-        </nav>
+        {navigationBar}
       </header>
       <main className={styles.main}> 
         <h3 className={styles.outsideText}>Welcome {user.name}</h3>
