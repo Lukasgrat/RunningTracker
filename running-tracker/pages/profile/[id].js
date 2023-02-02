@@ -21,8 +21,7 @@ export default function Profile() {
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
         }
-
-        dispatch({ type: "CLEAR" });
+        
         const res = await response.json();
         if (res) {
             return true;
