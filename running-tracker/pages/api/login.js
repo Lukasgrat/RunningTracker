@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
     if (method === 'POST') {
         let { body } =  req;
-        db.execute('SELECT * FROM `Person`', (error, results) => {
+        db.execute('SELECT * FROM `Person` WHERE Person.email = ?', [body.email], (error, results) => {
             if (error) {
                 res.status(500);
             } else if (results) {
