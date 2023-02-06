@@ -23,13 +23,12 @@ export default function Profile() {
         }
         
         const res = await response.json();
-        if (res) {
-            return true;
-        }
-        return false;
+        return res;
+
     }
     const userNameText = Username(user, error, isLoading);
-    if (!isLoading && user && putDataInDatabase()) {
+    const person = putDataInDatabase();
+    if (!isLoading && user && person) {
         return (
             <div className={styles.container}>
                 <header className={styles.header}>
