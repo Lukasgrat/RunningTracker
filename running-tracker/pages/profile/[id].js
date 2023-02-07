@@ -10,7 +10,7 @@ import CHART from '../../images/chart.png';
 export default function Profile() {
     const {user, error, isLoading} = useUser();
     const putDataInDatabase = async () => {
-        const response = await fetch("../api/login", {
+        const response = await fetch(`http://localhost:3000/api/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
