@@ -27,8 +27,11 @@ export default function Profile() {
 
     }
     const userNameText = Username(user, error, isLoading);
-    const person = putDataInDatabase();
-    if (!isLoading && user && person) {
+    let person;
+    if (!isLoading && user) {
+       person = putDataInDatabase();
+    }
+    if (person) {
         return (
             <div className={styles.container}>
                 <header className={styles.header}>
