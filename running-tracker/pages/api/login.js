@@ -15,14 +15,12 @@ export default async function handler(req, res) {
                     resolve();
                 } else {
                     let [first, last] = body.name.split(" ");
-                    console.log(`${first}, ${last}`)
                     db.execute('INSERT INTO Person (firstName, lastName, email) VALUES (?, ?, ?)',
                         [first, last, body.email], (error, results) => {
                             if (error) {
                                 res.status(500);
                                 resolve();
                             } else if (results.length > 0) {
-                                console.log(results);
                                 res.status(200).json(results);
                                 resolve();
                             }
