@@ -63,8 +63,24 @@ const Races = ({ races }) => {
                                     <td>10.1 miles</td>
                                 </tr>
                             </tbody>
+                            <Script
+                                src="https://connect.facebook.net/en_US/sdk.js"
+                                strategy="lazyOnload"
+                                onLoad={() =>
+                                    {
+                                const displayedRaces = displayRaces(raceList); 
+                                const button = document.createElement('button');
+                                button.innerText = 'Can you click me?';
+                                button.addEventListener('click', () => {
+                                    location.href = "/raceForm";
+                                    });
+                                }}
+                                    />
                         </table>
                     </div>
+                        <a className={styles.card} href = "/raceForm">
+                            <h2 >Teams</h2>
+                            </a>
                 </main>
 
                 <footer className={styles.footer}>
