@@ -7,6 +7,11 @@ import {render} from 'react-dom';
 import Navbar from '../componenets/navbar.js';
 export default function Home() {
   const{user, error, isLoading} = useUser();
+  var profileRoute = "";
+  if(user){
+    profileRoute = "/profile/"+user.email.toString();
+    }
+    
   const navigationBar = Navbar();
   return (
     <div className={styles.container}>
