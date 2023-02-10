@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
@@ -33,7 +32,31 @@ const Races = ({ races }) => {
                         </div>
                       
                     </div>
-                    
+                    <h6>Insert info here</h6>
+                    <div>
+                        <table className= {styles.racesTable}>
+                            <tbody id = "races">
+                                <tr>
+                                    <td>Race Name/Type</td>
+                                    <td><input id = "raceName" type = "text"></input></td>
+                                </tr>
+                                <tr>
+                                    <td>Date</td>
+                                    <td><input id = "time" type = "text"></input></td>
+                                </tr>  
+                                <tr>
+                                    <td>Location</td>
+                                    <td><input id = "location" type = "text"></input></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Distance</td>
+                                    <td><input id = "distance" type = "text" className={styles.inLine}></input></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <input></input>
                 </main>
 
                 <footer className={styles.footer}>
