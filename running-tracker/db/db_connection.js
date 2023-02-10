@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -11,6 +11,6 @@ const dbConfig = {
     connectTimeout: parseInt(process.env.DB_CONNECT_TIMEOUT || "10000")
 }
 
-const connection = mysql.createConnection(dbConfig);
+const pool = mysql.createPool(dbConfig);
 
-module.exports = connection;
+export default pool;
