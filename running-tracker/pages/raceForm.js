@@ -56,9 +56,29 @@ const Races = ({ races }) => {
                             </tbody>
                         </table>
                     </div>
-                    <input></input>
+                    <input id = "formSubmission" type = "button" value = "Submit"></input>
                 </main>
-
+                <Script
+                    src="https://connect.facebook.net/en_US/sdk.js"
+                    strategy="lazyOnload"
+                    onLoad={() =>
+                        {
+                        const button = document.getElementById("formSubmission");
+                        var raceName = "";
+                        var time = "";
+                        var location = "";
+                        var distance = "";
+                        button.addEventListener('click', () => {
+                            raceName  = document.getElementById("raceName").value;
+                            time = document.getElementById("time").value;
+                            location = document.getElementById("location").value;
+                            distance = document.getElementById("distance").value;
+                            alert(raceName + time + location+distance);
+                        })
+                    }
+                    }    
+                />
+   
                 <footer className={styles.footer}>
                     <a
                         href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
