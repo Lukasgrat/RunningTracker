@@ -6,10 +6,13 @@ import Image from 'next/image';
 import PFP from '../../images/testPFP.jpg';
 import CHART from '../../images/chart.png';
 import Navbar from '../../componenets/navbar.js';
+import { useReducer, useState } from "react";
 
 export default function Profile() {
     const {user, error, isLoading} = useUser();
     const navigationBar = Navbar();
+    const [data, setData] = useState([]);
+
     const putDataInDatabase = async () => {
         const response = await fetch(`http://localhost:3000/api/login`, {
             method: "POST",
@@ -23,9 +26,9 @@ export default function Profile() {
             throw new Error(`Error: ${response.status}`);
         }
         
-        const res = await response.json();
-        return res;
+        const person = await response.json();
 
+        return setData(person);
     }
     let person;
     if (!isLoading && user) {
@@ -51,7 +54,7 @@ export default function Profile() {
                     {navigationBar}
                 </header>
                 <main className={styles.main}>
-                    <h3 className={styles.outsideText}>Welcome {person[0].firstName}</h3>
+                    <h3 className={styles.outsideText}>Welcome {}</h3>
                     <div className={styles.grid}>
                         <a className={styles.card}>
                             <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444}/>
