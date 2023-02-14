@@ -65,6 +65,9 @@ const Races = ({ races }) => {
                             </tbody>
                         </table>
                     </div>
+                        <a className={styles.card} href = "/raceForm">
+                            <h2 >Create Race</h2>
+                            </a>
                 </main>
 
                 <footer className={styles.footer}>
