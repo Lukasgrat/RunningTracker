@@ -11,8 +11,9 @@ export default async function handler(req, res) {
             return res.status(200).json(r);
         } else {
             let [first, last] = body.name.split(" ");
-            const [rows, fields, errors] = await db.execute('INSERT INTO Person (firstName, lastName, email) VALUES (?, ?, ?)',
-                                                    [first, last, body.email]);
+            let id = await makeid();
+            const [rows, fields, errors] = await db.execute('INSERT INTO Person (firstName, lastName, email, id) VALUES (?, ?, ?, ?)',
+                                                    [first, last, body.email, id]);
             if (errors) {
                 return res.status(500);
             } else {
@@ -20,4 +21,18 @@ export default async function handler(req, res) {
             }
         }
     }
+}
+
+async function makeid() {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i<11; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    const [r, f, e] = await db.execute('SELECT * FROM Person WHERE Person.id = ?', [result]);
+    if (r.length > 0) {
+        result = await makeid();
+    }
+    return result;
 }
