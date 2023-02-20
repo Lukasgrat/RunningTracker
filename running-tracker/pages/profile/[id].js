@@ -1,7 +1,7 @@
 
 import styles from '../../styles/Home.module.css'
 import Script from 'next/script';
-import {useUser} from '@auth0/nextjs-auth0/client';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
 import PFP from '../../images/testPFP.jpg';
 import CHART from '../../images/chart.png';
@@ -14,20 +14,20 @@ function reducer(state, action) {
                 ...state,
                 firstName: action.payload.firstName
             };
-            case "UPDATE_LAST_NAME":
-                return {
-                    ...state,
-                    lastName: action.payload.lastName
-                };
-                case "UPDATE_EMAIL":
-                    return {
-                        ...state,
-                        email: action.payload.email
-                    };
-                    case "CLEAR":
-                        return initialState;
-                        default:
-                            return state;
+        case "UPDATE_LAST_NAME":
+            return {
+                ...state,
+                lastName: action.payload.lastName
+            };
+        case "UPDATE_EMAIL":
+            return {
+                ...state,
+                email: action.payload.email
+            };
+        case "CLEAR":
+            return initialState;
+        default:
+            return state;
     }
 }
 
@@ -38,7 +38,7 @@ const initialState = {
 };
 
 export default function Profile() {
-    const {user, error, isLoading} = useUser();
+    const { user, error, isLoading } = useUser();
     const navigationBar = Navbar();
     const [state, dispatch] = useReducer(reducer, initialState);
     const [data, setData] = useState([]);
@@ -56,38 +56,44 @@ export default function Profile() {
             throw new Error(`Error: ${response.status}`);
         }
 
-        dispatch({type: "CLEAR"});
+        dispatch({ type: "CLEAR" });
         const person = await response.json();
+        console.log(person);
         return setData(person);
     }
-    let person;
-    if(!isLoading && user){
-        console.log("test");
-        person = putDataInDatabase();
-    }
-    if (person) {
+
+    if (!isLoading && user) {
         return (
             <div className={styles.container}>
                 <header className={styles.header}>
                     <title>All in Run | Profile</title>
-                    <link rel="icon" href="/favicon.ico"/>
+                    <link rel="icon" href="/favicon.ico" />
                     <link
                         rel="stylesheet"
                         href=
-                            "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
                     <Script src=
-                                "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+                        "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
                     <Script src=
-                                "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
+                    <Script
+                        src="https://connect.facebook.net/en_US/sdk.js"
+                        strategy="lazyOnload"
+                        onLoad={() =>
+                            {
+                                putDataInDatabase();
+                            }
+                        }
+                    />
                 </header>
                 <main className={styles.main}>
                     <h3 className={styles.outsideText}>Welcome {state.firstName}</h3>
                     <div className={styles.grid}>
                         <a className={styles.card}>
-                            <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444}/>
+                            <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444} />
                         </a>
                         <a className={styles.profileCard}>
                             <h4>Name: Erik Lewis</h4>
@@ -101,7 +107,7 @@ export default function Profile() {
                         </a>
                     </div>
                     <h1 className={styles.stats}>Statistics on Recent Races</h1>
-                    <Image className={styles.image} src={CHART} alt="stats picture"/>
+                    <Image className={styles.image} src={CHART} alt="stats picture" />
                     <p>Add a race below by inserting the race distance(in kms) and time below</p>
                     <h3 className={styles.stats}>Race Distance</h3>
                     <div className={styles.grid}>
@@ -135,18 +141,18 @@ export default function Profile() {
             <div className={styles.container}>
                 <header className={styles.header}>
                     <title>All in Run | Login</title>
-                    <link rel="icon" href="/favicon.ico"/>
+                    <link rel="icon" href="/favicon.ico" />
                     <link
                         rel="stylesheet"
                         href=
-                            "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
                     <Script src=
-                                "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+                        "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
                     <Script src=
-                                "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
-                    </Script>  
-                {navigationBar}
+                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+                    </Script>
+                    {navigationBar}
                 </header>
                 <main className={styles.main}>
                     <div class="container">
