@@ -48,20 +48,7 @@ const Races = ({ races }) => {
                             </thead>
                             <tbody id = "races">
                                 {displayedRaces}
-                                <tr>
-                                    <td>5K Race</td>
-                                    <td>John Running</td>
-                                    <td>01/15/2023</td>
-                                    <td>123 Main Street, Somewhere, NJ</td>
-                                    <td>3.1 miles</td>
-                                </tr>
-                                <tr>
-                                    <td>10mi Race</td>
-                                    <td>V-Day Memorial Run</td>
-                                    <td>05/3/2023</td>
-                                    <td>123 Side Street, Somethere, NJ</td>
-                                    <td>10.1 miles</td>
-                                </tr>
+    
                             </tbody>
                         </table>
                     </div>

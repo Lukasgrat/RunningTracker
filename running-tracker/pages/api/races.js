@@ -21,4 +21,11 @@ export default async function handler(req, res) {
         console.log(rows);
         return res.status(200).json(rows);
     }
+
+    if (method === "POST") {
+        const [rows, fields] = await connection.execute('INSERT INTO `Race` (raceName, raceDate, raceLocation, raceLength) VALUES (?,?,?,?)',
+        );
+        console.log(rows);
+        return res.status(200).json(rows);
+    }
 }
