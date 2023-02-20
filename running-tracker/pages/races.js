@@ -53,7 +53,7 @@ const Races = ({ races }) => {
                         </table>
                     </div>
                         <a className={styles.card} href = "/raceForm">
-                            <h2 >Teams</h2>
+                            <h2 >Create Race</h2>
                             </a>
                 </main>
 
