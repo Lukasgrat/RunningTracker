@@ -7,10 +7,40 @@ import PFP from '../../images/testPFP.jpg';
 import CHART from '../../images/chart.png';
 import Navbar from '../../componenets/navbar.js';
 import { useReducer, useState } from "react";
+function reducer(state, action) {
+    switch (action.type) {
+        case "UPDATE_FIRST_NAME":
+            return {
+                ...state,
+                firstName: action.payload.firstName
+            };
+            case "UPDATE_LAST_NAME":
+                return {
+                    ...state,
+                    lastName: action.payload.lastName
+                };
+                case "UPDATE_EMAIL":
+                    return {
+                        ...state,
+                        email: action.payload.email
+                    };
+                    case "CLEAR":
+                        return initialState;
+                        default:
+                            return state;
+    }
+}
+
+const initialState = {
+    firstName: "",
+    lastName: "",
+    email: ""
+};
 
 export default function Profile() {
     const {user, error, isLoading} = useUser();
     const navigationBar = Navbar();
+    const [state, dispatch] = useReducer(reducer, initialState);
     const [data, setData] = useState([]);
 
     const putDataInDatabase = async () => {
@@ -25,15 +55,15 @@ export default function Profile() {
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
         }
-        
-        const person = await response.json();
 
+        dispatch({type: "CLEAR"});
+        const person = await response.json();
         return setData(person);
     }
     let person;
-    if (!isLoading && user) {
+    if(!isLoading && user){
+        console.log("test");
         person = putDataInDatabase();
-        console.log(person);
     }
     if (person) {
         return (
@@ -54,7 +84,7 @@ export default function Profile() {
                     {navigationBar}
                 </header>
                 <main className={styles.main}>
-                    <h3 className={styles.outsideText}>Welcome {}</h3>
+                    <h3 className={styles.outsideText}>Welcome {state.firstName}</h3>
                     <div className={styles.grid}>
                         <a className={styles.card}>
                             <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444}/>
