@@ -6,6 +6,23 @@ import Navbar from '../componenets/navbar';
 const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
     const navigationBar = Navbar();
+    const putRaceInDatabase = async (sendJson) => {
+        const response = await fetch(`http://localhost:3000/api/races`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendJson)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+
+        const races = await response.json();
+        console.log(races);
+        return;
+    }
     return (
             <div className={styles.container}>
                 <header className ={styles.header}>
@@ -73,7 +90,14 @@ const Races = ({ races }) => {
                             time = document.getElementById("time").value;
                             location = document.getElementById("location").value;
                             distance = document.getElementById("distance").value;
-                            alert(raceName + time + location+distance);
+                            var sendJson = 
+                                {
+                                    'name': raceName,
+                                    'time': time,
+                                    'location': location,
+                                    'distance': distance
+                                }
+                            putRaceInDatabase(sendJson);
                         })
                     }
                     }    

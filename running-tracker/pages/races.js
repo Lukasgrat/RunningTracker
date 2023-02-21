@@ -41,6 +41,7 @@ const Races = ({ races }) => {
                                 <tr>
                                     <th>Race</th>
                                     <th>Organizer</th>
+                                    <th>Name</th>
                                     <th>Date</th>
                                     <th>Location</th>
                                     <th>Length</th>
@@ -89,6 +90,7 @@ const RaceDisplay = ({race}) => {
     let display = new Date(race.raceDate);
     return (<tr><td>{race.raceID}</td>
     <td>{race.organizerID}</td>
+    <td>{race.raceName}</td>
     <td>{display.getMonth()+1}/{display.getDate()}/{display.getFullYear()}</td>
     <td>{race.raceLocation}</td>
     <td>{race.raceLength}km</td>
