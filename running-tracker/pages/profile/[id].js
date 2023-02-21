@@ -58,7 +58,6 @@ export default function Profile() {
 
         dispatch({ type: "CLEAR" });
         const person = await response.json();
-        console.log(person[0]);
         setData(person);
         dispatch({
             type: "UPDATE_FIRST_NAME",
@@ -98,7 +97,6 @@ export default function Profile() {
                         onLoad={() =>
                             {
                                 const person = putDataInDatabase();
-                                console.log(person);
                             }
                         }
                     />
