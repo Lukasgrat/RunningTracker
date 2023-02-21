@@ -58,8 +58,21 @@ export default function Profile() {
 
         dispatch({ type: "CLEAR" });
         const person = await response.json();
-        console.log(person);
-        return setData(person);
+        console.log(person[0]);
+        setData(person);
+        dispatch({
+            type: "UPDATE_FIRST_NAME",
+            payload: { firstName: person[0].firstName }
+        });
+        dispatch({
+            type: "UPDATE_LAST_NAME",
+            payload: { firstName: person[0].lastName }
+        });
+        dispatch({
+            type: "UPDATE_EMAIL",
+            payload: { firstName: person[0].email }
+        });
+        return person[0];
     }
 
     if (!isLoading && user) {
@@ -84,7 +97,8 @@ export default function Profile() {
                         strategy="lazyOnload"
                         onLoad={() =>
                             {
-                                putDataInDatabase();
+                                const person = putDataInDatabase();
+                                console.log(person);
                             }
                         }
                     />
