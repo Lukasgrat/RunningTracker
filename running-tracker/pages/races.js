@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
+import  raceFormLink from '../componenets/raceFormAccess';
 
 const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
@@ -12,6 +13,7 @@ const Races = ({ races }) => {
     for(var key  = 0; key < x;key++){
         raceList[key] = races[key];
     }
+    const raceForm = raceFormLink();
     const displayedRaces = displayRaces(raceList);
     return (
             <div className={styles.container}>
@@ -53,9 +55,7 @@ const Races = ({ races }) => {
                             </tbody>
                         </table>
                     </div>
-                        <a className={styles.card} href = "/raceForm">
-                            <h2 >Create Race</h2>
-                            </a>
+                       {raceForm}
                 </main>
 
                 <footer className={styles.footer}>
