@@ -2,6 +2,37 @@ import styles from '../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
+import { useReducer, useState } from "react";
+function reducer(state, action) {
+    switch (action.type) {
+        case "UPDATE_FIRST_NAME":
+            return {
+                ...state,
+                firstName: action.payload.firstName
+            };
+            case "UPDATE_LAST_NAME":
+                return {
+                    ...state,
+                    lastName: action.payload.lastName
+                };
+                case "UPDATE_AGE":
+                    return {
+                        ...state,
+                        age: action.payload.age
+                    };
+                    case "CLEAR":
+                        return initialState;
+                        default:
+                            return state;
+    }
+}
+
+const initialState = {
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    age: ""
+};
 
 const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
