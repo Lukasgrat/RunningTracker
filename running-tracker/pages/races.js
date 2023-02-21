@@ -41,6 +41,7 @@ const Races = ({ races }) => {
                                 <tr>
                                     <th>Race</th>
                                     <th>Organizer</th>
+                                    <th>Name</th>
                                     <th>Date</th>
                                     <th>Location</th>
                                     <th>Length</th>
@@ -48,20 +49,7 @@ const Races = ({ races }) => {
                             </thead>
                             <tbody id = "races">
                                 {displayedRaces}
-                                <tr>
-                                    <td>5K Race</td>
-                                    <td>John Running</td>
-                                    <td>01/15/2023</td>
-                                    <td>123 Main Street, Somewhere, NJ</td>
-                                    <td>3.1 miles</td>
-                                </tr>
-                                <tr>
-                                    <td>10mi Race</td>
-                                    <td>V-Day Memorial Run</td>
-                                    <td>05/3/2023</td>
-                                    <td>123 Side Street, Somethere, NJ</td>
-                                    <td>10.1 miles</td>
-                                </tr>
+    
                             </tbody>
                         </table>
                     </div>
@@ -102,6 +90,7 @@ const RaceDisplay = ({race}) => {
     let display = new Date(race.raceDate);
     return (<tr><td>{race.raceID}</td>
     <td>{race.organizerID}</td>
+    <td>{race.raceName}</td>
     <td>{display.getMonth()+1}/{display.getDate()}/{display.getFullYear()}</td>
     <td>{race.raceLocation}</td>
     <td>{race.raceLength}km</td>
