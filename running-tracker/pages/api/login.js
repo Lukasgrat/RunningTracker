@@ -10,15 +10,19 @@ export default async function handler(req, res) {
         } else if (r.length > 0) {
             return res.status(200).json(r);
         } else {      
-            console.log("here");
             let [first, last] = body.name.split(" ");
             let id = await makeid();
-            const [rows, fields, errors] = await db.execute('INSERT INTO Person (firstName, lastName, email, id) VALUES (?, ?, ?, ?)',
+            const [r2, f2, e2] = await db.execute('INSERT INTO Person (firstName, lastName, email, id) VALUES (?, ?, ?, ?)',
                                                     [first, last, body.email, id]);
-            if (errors) {
+            if (e2) {
                 return res.status(500);
             } else {
-                return res.status(200).json(rows);
+                const [rows, fields, errors] = await db.execute('SELECT * FROM Person WHERE Person.email = ?', [body.email]);
+                if (errors) {
+                    return res.status(500);
+                } else {
+                    return res.status(200).json(rows);
+                }
             }
         }
     }
