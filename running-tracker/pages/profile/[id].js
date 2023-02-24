@@ -1,12 +1,12 @@
-
 import styles from '../../styles/Home.module.css'
 import Script from 'next/script';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import {useUser} from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
 import PFP from '../../images/testPFP.jpg';
 import CHART from '../../images/chart.png';
 import Navbar from '../../componenets/navbar.js';
-import { useReducer, useState } from "react";
+import {useReducer, useState} from "react";
+
 function reducer(state, action) {
     switch (action.type) {
         case "UPDATE_FIRST_NAME":
@@ -24,6 +24,11 @@ function reducer(state, action) {
                 ...state,
                 email: action.payload.email
             };
+        case "UPDATE_ID":
+            return {
+                ...state,
+                id: action.payload.id
+            };
         case "CLEAR":
             return initialState;
         default:
@@ -34,16 +39,17 @@ function reducer(state, action) {
 const initialState = {
     firstName: "",
     lastName: "",
-    email: ""
+    email: "",
+    id: ""
 };
 
 export default function Profile() {
-    const { user, error, isLoading } = useUser();
+    const {user, error, isLoading} = useUser();
     const navigationBar = Navbar();
     const [state, dispatch] = useReducer(reducer, initialState);
     const [data, setData] = useState([]);
 
-    const putDataInDatabase = async () => {
+    const putUserDataInDatabase = async () => {
         const response = await fetch(`http://localhost:3000/api/login`, {
             method: "POST",
             headers: {
@@ -56,22 +62,61 @@ export default function Profile() {
             throw new Error(`Error: ${response.status}`);
         }
 
-        dispatch({ type: "CLEAR" });
+        dispatch({type: "CLEAR"});
         const person = await response.json();
         setData(person);
         dispatch({
             type: "UPDATE_FIRST_NAME",
-            payload: { firstName: person[0].firstName }
+            payload: {firstName: person[0].firstName}
         });
         dispatch({
             type: "UPDATE_LAST_NAME",
-            payload: { firstName: person[0].lastName }
+            payload: {lastName: person[0].lastName}
         });
         dispatch({
             type: "UPDATE_EMAIL",
-            payload: { firstName: person[0].email }
+            payload: {email: person[0].email}
+        });
+        dispatch({
+            type: "UPDATE_ID",
+            payload: {id: person[0].id}
         });
         return person[0];
+    }
+    const putRunDataInDatabase = async (sendJson) => {
+        const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendJson)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+
+        dispatch({type: "CLEAR"});
+        const runData = await response.json();
+        console.log(runData);
+        setData(runData);
+//        dispatch({
+//            type: "UPDATE_FIRST_NAME",
+//            payload: {firstName: person[0].firstName}
+//        });
+//        dispatch({
+//            type: "UPDATE_LAST_NAME",
+//            payload: {lastName: person[0].lastName}
+//        });
+//        dispatch({
+//            type: "UPDATE_EMAIL",
+//            payload: {email: person[0].email}
+//        });
+//        dispatch({
+//            type: "UPDATE_ID",
+//            payload: {id: person[0].id}
+//        });
+        return runData[0];
     }
 
     if (!isLoading && user) {
@@ -79,25 +124,24 @@ export default function Profile() {
             <div className={styles.container}>
                 <header className={styles.header}>
                     <title>All in Run | Profile</title>
-                    <link rel="icon" href="/favicon.ico" />
+                    <link rel="icon" href="/favicon.ico"/>
                     <link
                         rel="stylesheet"
                         href=
-                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+                            "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
                     <Script src=
-                        "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+                                "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
                     <Script src=
-                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+                                "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
                     <Script
                         src="https://connect.facebook.net/en_US/sdk.js"
                         strategy="lazyOnload"
-                        onLoad={() =>
-                            {
-                                const person = putDataInDatabase();
-                            }
+                        onLoad={() => {
+                            const person = putUserDataInDatabase();
+                        }
                         }
                     />
                 </header>
@@ -105,7 +149,7 @@ export default function Profile() {
                     <h3 className={styles.outsideText}>Welcome {state.firstName}</h3>
                     <div className={styles.grid}>
                         <a className={styles.card}>
-                            <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444} />
+                            <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444}/>
                         </a>
                         <a className={styles.profileCard}>
                             <h4>Name: Erik Lewis</h4>
@@ -119,7 +163,7 @@ export default function Profile() {
                         </a>
                     </div>
                     <h1 className={styles.stats}>Statistics on Recent Races</h1>
-                    <Image className={styles.image} src={CHART} alt="stats picture" />
+                    <Image className={styles.image} src={CHART} alt="stats picture"/>
                     <p>Add a race below by inserting the race distance(in kms) and time below</p>
                     <h3 className={styles.stats}>Race Distance</h3>
                     <div className={styles.grid}>
@@ -134,13 +178,18 @@ export default function Profile() {
                         src="https://connect.facebook.net/en_US/sdk.js"
                         strategy="lazyOnload"
                         onLoad={() => {
-                            var x = "";
-                            var y = "";
+                            let d = "";
+                            let t = "";
                             const button = document.getElementById('addDataButton')
                             button.addEventListener('click', () => {
-                                x = document.getElementById("raceTime").value;
-                                y = document.getElementById("raceDistance").value;
-                                alert("Added race With time " + x + " and distance " + y + " (km)to the graph.");
+                                d = document.getElementById("raceTime").value;
+                                t = document.getElementById("raceDistance").value;
+                                let sendData = [{
+                                    distance: d,
+                                    time: t,
+                                    id: state.id
+                                }]
+                                putRunDataInDatabase(sendData);
                             })
                         }
                         }
@@ -153,16 +202,16 @@ export default function Profile() {
             <div className={styles.container}>
                 <header className={styles.header}>
                     <title>All in Run | Login</title>
-                    <link rel="icon" href="/favicon.ico" />
+                    <link rel="icon" href="/favicon.ico"/>
                     <link
                         rel="stylesheet"
                         href=
-                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+                            "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
                     <Script src=
-                        "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+                                "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
                     <Script src=
-                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+                                "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
                 </header>
