@@ -182,8 +182,8 @@ export default function Profile() {
                             const button = document.getElementById('addDataButton')
                             button.addEventListener('click', () => {
                                 console.log(user.email);
-                                d = document.getElementById("raceTime").value;
-                                t = document.getElementById("raceDistance").value;
+                                t = document.getElementById("raceTime").value;
+                                d = document.getElementById("raceDistance").value;
                                 let sendData = [{
                                     distance: d,
                                     time: t,
