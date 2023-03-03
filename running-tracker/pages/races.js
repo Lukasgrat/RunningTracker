@@ -4,17 +4,64 @@ import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
 import  raceFormLink from '../componenets/raceFormAccess';
+import { useReducer, useState } from "react";
+const initialState = {
+    role:0
+};
+function reducer(state, action) {
+    switch (action.type) {
+        case "UPDATE_ROLE":
+            return {
+                ...state,
+                role: action.payload.role
+            };
+        case "CLEAR":
+            return initialState;
+        default:
+            return state;
+    }
+}
 
 const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
+    const displayedRaces = displayRaces();
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [data, setData] = useState([]);
+    const getDataFromDatabase = async () => {
+        const response = await fetch(`http://localhost:3000/api/raceForm`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        });
+    
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+    
+        dispatch({ type: "CLEAR" });
+        const person = await response.json();
+        setData(person);
+        dispatch({
+            type: "UPDATE_ROLE",
+            payload: { role: person[0].id }  
+        });
+        return person[0];
+    }
     const navigationBar = Navbar();
     var x = Object.keys(races).length;
     const raceList = [];
     for(var key  = 0; key < x;key++){
         raceList[key] = races[key];
     }
-    const raceForm = raceFormLink();
-    const displayedRaces = displayRaces(raceList);
+    const raceForm = <div></div>;
+    if(user && !isLoading){
+         
+        if(state.role == "1" || state.role == "2"){
+            raceForm = <a className={styles.card} href = "/raceForm"><h2 >Create Race</h2></a>;
+        }
+    }
     return (
             <div className={styles.container}>
                 <header className ={styles.header}>
@@ -33,6 +80,15 @@ const Races = ({ races }) => {
                     </Script>
                     {navigationBar}
                 </header>
+                <Script
+                        src="https://connect.facebook.net/en_US/sdk.js"
+                        strategy="lazyOnload"
+                        onLoad={() =>
+                            {
+                                const person = getDataFromDatabase();
+                            }
+                        }
+                    />
                 <main className={styles.main}> 
                     <div class="container">
                         <h1 className = {styles.jumbotron}>All in Run</h1>

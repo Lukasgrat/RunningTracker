@@ -5,8 +5,6 @@ import Navbar from '../componenets/navbar';
 const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
     const navigationBar = Navbar();
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const [data, setData] = useState([]);
     const putRaceInDatabase = async (sendJson) => {
         const response = await fetch(`http://localhost:3000/api/races`, {
             method: "POST",
