@@ -77,10 +77,6 @@ export default function Profile() {
             type: "UPDATE_EMAIL",
             payload: {email: person[0].email}
         });
-        dispatch({
-            type: "UPDATE_ID",
-            payload: {id: person[0].id}
-        });
         return person[0];
     }
     const putRunDataInDatabase = async (sendJson) => {
@@ -119,6 +115,8 @@ export default function Profile() {
         return runData[0];
     }
 
+    let person;
+
     if (!isLoading && user) {
         return (
             <div className={styles.container}>
@@ -139,9 +137,10 @@ export default function Profile() {
                     <Script
                         src="https://connect.facebook.net/en_US/sdk.js"
                         strategy="lazyOnload"
-                        onLoad={() => {
-                            const person = putUserDataInDatabase();
-                        }
+                        onLoad={
+                            () => {
+                                person = putUserDataInDatabase();
+                            }
                         }
                     />
                 </header>
@@ -182,12 +181,13 @@ export default function Profile() {
                             let t = "";
                             const button = document.getElementById('addDataButton')
                             button.addEventListener('click', () => {
+                                console.log(user.email);
                                 d = document.getElementById("raceTime").value;
                                 t = document.getElementById("raceDistance").value;
                                 let sendData = [{
                                     distance: d,
                                     time: t,
-                                    id: state.id
+                                    email: user.email
                                 }]
                                 putRunDataInDatabase(sendData);
                             })
