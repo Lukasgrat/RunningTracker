@@ -187,7 +187,7 @@ export default function Profile() {
             });
             dispatch({
             type: "UPDATE_AVERAGERACETIME",
-            payload: {bestRaceTime: (Math.trunc(sumTime/60/count))}
+            payload: {averageRaceTime: (Math.trunc(sumTime/60/count))}
         });
         if(distanceList.length > 0){
             var sumOfDistances = 0;
@@ -198,13 +198,13 @@ export default function Profile() {
             if(slope < 0){
                 dispatch({
                 type: "UPDATE_TRENDOFRACES",
-                payload: {trendOfRaces: "You have improved your time on average by "+slope+"minutes per run."}
+                payload: {trendOfRaces: "You have improved your time on average by "+slope.toFixed(2)+" minutes per run."}
                 });
             }
             else if(slope > 0 ){
                 dispatch({
                     type: "UPDATE_TRENDOFRACES",
-                    payload: {trendOfRaces: "You have worsened your time on average by "+slope+"minutes per run."}
+                    payload: {trendOfRaces: "You have worsened your time on average by "+slope.toFixed(2)+" minutes per run."}
                     });
             }
             else{
@@ -265,7 +265,7 @@ export default function Profile() {
                             <h4 className={styles.profileTitle}>Recent Races:</h4>
                             <h4> The BCA Sprint, 5k Leonia</h4>
                             <h4>Best Race Time for Prefered Distance: {state.bestRaceTime} minutes</h4>
-                            <h4>Trend of Preferred Races:</h4>
+                            <h4>Trend of Preferred Races: {state.trendOfRaces}</h4>
                         </a>
                     </div>
                     <h1 className={styles.stats}>Statistics on Recent Races</h1>
