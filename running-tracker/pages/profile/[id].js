@@ -29,6 +29,26 @@ function reducer(state, action) {
                 ...state,
                 id: action.payload.id
             };
+        case "UPDATE_MOSTDONERACE":
+            return {
+                ...state,
+                mostDoneRace: action.payload.mostDoneRace
+            };
+        case "UPDATE_AVERAGERACETIME":
+            return {
+                ...state,
+                averageRaceTime: action.payload.averageRaceTime
+            };
+        case "UPDATE_BESTRACETIME":
+            return {
+                ...state,
+                bestRaceTime: action.payload.bestRaceTime
+            };
+        case "UPDATE_TRENDOFRACES":
+            return {
+                ...state,
+                trendOfRaces: action.payload.trendOfRaces
+            };
         case "CLEAR":
             return initialState;
         default:
@@ -40,7 +60,11 @@ const initialState = {
     firstName: "",
     lastName: "",
     email: "",
-    id: ""
+    id: "",
+    mostDoneRace:0,
+    averageRaceTime:0,
+    bestRaceTime:0,
+    trendOfRaces:"",
 };
 
 export default function Profile() {
@@ -61,8 +85,6 @@ export default function Profile() {
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
         }
-
-        dispatch({type: "CLEAR"});
         const person = await response.json();
         setData(person);
         dispatch({
@@ -91,27 +113,108 @@ export default function Profile() {
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
         }
-
-        dispatch({type: "CLEAR"});
         const runData = await response.json();
         console.log(runData);
-        setData(runData);
-//        dispatch({
-//            type: "UPDATE_FIRST_NAME",
-//            payload: {firstName: person[0].firstName}
-//        });
-//        dispatch({
-//            type: "UPDATE_LAST_NAME",
-//            payload: {lastName: person[0].lastName}
-//        });
-//        dispatch({
-//            type: "UPDATE_EMAIL",
-//            payload: {email: person[0].email}
-//        });
-//        dispatch({
-//            type: "UPDATE_ID",
-//            payload: {id: person[0].id}
-//        });
+        return runData[0];
+    }
+    const getRunDataFromDatabase = async (sendJson) => {
+        const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendJson)
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        const runData = await response.json();
+        var length = Object.keys(runData).length;
+        if(length > 0){
+            var distanceList = [];
+            var countList = [];
+            for(var x = 0; x < length;x++){
+                var hasFoundDistance = false;
+                for(var z = 0; z < distanceList.length;z++){
+                    if(distanceList[z] == runData[x].runLength){
+                        countList[z]++;
+                        hasFoundDistance = true;
+                    }
+                }
+                if(!hasFoundDistance){
+                    distanceList.push(runData[x].runLength);
+                    countList.push(0);
+                }
+            }
+            var largestIndex = 0;
+            for(var x = 0; x < countList.length;x++){
+                if(countList[x] > countList[largestIndex]){
+                    largestIndex = x;
+                }
+            }
+            console.log(countList);
+            console.log(distanceList);
+            dispatch({
+                type: "UPDATE_MOSTDONERACE",
+                payload: {mostDoneRace: distanceList[largestIndex]}
+            });
+            var fastestDistance = 100000000;
+            var sumTime = 0;
+            var count  = 0;
+            var previousRaceTime = 0;
+            var differenceList = []
+            for(var x = 0; x < length; x++){
+                if(distanceList[largestIndex] == runData[x].runLength){
+                    var stringTime = runData[x].runTime.split(":");
+                    console.log(stringTime);
+                    count++;
+                    var intTime = parseInt(stringTime[0]) * 3600 + parseInt(stringTime[1]) * 60 + parseInt(stringTime[1]);
+                    if(count == 1){
+                        previousRaceTime = intTime;
+                    }
+                    else{
+                        differenceList.push(intTime-previousRaceTime);
+                    }
+                    sumTime += intTime;
+                    if(intTime< fastestDistance){
+                        fastestDistance = intTime;
+                    }
+                }
+            }  
+            dispatch({
+                type: "UPDATE_BESTRACETIME",
+                payload: {bestRaceTime: (Math.trunc(fastestDistance/60))}
+            });
+            dispatch({
+            type: "UPDATE_AVERAGERACETIME",
+            payload: {bestRaceTime: (Math.trunc(sumTime/60/count))}
+        });
+        if(distanceList.length > 0){
+            var sumOfDistances = 0;
+            for(var y = 0; y < distanceList.length;y++){
+                sumOfDistances += distanceList[y];
+            }
+            var slope = sumOfDistances/60/distanceList.length;
+            if(slope < 0){
+                dispatch({
+                type: "UPDATE_TRENDOFRACES",
+                payload: {trendOfRaces: "You have improved your time on average by "+slope+"minutes per run."}
+                });
+            }
+            else if(slope > 0 ){
+                dispatch({
+                    type: "UPDATE_TRENDOFRACES",
+                    payload: {trendOfRaces: "You have worsened your time on average by "+slope+"minutes per run."}
+                    });
+            }
+            else{
+                dispatch({
+                    type: "UPDATE_TRENDOFRACES",
+                    payload: {trendOfRaces: "There hasn't been a major change in your race times"}
+                    });
+            }
+        }
+        }
         return runData[0];
     }
 
@@ -138,8 +241,12 @@ export default function Profile() {
                         src="https://connect.facebook.net/en_US/sdk.js"
                         strategy="lazyOnload"
                         onLoad={
-                            () => {
+                            () => {  let sendData = [{
+                                email: user.email,
+                                isGet: true
+                            }]
                                 person = putUserDataInDatabase();
+                                getRunDataFromDatabase(sendData);
                             }
                         }
                     />
@@ -151,14 +258,14 @@ export default function Profile() {
                             <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444}/>
                         </a>
                         <a className={styles.profileCard}>
-                            <h4>Name: Erik Lewis</h4>
-                            <h4>Prefered Running Distance: 5km</h4>
+                            <h4>Name: {state.firstName} {state.lastName}</h4>
+                            <h4>Prefered Running Distance: {state.mostDoneRace}km</h4>
                             <h4>Teams: The Boys,The Bogota Bulls</h4>
-                            <h4>Average Running Time for Prefered Distance: 34.45 minutes</h4>
+                            <h4>Average Running Time for Prefered Distance: {state.averageRaceTime} minutes</h4>
                             <h4 className={styles.profileTitle}>Recent Races:</h4>
                             <h4> The BCA Sprint, 5k Leonia</h4>
-                            <h4>Best Race Time for Prefered Distance: 28.21 minutes</h4>
-                            <h4>Upcoming Races: "The Freezer", December Dash</h4>
+                            <h4>Best Race Time for Prefered Distance: {state.bestRaceTime} minutes</h4>
+                            <h4>Trend of Preferred Races:</h4>
                         </a>
                     </div>
                     <h1 className={styles.stats}>Statistics on Recent Races</h1>
@@ -179,14 +286,15 @@ export default function Profile() {
                         onLoad={() => {
                             let d = "";
                             let t = "";
-                            const button = document.getElementById('addDataButton')
+                            const button = document.getElementById('addDataButton');
                             button.addEventListener('click', () => {
-                                console.log(user.email);
-                                d = document.getElementById("raceTime").value;
-                                t = document.getElementById("raceDistance").value;
+                                d = document.getElementById("raceDistance").value;
+                                t = document.getElementById("raceTime").value;
+                                alert("Inserted run with distance of "+d+"kms and time of "+t);
                                 let sendData = [{
                                     distance: d,
                                     time: t,
+                                    isGet:false,
                                     email: user.email
                                 }]
                                 putRunDataInDatabase(sendData);
@@ -218,7 +326,7 @@ export default function Profile() {
                 <main className={styles.main}>
                     <div class="container">
                         <div class="jumbotron text-center background-color: #b08802 !important">
-                            <h1 className={styles.heading}>Test</h1>
+                            <h1 className={styles.heading}></h1>
                         </div>
                     </div>
                 </main>
