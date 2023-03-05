@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         return res.status(200).json(rows);
     }
 
-    if (method === "POST") {
+    else if (method === "POST") {
         const [r,f,e] = await db.execute("INSERT INTO `Run` (userID, runTime, runLength, runDate) VALUES (?,?,?,?)",
                                          [id, body[0].time, body[0].distance,`${date.year}-${date.month}-${date.day}`]);
         if (e) {
