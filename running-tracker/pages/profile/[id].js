@@ -114,7 +114,92 @@ export default function Profile() {
             throw new Error(`Error: ${response.status}`);
         }
         const runData = await response.json();
-        console.log(runData);
+        var length = Object.keys(runData).length;
+        if(length > 0){
+            var distanceList = [];
+            var countList = [];
+            for(var x = 0; x < length;x++){
+                var hasFoundDistance = false;
+                for(var z = 0; z < distanceList.length;z++){
+                    if(distanceList[z] == runData[x].runLength){
+                        countList[z]++;
+                        hasFoundDistance = true;
+                    }
+                }
+                if(!hasFoundDistance){
+                    distanceList.push(runData[x].runLength);
+                    countList.push(0);
+                }
+            }
+            var largestIndex = 0;
+            for(var x = 0; x < countList.length;x++){
+                if(countList[x] > countList[largestIndex]){
+                    largestIndex = x;
+                }
+            }
+            console.log(countList);
+            console.log(distanceList);
+            dispatch({
+                type: "UPDATE_MOSTDONERACE",
+                payload: {mostDoneRace: distanceList[largestIndex]}
+            });
+            var fastestDistance = 100000000;
+            var sumTime = 0;
+            var count  = 0;
+            var previousRaceTime = 0;
+            var differenceList = []
+            for(var x = 0; x < length; x++){
+                if(distanceList[largestIndex] == runData[x].runLength){
+                    var stringTime = runData[x].runTime.split(":");
+                    console.log(stringTime);
+                    count++;
+                    var intTime = parseInt(stringTime[0]) * 3600 + parseInt(stringTime[1]) * 60 + parseInt(stringTime[1]);
+                    if(count == 1){
+                        previousRaceTime = intTime;
+                    }
+                    else{
+                        differenceList.push(intTime-previousRaceTime);
+                    }
+                    sumTime += intTime;
+                    if(intTime< fastestDistance){
+                        fastestDistance = intTime;
+                    }
+                }
+            }  
+            dispatch({
+                type: "UPDATE_BESTRACETIME",
+                payload: {bestRaceTime: (Math.trunc(fastestDistance/60))}
+            });
+            dispatch({
+            type: "UPDATE_AVERAGERACETIME",
+            payload: {averageRaceTime: (Math.trunc(sumTime/60/count))}
+        });
+        if(distanceList.length > 0){
+            var sumOfDistances = 0;
+            for(var y = 0; y < distanceList.length;y++){
+                sumOfDistances += distanceList[y];
+            }
+            var slope = sumOfDistances/60/distanceList.length;
+            if(slope < 0){
+                dispatch({
+                type: "UPDATE_TRENDOFRACES",
+                payload: {trendOfRaces: "You have improved your time on average by "+slope.toFixed(2)+" minutes per run."}
+                });
+            }
+            else if(slope > 0 ){
+                dispatch({
+                    type: "UPDATE_TRENDOFRACES",
+                    payload: {trendOfRaces: "You have worsened your time on average by "+slope.toFixed(2)+" minutes per run."}
+                    });
+            }
+            else{
+                dispatch({
+                    type: "UPDATE_TRENDOFRACES",
+                    payload: {trendOfRaces: "There hasn't been a major change in your race times"}
+                    });
+            }
+        }
+        }
         return runData[0];
     }
     const getRunDataFromDatabase = async (sendJson) => {
