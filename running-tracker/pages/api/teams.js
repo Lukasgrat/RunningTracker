@@ -3,14 +3,25 @@ const db = require('../../db/db_connection.js')
 export default async function handler(req, res) {
     const { method } = req;
     const { body } = req;
-    const [i, ifields, ie] = await db.execute("SELECT id FROM `Person` WHERE `Person`.email = ?", [body.email])
-    const id = i[0].id;
     console.log(body);
+    const [i, ifields, ie] = await db.execute("SELECT id FROM `Person` WHERE `Person`.email = ?", [body.email]);
+    const id = i[0].id;
+    console.log(id);
     if (body.isGet) {
         const [teams, fields2, errors2] = await db.execute("SELECT teamName, teamCode FROM `Membership` JOIN `Team` ON `Team`.teamID = `Membership`.teamID WHERE `Membership`.userID = ?",
             [id]);
         console.log(teams);
         return res.status(200).json(teams);
+    }
+
+    else if (body.isUpdate) {
+        console.log("1");
+        const [ti, tf, te] = await db.execute("SELECT teamID FROM `Team` WHERE `Team`.teamCode = ?", [body.code]);
+        console.log("2");
+        const teamID = ti[0];
+        const [r, f, e] = await db.execute("INSERT INTO `Membership` (userID, teamID) VALUES (?,?)",
+            [ id, teamID ]);
+        console.log("3");
     }
 
     else if (method === "POST") {
@@ -25,13 +36,6 @@ export default async function handler(req, res) {
             [id]);
     console.log("there");
         return res.status(200).json(teams);
-    }
-
-    else if (method === "UPDATE") {
-        const [ti, tf, te] = db.execute("SELECT teamID FROM `Team` WHERE `Team`.teamCode = ?", [body.code]);
-        const teamID = ti[0].teamID;
-        const [r, f, e] = await connection.execute("INSERT INTO `Membership` (userID, teamID) VALUES (?,?)",
-            [ id, teamID ]);
     }
 }
 

@@ -4,10 +4,45 @@ import Script from 'next/script';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
 import { useReducer, useState } from "react";
+const initialState = {
+    teamNames: [],
+    teamCodes: [],
+};
 export default function Home() {
+    function reducer(state, action) {
+        switch (action.type) {
+            case "UPDATE_TEAM_NAMES":
+                return {
+                    ...state,
+                    firstName: action.payload.teamNames
+                };
+            case "UPDATE_TEAM_CODES":
+                return {
+                    ...state,
+                    lastName: action.payload.teamCodes
+                };
+            case "CLEAR":
+                return initialState;
+            default:
+                return state;
+        }
+    }
+    
     const { user, error, isLoading } = useUser();
     const navigationBar = Navbar();
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [data, setData] = useState([]);
+    const teamDisplay = ({teamName,teamCode}) => {
+        return (<tr><td>{race.raceID}</td>
+        <td>{team.teamNames}</td>
+        <td>{team.teamCodes}</td>
+        </tr>);
+    }
+    const displayTeams  = () =>{
+        (state.teamNames || []).map(race => <teamDisplay key={state.teamCodes} teamName={state.teamNames} teamCodes ={state.teamCodes} />)
 
+    }
+    const teamHTML = displayTeams();
     const getTeams = async () => {
         const response = await fetch(`http://localhost:3000/api/teams`, {
             method: "POST",
@@ -16,7 +51,8 @@ export default function Home() {
             },
             body: JSON.stringify([{
                 email: user.email,
-                isGet: true
+                isGet: true,
+                isUpdate: false,
             }])
         });
 
@@ -52,18 +88,21 @@ export default function Home() {
             throw new Error(`Error: ${response.status}`);
         }
         const teams = await response.json();
-        // dispatch({
-        //     type: "UPDATE_FIRST_NAME",
-        //     payload: {firstName: person[0].firstName}
-        // });
-        // dispatch({
-        //     type: "UPDATE_LAST_NAME",
-        //     payload: {lastName: person[0].lastName}
-        // });
-        // dispatch({
-        //     type: "UPDATE_EMAIL",
-        //     payload: {email: person[0].email}
-        // });
+        return teams;
+    }
+    const updateTeams = async (sendJson) => {
+        const response = await fetch(`http://localhost:3000/api/teams`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendJson)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        const teams = await response.json();
         return teams;
     }
     if (!isLoading && user) {
@@ -109,10 +148,7 @@ export default function Home() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Racing Polygon Team</td>
-                                    <td>64K, GCN Marathon</td>
-                                </tr>
+                               {teamHTML}
                             </tbody>
                         </table>
                     </div> <div>
@@ -130,6 +166,17 @@ export default function Home() {
                         </table>
                     </div>
                     <button type="button" id =  "createTeam">Register Team</button>
+                    <div>
+                        <table className= {styles.racesTable}>
+                            <tbody>
+                                <tr>
+                                    <td>Join Code</td>
+                                    <td><input id = "joinCode" type = "text"></input></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" id =  "updateTeam">Join a Team</button>
                 </main>
                 <Script
                     src="https://connect.facebook.net/en_US/sdk.js"
@@ -147,9 +194,26 @@ export default function Home() {
                                     'name' : teamName,
                                     'desc' : description,
                                     'isGet' :false,
+                                    'isUpdate': false,
                                     'email' : user.email,
                                 }
                                 setTeams(sendJson);
+                        })
+                        const updateButton = document.getElementById("updateTeam");
+                        var joinCode = "";
+                        updateButton.addEventListener('click', () => {
+                            joinCode  = document.getElementById("joinCode").value;
+                            if(joinCode == ""){
+                                joinCode = "a";
+                            }
+                            var sendJson = 
+                                {
+                                    'code' : joinCode,
+                                    'isGet' :false,
+                                    'isUpdate': true,
+                                    'email' : user.email,
+                                }
+                                updateTeams(sendJson);
                         })
                     }
                     }    
