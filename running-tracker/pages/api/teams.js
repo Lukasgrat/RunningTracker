@@ -5,24 +5,22 @@ export default async function handler(req, res) {
     const { body } = req;
     console.log(body);
     const [i, ifields, ie] = await db.execute("SELECT id FROM `Person` WHERE `Person`.email = ?", [body.email]);
+    console.log("2");
     const id = i[0].id;
-    console.log(id);
     if (body.isGet) {
         const [teams, fields2, errors2] = await db.execute("SELECT teamName, teamCode FROM `Membership` JOIN `Team` ON `Team`.teamID = `Membership`.teamID WHERE `Membership`.userID = ?",
             [id]);
-        console.log(teams);
         return res.status(200).json(teams);
     }
 
     else if (body.isUpdate) {
-        console.log("1");
         const [ti, tf, te] = await db.execute("SELECT teamID FROM `Team` WHERE `Team`.teamCode = ?", [body.code]);
-        console.log("2");
+        if(ti.length > 0){
         const teamID = ti[0].teamID;
         console.log(teamID);
         const [r, f, e] = await db.execute("INSERT INTO `Membership` (userID, teamID) VALUES (?,?)",
             [ id, teamID ]);
-        console.log("3");
+        }
     }
 
     else if (method === "POST") {

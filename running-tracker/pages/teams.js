@@ -14,12 +14,12 @@ export default function Home() {
             case "UPDATE_TEAM_NAMES":
                 return {
                     ...state,
-                    firstName: action.payload.teamNames
+                    teamNames: action.payload.teamNames
                 };
             case "UPDATE_TEAM_CODES":
                 return {
                     ...state,
-                    lastName: action.payload.teamCodes
+                    teamCodes: action.payload.teamCodes
                 };
             case "CLEAR":
                 return initialState;
@@ -32,15 +32,20 @@ export default function Home() {
     const navigationBar = Navbar();
     const [state, dispatch] = useReducer(reducer, initialState);
     const [data, setData] = useState([]);
-    const teamDisplay = ({teamName,teamCode}) => {
-        return (<tr><td>{race.raceID}</td>
-        <td>{team.teamNames}</td>
-        <td>{team.teamCodes}</td>
+    const TeamDisplay = ({vals}) => {
+        return (<tr>
+        <td>{vals[0]}</td>
+        <td>{vals[1]}</td>
         </tr>);
     }
     const displayTeams  = () =>{
-        (state.teamNames || []).map(race => <teamDisplay key={state.teamCodes} teamName={state.teamNames} teamCodes ={state.teamCodes} />)
-
+        var list = []
+        for(var x =0; x < state.teamNames.length;x++){
+            list.push(x);
+        }
+        return (
+            (list || []).map(element => <TeamDisplay key={element} vals={[state.teamNames[element],state.teamCodes[element]]}/>)
+          );
     }
     const teamHTML = displayTeams();
     const getTeams = async () => {
@@ -49,30 +54,33 @@ export default function Home() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify([{
+            body: JSON.stringify({
                 email: user.email,
                 isGet: true,
                 isUpdate: false,
-            }])
+            })
         });
 
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
         }
-        const teams = await response.json();
-        // dispatch({
-        //     type: "UPDATE_FIRST_NAME",
-        //     payload: {firstName: person[0].firstName}
-        // });
-        // dispatch({
-        //     type: "UPDATE_LAST_NAME",
-        //     payload: {lastName: person[0].lastName}
-        // });
-        // dispatch({
-        //     type: "UPDATE_EMAIL",
-        //     payload: {email: person[0].email}
-        // });
-        return teams;
+        const returnData = await response.json();
+        console.log(returnData);
+        var teams = [];
+        var codes = [];
+        for(var x = 0; x < returnData.length;x++){
+            teams.push(returnData[x].teamName);
+            codes.push(returnData[x].teamCode);
+        }
+         dispatch({
+             type: "UPDATE_TEAM_NAMES",
+             payload: {teamNames: teams}
+         });
+         dispatch({
+             type: "UPDATE_TEAM_CODES",
+             payload: {teamCodes: codes}
+         });
+        return returnData;
     }
     
     const setTeams = async (sendJson) => {
@@ -138,13 +146,18 @@ export default function Home() {
                 <main className={styles.main}>
                     <div class="container">
                         <h1 className={styles.jumbotron}>All in Run</h1>
-                    </div>
+                    </div><a
+                        className={styles.card}
+                    >
+                        <h2>Teams</h2>
+                        <p>Below are your joined teams and join codes! Send your codes to other racers for them to join aswell</p>
+                    </a>
                     <div>
                         <table className={styles.racesTable}>
                             <thead >
                                 <tr>
                                     <th scope="col">Team</th>
-                                    <th scope="col">Races</th>
+                                    <th scope="col">Join Code</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,6 +165,7 @@ export default function Home() {
                             </tbody>
                         </table>
                     </div> <div>
+                    
                         <table className= {styles.racesTable}>
                             <tbody>
                                 <tr>
