@@ -18,7 +18,8 @@ export default async function handler(req, res) {
         console.log("1");
         const [ti, tf, te] = await db.execute("SELECT teamID FROM `Team` WHERE `Team`.teamCode = ?", [body.code]);
         console.log("2");
-        const teamID = ti[0];
+        const teamID = ti[0].teamID;
+        console.log(teamID);
         const [r, f, e] = await db.execute("INSERT INTO `Membership` (userID, teamID) VALUES (?,?)",
             [ id, teamID ]);
         console.log("3");
