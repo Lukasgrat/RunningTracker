@@ -3,7 +3,7 @@ import styles from '../../styles/Home.module.css'
 import Script from 'next/script';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
-import PFP from '../../images/testPFP.jpg';
+import PFP from '../../images/defaultPFP.png';
 import CHART from '../../images/chart.png';
 import Navbar from '../../componenets/navbar.js';
 import { useReducer, useState } from "react";
@@ -94,10 +94,9 @@ export default function Profile() {
                     <Script
                         src="https://connect.facebook.net/en_US/sdk.js"
                         strategy="lazyOnload"
-                        onLoad={() =>
-                            {
-                                const person = putDataInDatabase();
-                            }
+                        onLoad={() => {
+                            const person = putDataInDatabase();
+                        }
                         }
                     />
                 </header>
