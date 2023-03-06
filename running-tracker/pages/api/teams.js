@@ -1,0 +1,25 @@
+const db = require('../../db/db_connection.js')
+
+export default async function handler(req, res) {
+    const { method } = req;
+    const { body } = req;
+    const [i, ifields, ie] = await db.execute("SELECT id FROM `Person` WHERE `Person`.email = ?", [body[0].email])
+    const id = i[0].id;
+    console.log("8");
+    if (body[0].isGet) {
+        const [teams, fields2, errors2] = await db.execute("SELECT teamName FROM `Membership` JOIN `Team` ON `Team`.teamID = `Membership`.teamID WHERE `Membership`.userID = ?",
+            [id]);
+        console.log(teams);
+        return res.status(200).json(teams);
+    }
+
+    else if (method === "POST") {
+        const [r, f, e] = await db.execute("INSERT INTO `Run` (userID, runTime, runLength, runDate) VALUES (?,?,?,?)",
+            [id, body[0].time, body[0].distance, `${date.year}-${date.month}-${date.day}`]);
+        if (e) {
+            return res.status(500);
+        }
+        const [rows, fields, errors] = await db.execute("SELECT * FROM `Run` WHERE `Run`.userID = ?", [id]);
+        return res.status(200).json(rows);
+    }
+}
