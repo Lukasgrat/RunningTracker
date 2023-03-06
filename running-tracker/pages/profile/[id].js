@@ -2,7 +2,7 @@ import styles from '../../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
-import PFP from '../../images/testPFP.jpg';
+import PFP from '../../images/defaultPFP.png';
 import CHART from '../../images/chart.png';
 import Navbar from '../../componenets/navbar.js';
 import {useReducer, useState} from "react";
@@ -259,6 +259,8 @@ export default function Profile() {
                     }
                     else{
                         differenceList.push(intTime-previousRaceTime);
+                        console.log(intTime-previousRaceTime);
+                        previousRaceTime = intTime;
                     }
                     sumTime += intTime;
                     if(intTime< fastestDistance){
@@ -274,16 +276,18 @@ export default function Profile() {
             type: "UPDATE_AVERAGERACETIME",
             payload: {averageRaceTime: (Math.trunc(sumTime/60/count))}
         });
-        if(distanceList.length > 0){
+        if(differenceList.length > 0){
             var sumOfDistances = 0;
-            for(var y = 0; y < distanceList.length;y++){
-                sumOfDistances += distanceList[y];
+            for(var y = 0; y < differenceList.length;y++){
+                console.log(differenceList[y]);
+                sumOfDistances += differenceList[y];
             }
-            var slope = sumOfDistances/60/distanceList.length;
+            var slope = sumOfDistances/60/differenceList.length;
+            console.log(slope);
             if(slope < 0){
                 dispatch({
                 type: "UPDATE_TRENDOFRACES",
-                payload: {trendOfRaces: "You have improved your time on average by "+slope.toFixed(2)+" minutes per run."}
+                payload: {trendOfRaces: "You have improved your time on average by "+ -1*slope.toFixed(2)+" minutes per run."}
                 });
             }
             else if(slope > 0 ){
@@ -345,20 +349,14 @@ export default function Profile() {
                         <a className={styles.profileCard}>
                             <h4>Name: {state.firstName} {state.lastName}</h4>
                             <h4>Prefered Running Distance: {state.mostDoneRace}km</h4>
-                            <h4>Teams: The Boys,The Bogota Bulls</h4>
                             <h4>Average Running Time for Prefered Distance: {state.averageRaceTime} minutes</h4>
-                            <h4 className={styles.profileTitle}>Recent Races:</h4>
-                            <h4> The BCA Sprint, 5k Leonia</h4>
                             <h4>Best Race Time for Prefered Distance: {state.bestRaceTime} minutes</h4>
                             <h4>Trend of Preferred Races: {state.trendOfRaces}</h4>
                         </a>
                     </div>
-                    <h1 className={styles.stats}>Statistics on Recent Races</h1>
-                    <Image className={styles.image} src={CHART} alt="stats picture"/>
-                    <p>Add a race below by inserting the race distance(in kms) and time below</p>
                     <h3 className={styles.stats}>Race Distance</h3>
                     <div className={styles.grid}>
-                        <h3 className={styles.stats}>Length|Time</h3>
+                        <h3 className={styles.stats}>Length(km)|Time(hours:minutes:seconds)</h3>
                     </div>
                     <div className={styles.grid}>
                         <input id="raceDistance" type="text" color=''></input>
