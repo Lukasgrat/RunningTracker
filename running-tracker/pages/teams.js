@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css'
 import Script from 'next/script';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
-
+import { useReducer, useState } from "react";
 export default function Home() {
     const { user, error, isLoading } = useUser();
     const navigationBar = Navbar();
@@ -24,7 +24,6 @@ export default function Home() {
             throw new Error(`Error: ${response.status}`);
         }
         const teams = await response.json();
-        setData(teams);
         // dispatch({
         //     type: "UPDATE_FIRST_NAME",
         //     payload: {firstName: person[0].firstName}
@@ -59,14 +58,14 @@ export default function Home() {
 
                     {navigationBar}
                     <Script
-                        src="https://connect.facebook.net/en_US/sdk.js"
-                        strategy="lazyOnload"
-                        onLoad={
-                            () => {
-                                console.log("60");
-                                const teams = getTeams();
-                            }
+                    src="https://connect.facebook.net/en_US/sdk.js"
+                    strategy="lazyOnload"
+                    onLoad={() =>
+                        {
+                            console.log("60");
+                            const teams = getTeams();
                         }
+                    }
                     />
                 </header>
                 <main className={styles.main}>
