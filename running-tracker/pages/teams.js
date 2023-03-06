@@ -38,6 +38,34 @@ export default function Home() {
         // });
         return teams;
     }
+    
+    const setTeams = async (sendJson) => {
+        const response = await fetch(`http://localhost:3000/api/teams`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendJson)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        const teams = await response.json();
+        // dispatch({
+        //     type: "UPDATE_FIRST_NAME",
+        //     payload: {firstName: person[0].firstName}
+        // });
+        // dispatch({
+        //     type: "UPDATE_LAST_NAME",
+        //     payload: {lastName: person[0].lastName}
+        // });
+        // dispatch({
+        //     type: "UPDATE_EMAIL",
+        //     payload: {email: person[0].email}
+        // });
+        return teams;
+    }
     if (!isLoading && user) {
         return (
             <div className={styles.container}>
@@ -87,10 +115,45 @@ export default function Home() {
                                 </tr>
                             </tbody>
                         </table>
+                    </div> <div>
+                        <table className= {styles.racesTable}>
+                            <tbody>
+                                <tr>
+                                    <td>Team Name</td>
+                                    <td><input id = "teamName" type = "text"></input></td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td><input id = "description" type = "text"></input></td>
+                                </tr>  
+                            </tbody>
+                        </table>
                     </div>
-                    <button type="button">Register Team</button>
+                    <button type="button" id =  "createTeam">Register Team</button>
                 </main>
-
+                <Script
+                    src="https://connect.facebook.net/en_US/sdk.js"
+                    strategy="lazyOnload"
+                    onLoad={() =>
+                        {
+                        const button = document.getElementById("createTeam");
+                        var teamName = "";
+                        var description = "";
+                        button.addEventListener('click', () => {
+                            teamName  = document.getElementById("teamName").value;
+                            description = document.getElementById("description").value;
+                            var sendJson = 
+                                {
+                                    'name' : teamName,
+                                    'desc' : description,
+                                    'isGet' :false,
+                                    'email' : user.email,
+                                }
+                                setTeams(sendJson);
+                        })
+                    }
+                    }    
+                />
                 <footer className={styles.footer}>
                     <a
                         href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
