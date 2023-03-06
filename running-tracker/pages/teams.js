@@ -56,14 +56,18 @@ export default function Home() {
                     <Script src=
                         "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
-                    
+
                     {navigationBar}
-                    onLoad={
-                        () => {
-                            console.log("60");
-                            const teams = getTeams();
+                    <Script
+                        src="https://connect.facebook.net/en_US/sdk.js"
+                        strategy="lazyOnload"
+                        onLoad={
+                            () => {
+                                console.log("60");
+                                const teams = getTeams();
+                            }
                         }
-                    }
+                    />
                 </header>
                 <main className={styles.main}>
                     <div class="container">
