@@ -45,6 +45,8 @@ const Races = ({ races }) => {
                                     <th>Date</th>
                                     <th>Location</th>
                                     <th>Length</th>
+                                    <th>Contact Info</th>
+
                                 </tr>
                             </thead>
                             <tbody id = "races">
@@ -94,6 +96,7 @@ const RaceDisplay = ({race}) => {
     <td>{display.getMonth()+1}/{display.getDate()}/{display.getFullYear()}</td>
     <td>{race.raceLocation}</td>
     <td>{race.raceLength}km</td>
+    <td>{race.Signup}</td>
     </tr>);
 }
 const displayRaces = ( raceArray ) => { 

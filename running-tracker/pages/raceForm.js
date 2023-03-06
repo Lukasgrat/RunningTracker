@@ -100,6 +100,10 @@ const Races = ({ races }) => {
                                 <tr>
                                     <td>Distance</td>
                                     <td><input id = "distance" type = "text" className={styles.inLine}></input></td>
+                                </tr> 
+                                <tr>
+                                    <td>Contact Info</td>
+                                    <td><input id = "contact" type = "text" className={styles.inLine}></input></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -116,19 +120,23 @@ const Races = ({ races }) => {
                         var time = "";
                         var location = "";
                         var distance = "";
+                        var contact = "";
                         button.addEventListener('click', () => {
                             raceName  = document.getElementById("raceName").value;
                             time = document.getElementById("time").value;
                             location = document.getElementById("location").value;
                             distance = document.getElementById("distance").value;
+                            contact = document.getElementById("contact").value;
                             var sendJson = 
                                 {
                                     'name': raceName,
                                     'time': time,
                                     'location': location,
-                                    'distance': distance
+                                    'distance': distance,
+                                    'contact':contact,
                                 }
                             putRaceInDatabase(sendJson);
+                            location.href = "localhost:3000/races";
                         })
                     }
                     }    
