@@ -34,10 +34,10 @@ const Races = ({ races }) => {
                         rel="stylesheet"
                         href=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-                    <Script src=
+                    <Script id = "1" src=
     "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script src=
+                    <Script id = "2" src=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
