@@ -30,10 +30,13 @@ export default async function handler(req, res) {
         if (e) {
             return res.status(500);
         }
-        console.log("there");
         const [teams, fields2, errors2] = await db.execute("SELECT teamName, teamCode FROM `Membership` JOIN `Team` ON `Team`.teamID = `Membership`.teamID WHERE `Membership`.userID = ?",
             [id]);
-    console.log("there");
+        console.log(teamCode);
+        const [ti, tf, te] = await db.execute("SELECT teamID FROM `Team` WHERE `Team`.teamCode = ?", [teamCode]);
+        if(ti.length > 0){
+        const [ar, af, ae] = await db.execute("INSERT INTO `Membership` (userID, teamID) VALUES (?,?)", [ id, ti[0].teamID ]);
+    }
         return res.status(200).json(teams);
     }
 }

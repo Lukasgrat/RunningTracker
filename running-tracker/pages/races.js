@@ -39,8 +39,6 @@ const Races = ({ races }) => {
                         <table className= {styles.racesTable}>
                             <thead >
                                 <tr>
-                                    <th>Race</th>
-                                    <th>Organizer</th>
                                     <th>Name</th>
                                     <th>Date</th>
                                     <th>Location</th>
@@ -90,8 +88,7 @@ export async function getServerSideProps(context) {
 }
 const RaceDisplay = ({race}) => {
     let display = new Date(race.raceDate);
-    return (<tr><td>{race.raceID}</td>
-    <td>{race.organizerID}</td>
+    return (<tr>
     <td>{race.raceName}</td>
     <td>{display.getMonth()+1}/{display.getDate()}/{display.getFullYear()}</td>
     <td>{race.raceLocation}</td>

@@ -59,7 +59,7 @@ const Races = ({ races }) => {
                                 </tr>
                                 <tr>
                                     <td>Date</td>
-                                    <td><input id = "time" type = "text"></input></td>
+                                    <td><input id = "time" type = "date"></input></td>
                                 </tr>  
                                 <tr>
                                     <td>Location</td>
@@ -67,7 +67,7 @@ const Races = ({ races }) => {
                                 </tr>
                                 
                                 <tr>
-                                    <td>Distance</td>
+                                    <td>Distance (kms)</td>
                                     <td><input id = "distance" type = "text" className={styles.inLine}></input></td>
                                 </tr> 
                                 <tr>
@@ -77,7 +77,7 @@ const Races = ({ races }) => {
                             </tbody>
                         </table>
                     </div>
-                    <input id = "formSubmission" type = "button" value = "Submit"></input>
+                    <input id = "formSubmission" type = "button" value = "Submit" href = "/races" ></input>
                 </main>
                 <Script
                     src="https://connect.facebook.net/en_US/sdk.js"
@@ -96,6 +96,7 @@ const Races = ({ races }) => {
                             location = document.getElementById("location").value;
                             distance = document.getElementById("distance").value;
                             contact = document.getElementById("contact").value;
+                            if(parseInt(distance,10).toString()===distance && parseInt(distance,10) >= 0){
                             var sendJson = 
                                 {
                                     'name': raceName,
@@ -105,8 +106,13 @@ const Races = ({ races }) => {
                                     'contact':contact,
                                 }
                             putRaceInDatabase(sendJson);
-                            location.href = "localhost:3000/races";
-                        })
+                            alert("You inserted the following race with a distance of ",distance," named",raceName);
+                            }
+                            else{
+                                alert("Please enter the distance of the run to the nearest integer and make it positive.");
+                            }
+                    }
+                        )
                     }
                     }    
                 />

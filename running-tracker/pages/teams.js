@@ -212,6 +212,7 @@ export default function Home() {
                                     'email' : user.email,
                                 }
                                 setTeams(sendJson);
+                                getTeams();
                         })
                         const updateButton = document.getElementById("updateTeam");
                         var joinCode = "";
@@ -228,6 +229,7 @@ export default function Home() {
                                     'email' : user.email,
                                 }
                                 updateTeams(sendJson);
+                                getTeams();
                         })
                     }
                     }    
