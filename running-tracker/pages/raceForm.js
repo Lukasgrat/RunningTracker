@@ -23,6 +23,7 @@ const Races = ({ races }) => {
         console.log(races);
         return;
     }
+    if(user && !isLoading){
     return (
             <div className={styles.container}>
                 <header className ={styles.header}>
@@ -130,5 +131,9 @@ const Races = ({ races }) => {
                 </footer>
             </div>
             )
+    }
+    else if(!isLoading && !user){
+        location.href = "/";
+    }
 }
 export default Races;

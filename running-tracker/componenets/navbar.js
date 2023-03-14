@@ -6,8 +6,10 @@ const Navbar = (profileLink) => {
     const{user, error, isLoading} = useUser();
     const login = Username(user,error,isLoading);
     var profileRoute = "";
+    var teamRoute = "";
   if(user){
     profileRoute = "/profile/"+user.email.toString();
+    teamRoute = "/teams";
     }
     
     return(
@@ -19,7 +21,7 @@ const Navbar = (profileLink) => {
             <ul class="nav navbar-nav">
               <li><a href="\" className={styles.Navtext}>Home</a></li>
               <li><a href={profileRoute} className={styles.Navtext}>Profile</a></li>
-              <li><a href="\teams" className={styles.Navtext}>Team</a></li>
+              <li><a href={teamRoute} className={styles.Navtext}>Team</a></li>
               <li><a href="\races" className={styles.Navtext}>Races</a></li>
               <li>{login}</li>
             </ul>
