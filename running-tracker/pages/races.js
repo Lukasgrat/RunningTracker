@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script';
+import Link from 'next/link';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
 
@@ -24,10 +25,10 @@ const Races = ({ races }) => {
                         rel="stylesheet"
                         href=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-                    <Script src=
+                    <Script id = "4" src=
     "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script src=
+                    <Script id = "5"src=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
@@ -54,9 +55,8 @@ const Races = ({ races }) => {
                             </tbody>
                         </table>
                     </div>
-                        <a className={styles.card} href = "/raceForm">
-                            <h2 >Create Race</h2>
-                            </a>
+                        <Link className={styles.card} id = "linkToForm" href = "/raceForm">Create Race
+                            </Link>
                 </main>
 
                 <footer className={styles.footer}>
@@ -84,10 +84,10 @@ const Races = ({ races }) => {
                         rel="stylesheet"
                         href=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-                    <Script src=
+                    <Script id = "2"src=
     "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script src=
+                    <Script  id = "1"src=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
@@ -133,7 +133,7 @@ const Races = ({ races }) => {
 }
 
 export async function getServerSideProps(context) {
-    const races = await fetch(`http://localhost:3000/api/races`);
+    const races = await fetch(`https://running-tracker-swart.vercel.app//api/races`);
     const data = await races.json();
     if (!data) {
         return {

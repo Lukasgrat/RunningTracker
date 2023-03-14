@@ -7,7 +7,7 @@ const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
     const navigationBar = Navbar();
     const putRaceInDatabase = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/races`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app//api/races`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -34,10 +34,10 @@ const Races = ({ races }) => {
                         rel="stylesheet"
                         href=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-                    <Script src=
+                    <Script id = "1" src=
     "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script src=
+                    <Script id = "2" src=
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}

@@ -74,7 +74,7 @@ export default function Profile() {
     const [data, setData] = useState([]);
 
     const putUserDataInDatabase = async () => {
-        const response = await fetch(`http://localhost:3000/api/login`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -102,7 +102,7 @@ export default function Profile() {
         return person[0];
     }
     const putRunDataInDatabase = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/stat-tracking`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -203,7 +203,7 @@ export default function Profile() {
         return runData[0];
     }
     const getRunDataFromDatabase = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/stat-tracking`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -319,10 +319,10 @@ export default function Profile() {
                         rel="stylesheet"
                         href=
                             "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-                    <Script src=
+                    <Script  id = "1" src=
                                 "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script src=
+                    <Script id = "2" src=
                                 "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
@@ -398,10 +398,10 @@ export default function Profile() {
                         rel="stylesheet"
                         href=
                             "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-                    <Script src=
+                    <Script id = "3" src=
                                 "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script src=
+                    <Script id = "4" src=
                                 "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}

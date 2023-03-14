@@ -49,7 +49,7 @@ export default function Home() {
     }
     const teamHTML = displayTeams();
     const getTeams = async () => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/teams`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -84,7 +84,7 @@ export default function Home() {
     }
     
     const setTeams = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/teams`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -99,7 +99,7 @@ export default function Home() {
         return teams;
     }
     const updateTeams = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/teams`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -124,10 +124,10 @@ export default function Home() {
                         rel="stylesheet"
                         href=
                         "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-                    <Script src=
+                    <Script id = "2"src=
                         "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script src=
+                    <Script id = "1"src=
                         "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
 
