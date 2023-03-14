@@ -49,7 +49,7 @@ export default function Home() {
     }
     const teamHTML = displayTeams();
     const getTeams = async () => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/teams`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -84,7 +84,7 @@ export default function Home() {
     }
     
     const setTeams = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/teams`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -99,7 +99,7 @@ export default function Home() {
         return teams;
     }
     const updateTeams = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app/api/teams`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

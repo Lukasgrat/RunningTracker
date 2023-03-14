@@ -133,7 +133,7 @@ const Races = ({ races }) => {
 }
 
 export async function getServerSideProps(context) {
-    const races = await fetch(`http://localhost:3000/api/races`);
+    const races = await fetch(`https://running-tracker-swart.vercel.app//api/races`);
     const data = await races.json();
     if (!data) {
         return {
