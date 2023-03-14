@@ -59,7 +59,7 @@ export default function Home() {
                         className={styles.card}
                     >
                         <h2>Teams</h2>
-                        <p>Register your team, or join a team you've been invited to and see other stats and join on
+                        <p>Register your team, or join a team you have been invited to and see other stats and join on
                             races together!.</p>
                     </a>
                 </div>

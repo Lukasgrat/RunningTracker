@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script';
+import Link from 'next/link';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
 
@@ -54,9 +55,8 @@ const Races = ({ races }) => {
                             </tbody>
                         </table>
                     </div>
-                        <a className={styles.card} href = "/raceForm">
-                            <h2 >Create Race</h2>
-                            </a>
+                        <Link className={styles.card} id = "linkToForm" href = "/raceForm">Create Race
+                            </Link>
                 </main>
 
                 <footer className={styles.footer}>
