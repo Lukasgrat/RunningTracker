@@ -74,7 +74,7 @@ export default function Profile() {
     const [data, setData] = useState([]);
 
     const putUserDataInDatabase = async () => {
-        const response = await fetch(`https://running-tracker-swart.vercel.app/api/login`, {
+        const response = await fetch(`http://localhost:3000/api/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -102,7 +102,7 @@ export default function Profile() {
         return person[0];
     }
     const putRunDataInDatabase = async (sendJson) => {
-        const response = await fetch(`https://running-tracker-swart.vercel.app/api/stat-tracking`, {
+        const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -174,16 +174,16 @@ export default function Profile() {
             type: "UPDATE_AVERAGERACETIME",
             payload: {averageRaceTime: (Math.trunc(sumTime/60/count))}
         });
-        if(distanceList.length > 0){
+        if(differenceList.length > 0){
             var sumOfDistances = 0;
-            for(var y = 0; y < distanceList.length;y++){
-                sumOfDistances += distanceList[y];
+            for(var y = 0; y < differenceList.length;y++){
+                sumOfDistances += differenceList[y];
             }
-            var slope = sumOfDistances/60/distanceList.length;
+            var slope = sumOfDistances/60/differenceList.length;
             if(slope < 0){
                 dispatch({
                 type: "UPDATE_TRENDOFRACES",
-                payload: {trendOfRaces: "You have improved your time on average by "+slope.toFixed(2)+" minutes per run."}
+                payload: {trendOfRaces: "You have improved your time on average by "+-1*slope.toFixed(2)+" minutes per run."}
                 });
             }
             else if(slope > 0 ){
@@ -203,7 +203,7 @@ export default function Profile() {
         return runData[0];
     }
     const getRunDataFromDatabase = async (sendJson) => {
-        const response = await fetch(`https://running-tracker-swart.vercel.app/api/stat-tracking`, {
+        const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
