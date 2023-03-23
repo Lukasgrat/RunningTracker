@@ -33,8 +33,9 @@ export default function Home() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [data, setData] = useState([]);
     const TeamDisplay = ({vals}) => {
+        const sendTo = "/teams/"+vals[1];
         return (<tr>
-            <td>{vals[0]}</td>
+            <td href = {sendTo} >{vals[0]}</td>
             <td>{vals[1]}</td>
         </tr>);
     }
