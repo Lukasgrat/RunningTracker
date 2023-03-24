@@ -3,9 +3,10 @@ import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
 import PFP from '../../images/defaultPFP.png';
-import { InferGetServerSidePropsType } from 'next';
+import {InferGetServerSidePropsType} from 'next';
 import Navbar from '../../componenets/navbar.js';
-const ProfileList = ({ profileData })=>{
+
+const ProfileList = ({profileData}) => {
     const {user, error, isLoading} = useUser();
     const navigationBar = Navbar();
     if (!isLoading && user) {
@@ -18,25 +19,13 @@ const ProfileList = ({ profileData })=>{
                         rel="stylesheet"
                         href=
                             "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-                    <Script  id = "1" src=
-                                "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+                    <Script id="1" src=
+                        "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script id = "2" src=
-                                "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+                    <Script id="2" src=
+                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
-                    <Script
-                        src="https://connect.facebook.net/en_US/sdk.js"
-                        strategy="lazyOnload"
-                        onLoad={
-                            () => {  let sendData = [{
-                                email: user.email,
-                                isGet: true
-                            }]
-                                (sendData);
-                            }
-                        }
-                    />
                 </header>
                 <main className={styles.main}>
                     <h3 className={styles.outsideText}>Welcome {state.firstName}</h3>
@@ -52,7 +41,7 @@ const ProfileList = ({ profileData })=>{
                             <h4>Trend of Preferred Races: {state.trendOfRaces}</h4>
                         </a>
                     </div>
-                    
+
                 </main>
             </div>
         )
@@ -66,11 +55,11 @@ const ProfileList = ({ profileData })=>{
                         rel="stylesheet"
                         href=
                             "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-                    <Script id = "3" src=
-                                "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+                    <Script id="3" src=
+                        "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
                     </Script>
-                    <Script id = "4" src=
-                                "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+                    <Script id="4" src=
+                        "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
                     {navigationBar}
                 </header>
@@ -87,15 +76,16 @@ const ProfileList = ({ profileData })=>{
 }
 
 export async function getServerSideProps(context) {
-    var test = context.req.headers.host;
-    console.log(test);
+    let id = context.params.id;
+    console.log(id);
     const profileList = await fetch(`http://localhost:3000/api/teamstats`, {
-        method: "GET",
+        method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-           ID: test.split("\\")[2], 
+            ID: id,
+            isGet: true
         })
     });
     const data = await profileList.json();
@@ -106,7 +96,8 @@ export async function getServerSideProps(context) {
     }
 
     return {
-        props: { profileData: data }
+        props: {profileData: data}
     };
 }
+
 export default ProfileList
