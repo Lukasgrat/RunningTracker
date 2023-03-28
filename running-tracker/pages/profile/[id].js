@@ -354,33 +354,57 @@ export default function Profile() {
                             <h4>Trend of Preferred Races: {state.trendOfRaces}</h4>
                         </a>
                     </div>
-                    <h3 className={styles.stats}>Race Distance</h3>
+                    <table className= {styles.racesTable}>
+                    <h3 className={styles.stats}>Input a new race below</h3>
                     <div className={styles.grid}>
-                        <h3 className={styles.stats}>Length(km)|Time(hours:minutes:seconds)</h3>
+                        <th className='inputGrid'>
+                            <td><h3>Length(km)</h3></td>
+                            <td> <input id="raceDistance" type="text" color=''></input></td>
+                        </th>
+                        <tr> 
+                            <td><h3>Hours</h3></td>
+                            <td><input id="hours" type="text"></input></td>
+                        </tr>
+                        <tr> 
+                            <td><h3>Minutes</h3></td>
+                            <td><input id="minutes" type="text"></input></td>
+                        </tr>
+                        <tr> 
+                            <td><h3>Seconds</h3></td>
+                            <td><input id="seconds" type="text"></input></td>
+                        </tr>
                     </div>
-                    <div className={styles.grid}>
-                        <input id="raceDistance" type="text" color=''></input>
-                        <input id="raceTime" type="text"></input>
-                    </div>
+                    </table>
                     <button id="addDataButton">Insert Data</button>
                     <Script
                         src="https://connect.facebook.net/en_US/sdk.js"
                         strategy="lazyOnload"
                         onLoad={() => {
-                            let d = "";
-                            let t = "";
+                            let distance = "";
+                            let time = "";
+                            let hours = "";
+                            let minutes = "";
+                            let seconds = "";
                             const button = document.getElementById('addDataButton');
                             button.addEventListener('click', () => {
-                                d = document.getElementById("raceDistance").value;
-                                t = document.getElementById("raceTime").value;
-                                alert("Inserted run with distance of "+d+"kms and time of "+t);
-                                let sendData = [{
-                                    distance: d,
-                                    time: t,
-                                    isGet:false,
-                                    email: user.email
-                                }]
-                                putRunDataInDatabase(sendData);
+                                distance = document.getElementById("raceDistance").value;
+                                hours = document.getElementById("hours").value;
+                                minutes = document.getElementById("minutes").value;
+                                seconds = document.getElementById("seconds").value;
+                                if(parseInt(distance,10).toString()===distance && parseInt(distance,10) >= 0&&parseInt(hours,10).toString()===hours && parseInt(hours,10) >= 0&&parseInt(minutes,10).toString()===minutes && parseInt(minutes,10) >= 0&&parseInt(seconds,10).toString()===seconds && parseInt(seconds,10) >= 0){
+                                    time = hours + ":" + minutes + ":"+seconds;
+                                    alert("Inserted run with distance of "+distance+" kms and time of "+time);
+                                    let sendData = [{
+                                        distance: distance,
+                                        time: time,
+                                        isGet:false,
+                                        email: user.email
+                                    }]
+                                    putRunDataInDatabase(sendData);
+                                }
+                                else{
+                                    alert("Please enter in only whole number times and distances for your races.");
+                                }
                             })
                         }
                         }
