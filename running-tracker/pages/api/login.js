@@ -12,6 +12,7 @@ export default async function handler(req, res) {
         } else {      
             let [first, last] = body.name.split(" ");
             let id = await makeid();
+            console.log("15; inserting into db")
             const [r2, f2, e2] = await db.execute('INSERT INTO Person (firstName, lastName, email, id) VALUES (?, ?, ?, ?)',
                                                     [first, last, body.email, id]);
             if (e2) {
