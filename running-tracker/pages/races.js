@@ -14,6 +14,23 @@ const Races = ({ races }) => {
         raceList[key] = races[key];
     }
     const displayedRaces = displayRaces(raceList);
+    const [data, setData] = useState([]);
+    const getDataFromDatabase = async () => {
+        const response = await fetch(`http://localhost:3000/api/raceForm`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        });
+    
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        const person = await response.json();
+        roleID = person[0].id;
+        return person[0];
+    }
     if (!isLoading && user) {
     return (
             <div className={styles.container}>
@@ -70,6 +87,15 @@ const Races = ({ races }) => {
                         </span>
                     </a>
                 </footer>
+                <Script
+                        src="https://connect.facebook.net/en_US/sdk.js"
+                        strategy="lazyOnload"
+                        onLoad={
+                            () => {  
+                                getDataFromDatabase();
+                            }
+                        }
+                    />
             </div>
             )
     }
