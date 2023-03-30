@@ -5,12 +5,17 @@ import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { render } from "react-dom";
 import Navbar from "../componenets/navbar.js";
+var runQueries = true;
+
 export default function Home() {
   const { user, error, isLoading } = useUser();
   var profileRoute = "";
-
+  
   const putUserDataInDatabase = async () => {
-    const response = await fetch(`http://localhost:3000/api/login`, {
+    console.log(runQueries);
+    if (runQueries) {
+      runQueries = false;
+      const response = await fetch(`http://localhost:3000/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,6 +28,7 @@ export default function Home() {
     }
     const person = await response.json();
     return person[0];
+    }
   };
   
   if (user) {
