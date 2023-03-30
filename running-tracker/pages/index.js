@@ -12,7 +12,6 @@ export default function Home() {
   var profileRoute = "";
   
   const putUserDataInDatabase = async () => {
-    console.log(runQueries);
     if (runQueries) {
       runQueries = false;
       const response = await fetch(`http://localhost:3000/api/login`, {
@@ -33,7 +32,6 @@ export default function Home() {
   
   if (user) {
     profileRoute = "/profile/" + user.email.toString();
-    console.log(user.name);
     putUserDataInDatabase();
   }
 
