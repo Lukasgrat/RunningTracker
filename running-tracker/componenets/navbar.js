@@ -14,18 +14,20 @@ const Navbar = (profileLink) => {
     
     return(
     <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div className='navigationBar'>
           <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" href="\">All in Run</a>
+              <a class="navbar-brand">All in Run</a>
             </div>
             <ul class="nav navbar-nav">
               <li><a href="\" className={styles.Navtext}>Home</a></li>
               <li><a href={profileRoute} className={styles.Navtext}>Profile</a></li>
               <li><a href={teamRoute} className={styles.Navtext}>Team</a></li>
               <li><a href="\races" className={styles.Navtext}>Races</a></li>
-              <li>{login}</li>
+              <li className={styles.Navtext}>{login}</li>
             </ul>
           </div>
+        </div>
         </nav>
         );
 }
