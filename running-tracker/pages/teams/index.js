@@ -154,7 +154,7 @@ export default function Home() {
                         <p>Below are your joined teams and join codes! Send your codes to other racers for them to join aswell</p>
                     </a>
                         <div>
-                            <table className={styles.racesTable}>
+                            <table className={styles.formTable}>
                                 <thead >
                                     <tr>
                                         <th scope="col">Team</th>
@@ -167,7 +167,7 @@ export default function Home() {
                             </table>
                         </div> <div>
 
-                        <table className= {styles.racesTable}>
+                        <table className= {styles.formTable}>
                             <tbody>
                                 <tr>
                                     <td>Team Name</td>
@@ -182,7 +182,7 @@ export default function Home() {
                     </div>
                         <button type="button" id =  "createTeam">Register Team</button>
                         <div>
-                            <table className= {styles.racesTable}>
+                            <table className= {styles.formTable}>
                                 <tbody>
                                     <tr>
                                         <td>Join Code</td>
