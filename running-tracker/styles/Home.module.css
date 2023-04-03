@@ -2,6 +2,7 @@
   padding: 0 2rem;
   background-color: #e7e7e7;
 }
+
 .heading{
   color: #a90805;
 }
@@ -24,13 +25,39 @@
   align-items: center;
   background-color: #e7e7e7;
 }
+
+.mainImage {
+  min-height: 100vh;
+  margin-top: -100px;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.indexImage {
+  padding: 0 2rem;
+  background-image: url('../images/running_background.jpg');
+}
+
+.profileImage {
+  padding: 0 2rem;
+  background-image: url('../images/profileCliffside.jpg');
+}
+
+.racesImage {
+  padding: 0 2rem;
+  background-image: url('../images/racesForest.jpg');
+}
 .jumbotron{
   min-width: 100%;
   padding-left: 25vw;
   padding-right: 25vw;
   padding-top: 4%;
   text-align: center;
-  background-color: #dbc35a !important;
+  background-color: #a90805 !important;
   color: #000000 !important;
   font-size: 60px;
   vertical-align: middle;
@@ -46,7 +73,6 @@
   display: flex;
   flex: 1;
   padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
 }
@@ -58,7 +84,7 @@
   flex-grow: 1;
 }
 .title{
-  color: #000000 !important;
+  color: #ffffff !important;
   text-decoration: none;
 }
 
@@ -102,7 +128,20 @@
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
-  background-color: #dbc35a;
+  background-color: #a90805;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 350px;
+  max-height: 500px;
+}
+.card {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: #000000 !important;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  background-color: #a90805;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 350px;
   max-height: 500px;
@@ -147,7 +186,7 @@
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
-  color: #a1a1a1 !important;
+  color: #ffffff !important;
 }
 .titleCard p {
   margin: 0;
@@ -197,7 +236,7 @@
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
-  background-color: #dbc35a;
+  background-color: #ff4744;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 350px;
   max-height: 500px;
@@ -216,13 +255,13 @@
   color:#b08802 !important;
 }
 .racesTable td{
-  min-width: 5%;
+  min-width: 10%;
   min-height: 5%;
   padding-left: 20px;
   padding-right: 20px;
   border: 2px solid #b08802;
   font-size: 20px;
-  color: #888888!important;
+  color: #ffdd6e!important;
 }
 .racesTable th{
   min-width: 5%;
@@ -230,8 +269,50 @@
   padding-left: 20px;
   padding-right: 20px;
   font-size: 20px;
-  color: #888888!important;
+  color: #ffdd6e!important;
+}
+
+.profileTable{
+  color:#b08802 !important;
+}
+.profileTable td{
+  text-align: right;
+  min-height: 5%;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 0px solid #b08802;
+  font-size: 20px;
+  color: #b08802!important;
+}
+.profileTable th{
+  min-width: 5%;
+  min-height: 5%;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
+  color: #b08802!important;
 }
 .inline{
   display: inline;
+}
+
+.formTable{
+  color:#b08802 !important;
+}
+.formTable td{
+  min-width: 10%;
+  min-height: 5%;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 2px solid #b08802;
+  font-size: 20px;
+  color: #b08802!important;
+}
+.formTable th{
+  min-width: 5%;
+  min-height: 5%;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
+  color: #b08802!important;
 }

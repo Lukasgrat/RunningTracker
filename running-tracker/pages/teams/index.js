@@ -219,9 +219,10 @@ export default function Home() {
                             var joinCode = "";
                             updateButton.addEventListener('click', () => {
                                 joinCode  = document.getElementById("joinCode").value;
-                                if(joinCode == ""){
-                                    joinCode = "a";
+                                if(joinCode.length != 6){
+                                    alert("Invalid join code. Join code must be 6 characters in length.");
                                 }
+                                else{
                                 var sendJson =
                                 {
                                     'code' : joinCode,
@@ -231,6 +232,7 @@ export default function Home() {
                                 }
                                 updateTeams(sendJson);
                                 getTeams();
+                            }
                             })
                         }
                     }

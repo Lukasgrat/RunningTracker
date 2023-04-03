@@ -259,7 +259,7 @@ export default function Profile() {
 
     if (!isLoading && user) {
         return (
-            <div className={styles.container}>
+            <div className={styles.profileImage}>
                 <header className={styles.header}>
                     <title>All in Run | Profile</title>
                     <link rel="icon" href="/favicon.ico"/>
@@ -287,10 +287,10 @@ export default function Profile() {
                         }
                     />
                 </header>
-                <main className={styles.main}>
-                    <h3 className={styles.outsideText}>Welcome {user.name}</h3>
+                <main className={styles.mainImage}>
+                    <h3 className={styles.outsideText}></h3>
                     <div className={styles.grid}>
-                        <a className={styles.card}>
+                        <a className={styles.profileCard}>
                             <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444}/>
                         </a>
                         <a className={styles.profileCard}>
@@ -301,7 +301,7 @@ export default function Profile() {
                             <h4>Trend of Preferred Races: {state.trendOfRaces}</h4>
                         </a>
                     </div>
-                    <table className= {styles.racesTable}>
+                    <table className= {styles.profileTable}>
                     <h3 className={styles.stats}>Input a new race below</h3>
                     <div className={styles.grid}>
                         <th className='inputGrid'>
