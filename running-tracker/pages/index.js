@@ -14,7 +14,7 @@ export default function Home() {
   const putUserDataInDatabase = async () => {
     if (runQueries) {
       runQueries = false;
-      const response = await fetch(`http://localhost:3000/api/login`, {
+      const response = await fetch(`https://running-tracker-swart.vercel.app//api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
