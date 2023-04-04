@@ -26,6 +26,10 @@ p {
     background: black;
   }
 }
+
+nav{
+  background-color: #a90805 !important;
+}
 h2 {
   color:#891200 !important;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;

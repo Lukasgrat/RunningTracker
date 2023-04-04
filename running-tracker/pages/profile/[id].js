@@ -9,26 +9,6 @@ import {useReducer, useState} from "react";
 
 function reducer(state, action) {
     switch (action.type) {
-        case "UPDATE_FIRST_NAME":
-            return {
-                ...state,
-                firstName: action.payload.firstName
-            };
-        case "UPDATE_LAST_NAME":
-            return {
-                ...state,
-                lastName: action.payload.lastName
-            };
-        case "UPDATE_EMAIL":
-            return {
-                ...state,
-                email: action.payload.email
-            };
-        case "UPDATE_ID":
-            return {
-                ...state,
-                id: action.payload.id
-            };
         case "UPDATE_MOSTDONERACE":
             return {
                 ...state,
@@ -57,10 +37,6 @@ function reducer(state, action) {
 }
 
 const initialState = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    id: "",
     mostDoneRace:0,
     averageRaceTime:0,
     bestRaceTime:0,
@@ -73,34 +49,6 @@ export default function Profile() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [data, setData] = useState([]);
 
-    const putUserDataInDatabase = async () => {
-        const response = await fetch(`http://localhost:3000/api/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
-        const person = await response.json();
-        setData(person);
-        dispatch({
-            type: "UPDATE_FIRST_NAME",
-            payload: {firstName: person[0].firstName}
-        });
-        dispatch({
-            type: "UPDATE_LAST_NAME",
-            payload: {lastName: person[0].lastName}
-        });
-        dispatch({
-            type: "UPDATE_EMAIL",
-            payload: {email: person[0].email}
-        });
-        return person[0];
-    }
     const putRunDataInDatabase = async (sendJson) => {
         const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
             method: "POST",
@@ -334,53 +282,76 @@ export default function Profile() {
                                 email: user.email,
                                 isGet: true
                             }]
-                                person = putUserDataInDatabase();
                                 getRunDataFromDatabase(sendData);
                             }
                         }
                     />
                 </header>
                 <main className={styles.main}>
-                    <h3 className={styles.outsideText}>Welcome {state.firstName}</h3>
+                    <h3 className={styles.outsideText}>Welcome {user.name}</h3>
                     <div className={styles.grid}>
                         <a className={styles.card}>
                             <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444}/>
                         </a>
                         <a className={styles.profileCard}>
-                            <h4>Name: {state.firstName} {state.lastName}</h4>
+                            <h4>Name: {user.name}</h4>
                             <h4>Prefered Running Distance: {state.mostDoneRace}km</h4>
                             <h4>Average Running Time for Prefered Distance: {state.averageRaceTime} minutes</h4>
                             <h4>Best Race Time for Prefered Distance: {state.bestRaceTime} minutes</h4>
                             <h4>Trend of Preferred Races: {state.trendOfRaces}</h4>
                         </a>
                     </div>
-                    <h3 className={styles.stats}>Race Distance</h3>
+                    <table className= {styles.racesTable}>
+                    <h3 className={styles.stats}>Input a new race below</h3>
                     <div className={styles.grid}>
-                        <h3 className={styles.stats}>Length(km)|Time(hours:minutes:seconds)</h3>
+                        <th className='inputGrid'>
+                            <td><h3>Length(km)</h3></td>
+                            <td> <input id="raceDistance" type="text" color=''></input></td>
+                        </th>
+                        <tr> 
+                            <td><h3>Hours</h3></td>
+                            <td><input id="hours" type="text"></input></td>
+                        </tr>
+                        <tr> 
+                            <td><h3>Minutes</h3></td>
+                            <td><input id="minutes" type="text"></input></td>
+                        </tr>
+                        <tr> 
+                            <td><h3>Seconds</h3></td>
+                            <td><input id="seconds" type="text"></input></td>
+                        </tr>
                     </div>
-                    <div className={styles.grid}>
-                        <input id="raceDistance" type="text" color=''></input>
-                        <input id="raceTime" type="text"></input>
-                    </div>
+                    </table>
                     <button id="addDataButton">Insert Data</button>
                     <Script
                         src="https://connect.facebook.net/en_US/sdk.js"
                         strategy="lazyOnload"
                         onLoad={() => {
-                            let d = "";
-                            let t = "";
+                            let distance = "";
+                            let time = "";
+                            let hours = "";
+                            let minutes = "";
+                            let seconds = "";
                             const button = document.getElementById('addDataButton');
                             button.addEventListener('click', () => {
-                                d = document.getElementById("raceDistance").value;
-                                t = document.getElementById("raceTime").value;
-                                alert("Inserted run with distance of "+d+"kms and time of "+t);
-                                let sendData = [{
-                                    distance: d,
-                                    time: t,
-                                    isGet:false,
-                                    email: user.email
-                                }]
-                                putRunDataInDatabase(sendData);
+                                distance = document.getElementById("raceDistance").value;
+                                hours = document.getElementById("hours").value;
+                                minutes = document.getElementById("minutes").value;
+                                seconds = document.getElementById("seconds").value;
+                                if(parseInt(distance,10).toString()===distance && parseInt(distance,10) >= 0&&parseInt(hours,10).toString()===hours && parseInt(hours,10) >= 0&&parseInt(minutes,10).toString()===minutes && parseInt(minutes,10) >= 0&&parseInt(seconds,10).toString()===seconds && parseInt(seconds,10) >= 0){
+                                    time = hours + ":" + minutes + ":"+seconds;
+                                    alert("Inserted run with distance of "+distance+" kms and time of "+time);
+                                    let sendData = [{
+                                        distance: distance,
+                                        time: time,
+                                        isGet:false,
+                                        email: user.email
+                                    }]
+                                    putRunDataInDatabase(sendData);
+                                }
+                                else{
+                                    alert("Please enter in only whole number times and distances for your races.");
+                                }
                             })
                         }
                         }

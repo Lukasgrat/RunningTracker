@@ -1,9 +1,9 @@
 .container {
   padding: 0 2rem;
-  background-color: #660d0d;
+  background-color: #e7e7e7;
 }
 .heading{
-  color: #b08802;
+  color: #a90805;
 }
 .header {
   padding: 4rem 0;
@@ -12,7 +12,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #660d0d;
 }
 .main {
   min-height: 100vh;
@@ -23,7 +22,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #660d0d;
+  background-color: #e7e7e7;
 }
 .jumbotron{
   min-width: 100%;
@@ -31,8 +30,8 @@
   padding-right: 25vw;
   padding-top: 4%;
   text-align: center;
-  background-color: #b08802 !important;
-  color: #3d0000 !important;
+  background-color: #dbc35a !important;
+  color: #000000 !important;
   font-size: 60px;
   vertical-align: middle;
   margin: 1rem;
@@ -59,7 +58,7 @@
   flex-grow: 1;
 }
 .title{
-  color: #b08802 !important;
+  color: #000000 !important;
   text-decoration: none;
 }
 
@@ -86,14 +85,6 @@
   font-size: 1.5rem;
 }
 
-.code {
-  border-radius: 5px;
-  background-color: #660d0d;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
-}
 
 .grid {
   display: flex;
@@ -111,7 +102,7 @@
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
-  background-color: #b08802;
+  background-color: #dbc35a;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 350px;
   max-height: 500px;
@@ -124,7 +115,7 @@
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
-  background-color: #b08802;
+  background-color: #a90805;
   
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 700px;
@@ -147,7 +138,7 @@
 .outsideText{
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
-  color:#b08802 !important;
+  color:#000000 !important;
   font-size: 200%;
   padding-top: 15%;
   padding-right: 80%;
@@ -156,13 +147,13 @@
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
-  color: #000000 !important;
+  color: #a1a1a1 !important;
 }
 .titleCard p {
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
-  color: #000000 !important;
+  color: #f9f9f9 !important;
 }
 
 .logo {
@@ -189,17 +180,13 @@
     filter: invert(1);
   }
 }
-
-.footer {
-  color:#b08802 !important;
-}
 .Navtext{
-  color:#3700ff;
-  background-color: #3d0000 ;
+  background-color: #a90805 ;
+  color: #bbbbbb !important;
 }
-.NavTextRight{
-  background-color: #3d0000 ;
-  text-align: right;
+.Navtext:hover{
+  background-color: #400100 !important;
+  color: #f3f3f3 !important;
 }
 .profileCard{
   vertical-align: top;
@@ -210,7 +197,7 @@
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
-  background-color: #b08802;
+  background-color: #dbc35a;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 350px;
   max-height: 500px;
@@ -233,13 +220,17 @@
   min-height: 5%;
   padding-left: 20px;
   padding-right: 20px;
-  border: 1px solid #b08802;
+  border: 2px solid #b08802;
+  font-size: 20px;
+  color: #888888!important;
 }
 .racesTable th{
   min-width: 5%;
   min-height: 5%;
   padding-left: 20px;
   padding-right: 20px;
+  font-size: 20px;
+  color: #888888!important;
 }
 .inline{
   display: inline;
