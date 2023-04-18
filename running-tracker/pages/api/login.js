@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     let {method} = req;
     let {body} = req;
     if (method === 'POST') { 
-        const [r, f, e] = await db.execute('SELECT * FROM Person WHERE Person.email = ?', [body.email]);
+        const [r, f, e] = await db.execute('SELECT id FROM Person WHERE Person.email = ?', [body.email]);
         if (e) {
             return res.status(500);
         } else if (r.length > 0) {
@@ -19,10 +19,11 @@ export default async function handler(req, res) {
             if (e2) {
                 return res.status(500);
             } else {
-                const [rows, fields, errors] = await db.execute('SELECT * FROM Person WHERE Person.email = ?', [body.email]);
+                const [rows, fields, errors] = await db.execute('SELECT email, id, firstName, lastName FROM Person WHERE Person.email = ?', [body.email]);
                 if (errors) {
                     return res.status(500);
                 } else {
+                    console.log(rows);
                     return res.status(200).json(rows);
                 }
             }

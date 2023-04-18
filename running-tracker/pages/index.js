@@ -5,10 +5,26 @@ import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { render } from "react-dom";
 import Navbar from "../componenets/navbar.js";
+import { useReducer } from "react";
 var runQueries = true;
+
+function reducer(state, action) {
+  switch(action.type) {
+    case "UPDATE_URL": 
+    return {
+      ...state,
+      url: "/profile/" + action.payload.id
+    }
+  }
+}
+
+const initialState = {
+  url: "/profile/"
+};
 
 export default function Home() {
   const { user, error, isLoading } = useUser();
+  const [state, dispatch] = useReducer(reducer, initialState);
   var profileRoute = "";
   
   const putUserDataInDatabase = async () => {
@@ -26,16 +42,19 @@ export default function Home() {
       throw new Error(`Error: ${response.status}`);
     }
     const person = await response.json();
+    dispatch({
+      type: "UPDATE_URL",
+      payload: { id: person[0].id }
+    });
     return person[0];
     }
   };
   
   if (user) {
-    profileRoute = "/profile/" + user.email.toString();
     putUserDataInDatabase();
   }
-
-  const navigationBar = Navbar();
+  
+  const navigationBar = Navbar(state.url);
   return (
     <div className={styles.container}>
       <header className={styles.header}>

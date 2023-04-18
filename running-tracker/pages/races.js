@@ -4,6 +4,7 @@ import Script from 'next/script';
 import Link from 'next/link';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
+const db = require('../db/db_connection.js')
 
 const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();
@@ -133,16 +134,10 @@ const Races = ({ races }) => {
 }
 
 export async function getServerSideProps(context) {
-    const races = await fetch(`http://localhost:3000/api/races`);
-    const data = await races.json();
-    if (!data) {
-        return {
-            notFound: true
-        };
-    }
-
+    const [rows, fields] = await db.execute('SELECT * FROM Race');
+    let results = JSON.parse(JSON.stringify(rows));
     return {
-        props: { races: data }
+        props: { races: results }
     };
 }
 const RaceDisplay = ({race}) => {

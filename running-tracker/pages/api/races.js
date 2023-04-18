@@ -2,10 +2,6 @@ const db = require('../../db/db_connection.js')
 
 export default async function handler(req, res) {
     const { method } = req;
-    if (method === "GET") {
-        const [rows, fields] = await db.execute('SELECT * FROM `Race`');
-        return res.status(200).json(rows);
-    }
 
     if (method === "POST") {
         const { body } = req;
