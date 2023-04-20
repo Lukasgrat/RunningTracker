@@ -95,8 +95,8 @@ const Races = ({ races }) => {
                 <main className={styles.mainImage}> 
                     <div class="container">
                         <h1 className = {styles.jumbotron}>All in Run</h1>
-                    </div>
-                    <div>
+                    </div>         
+                    <div className={styles.titleCard}>
                         <table className= {styles.racesTable}>
                             <thead >
                                 <tr>
