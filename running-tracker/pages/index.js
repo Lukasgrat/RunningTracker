@@ -25,7 +25,6 @@ const initialState = {
 export default function Home() {
   const { user, error, isLoading } = useUser();
   const [state, dispatch] = useReducer(reducer, initialState);
-  var profileRoute = "";
   
   const putUserDataInDatabase = async () => {
     if (runQueries) {
