@@ -4,11 +4,14 @@ import Script from 'next/script';
 import Link from 'next/link';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
+import Cookies from 'js-cookie';
 const db = require('../db/db_connection.js')
 
 const Races = ({ races }) => {
-    const{user, error, isLoading} = useUser();
-    const navigationBar = Navbar();
+    const{user, error, isLoading} = useUser();  
+    var userID = "";
+    userID = Cookies.get('id');
+    const navigationBar = Navbar(userID);
     var x = Object.keys(races).length;
     const raceList = [];
     for(var key  = 0; key < x;key++){

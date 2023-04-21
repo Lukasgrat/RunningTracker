@@ -2,10 +2,12 @@ import styles from '../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
-
+import Cookies from 'js-cookie';
 const Races = ({ races }) => {
-    const{user, error, isLoading} = useUser();
-    const navigationBar = Navbar();
+    const{user, error, isLoading} = useUser();  
+    var userID = "";
+    userID = Cookies.get('id');
+    const navigationBar = Navbar(userID);
     const putRaceInDatabase = async (sendJson) => {
         const response = await fetch(`http://localhost:3000//api/races`, {
             method: "POST",

@@ -1,11 +1,12 @@
 import styles from "../styles/Home.module.css";
 import Script from "next/script";
-import { Component, React } from "react";
+import { Component, React,useEffect } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { render } from "react-dom";
 import Navbar from "../componenets/navbar.js";
 import { useReducer } from "react";
+import Cookies from 'js-cookie';
 var runQueries = true;
 
 function reducer(state, action) {
@@ -46,15 +47,13 @@ export default function Home() {
       type: "UPDATE_URL",
       payload: { id: person[0].id }
     });
+    Cookies.set('id',person[0].id);
     return person[0];
     }
   };
-  
-  if (user) {
-    putUserDataInDatabase();
-  }
-  
-  const navigationBar = Navbar(state.url);
+  var userID = "";
+  userID = Cookies.get('id');
+  const navigationBar = Navbar(userID);
   return (
     <div className={styles.container}>
       <header className={styles.header}>

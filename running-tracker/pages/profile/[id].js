@@ -6,7 +6,6 @@ import PFP from '../../images/defaultPFP.png';
 import CHART from '../../images/chart.png';
 import Navbar from '../../componenets/navbar.js';
 import {useReducer, useState} from "react";
-
 function reducer(state, action) {
     switch (action.type) {
         case "UPDATE_MOSTDONERACE":
@@ -85,8 +84,6 @@ export default function Profile() {
                     largestIndex = x;
                 }
             }
-            console.log(countList);
-            console.log(distanceList);
             dispatch({
                 type: "UPDATE_MOSTDONERACE",
                 payload: {mostDoneRace: distanceList[largestIndex]}
@@ -99,7 +96,6 @@ export default function Profile() {
             for(var x = 0; x < length; x++){
                 if(distanceList[largestIndex] == runData[x].runLength){
                     var stringTime = runData[x].runTime.split(":");
-                    console.log(stringTime);
                     count++;
                     var intTime = parseInt(stringTime[0]) * 3600 + parseInt(stringTime[1]) * 60 + parseInt(stringTime[1]);
                     if(count == 1){
@@ -185,8 +181,6 @@ export default function Profile() {
                     largestIndex = x;
                 }
             }
-            console.log(countList);
-            console.log(distanceList);
             dispatch({
                 type: "UPDATE_MOSTDONERACE",
                 payload: {mostDoneRace: distanceList[largestIndex]}
@@ -199,7 +193,6 @@ export default function Profile() {
             for(var x = 0; x < length; x++){
                 if(distanceList[largestIndex] == runData[x].runLength){
                     var stringTime = runData[x].runTime.split(":");
-                    console.log(stringTime);
                     count++;
                     var intTime = parseInt(stringTime[0]) * 3600 + parseInt(stringTime[1]) * 60 + parseInt(stringTime[1]);
                     if(count == 1){
@@ -207,7 +200,6 @@ export default function Profile() {
                     }
                     else{
                         differenceList.push(intTime-previousRaceTime);
-                        console.log(intTime-previousRaceTime);
                         previousRaceTime = intTime;
                     }
                     sumTime += intTime;
@@ -227,11 +219,9 @@ export default function Profile() {
         if(differenceList.length > 0){
             var sumOfDistances = 0;
             for(var y = 0; y < differenceList.length;y++){
-                console.log(differenceList[y]);
                 sumOfDistances += differenceList[y];
             }
             var slope = sumOfDistances/60/differenceList.length;
-            console.log(slope);
             if(slope < 0){
                 dispatch({
                 type: "UPDATE_TRENDOFRACES",
