@@ -18,7 +18,7 @@ const Races = ({ races }) => {
         raceList[key] = races[key];
     }
     const displayedRaces = displayRaces(raceList);
-    if (!isLoading && user) {
+    if (!isLoading && user && (Cookies.get("roleID") == 1|| Cookies.get("roleID")==2)) {
     return (
             <div className={styles.container}>
                 <header className ={styles.header}>

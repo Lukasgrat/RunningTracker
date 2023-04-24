@@ -18,14 +18,8 @@ function reducer(state, action) {
     }
   }
 }
-
-const initialState = {
-  url: "/profile/"
-};
-
 export default function Home() {
   const { user, error, isLoading } = useUser();
-  const [state, dispatch] = useReducer(reducer, initialState);
   var userID = "";
   const putUserDataInDatabase = async () => {
     if (runQueries) {
@@ -37,17 +31,12 @@ export default function Home() {
       },
       body: JSON.stringify(user),
     });
-
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
     }
     const person = await response.json();
-    dispatch({
-      type: "UPDATE_URL",
-      payload: { id: person[0].id }
-    });
     Cookies.set('id',person[0].id);
-    console.log(person[0].id);
+    Cookies.set('roleID',person[0].roleID);
     return person[0];
     }
   };

@@ -25,7 +25,7 @@ const Races = ({ races }) => {
         console.log(races);
         return;
     }
-    if(user && !isLoading){
+    if(user && !isLoading&& (Cookies.get("roleID") == 1|| Cookies.get("roleID")==2)){
     return (
             <div className={styles.container}>
                 <header className ={styles.header}>
@@ -134,7 +134,7 @@ const Races = ({ races }) => {
             </div>
             )
     }
-    else if(!isLoading && !user){
+    else if(!isLoading){
         location.href = "/";
     }
 }

@@ -35,14 +35,6 @@ function reducer(state, action) {
       return state;
   }
 }
-
-const initialState = {
-  mostDoneRace: 0,
-  averageRaceTime: 0,
-  bestRaceTime: 0,
-  trendOfRaces: "",
-};
-
 export default function Profile(startingState) {
   const { user, error, isLoading } = useUser();
   const navigationBar = Navbar();
@@ -85,8 +77,6 @@ export default function Profile(startingState) {
           largestIndex = x;
         }
       }
-      console.log(countList);
-      console.log(distanceList);
       dispatch({
         type: "UPDATE_MOSTDONERACE",
         payload: { mostDoneRace: distanceList[largestIndex] },
@@ -99,7 +89,6 @@ export default function Profile(startingState) {
       for (var x = 0; x < length; x++) {
         if (distanceList[largestIndex] == runData[x].runLength) {
           var stringTime = runData[x].runTime.split(":");
-          console.log(stringTime);
           count++;
           var intTime =
             parseInt(stringTime[0]) * 3600 +
@@ -381,7 +370,6 @@ export async function getServerSideProps(context) {
     for (var x = 0; x < length; x++) {
       if (distanceList[largestIndex] == runData[x].runLength) {
         var stringTime = runData[x].runTime.split(":");
-        console.log(stringTime);
         count++;
         var intTime =
           parseInt(stringTime[0]) * 3600 +
@@ -391,7 +379,6 @@ export async function getServerSideProps(context) {
           previousRaceTime = intTime;
         } else {
           differenceList.push(intTime - previousRaceTime);
-          console.log(intTime - previousRaceTime);
           previousRaceTime = intTime;
         }
         sumTime += intTime;
@@ -405,11 +392,9 @@ export async function getServerSideProps(context) {
     if (differenceList.length > 0) {
       var sumOfDistances = 0;
       for (var y = 0; y < differenceList.length; y++) {
-        console.log(differenceList[y]);
         sumOfDistances += differenceList[y];
       }
       var slope = sumOfDistances / 60 / differenceList.length;
-      console.log(slope);
       var trend = ""
       if (slope < 0) {
         trend =  "You have improved your time on average by " + -1 * slope.toFixed(2) + " minutes per run.";
