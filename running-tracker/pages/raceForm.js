@@ -9,7 +9,8 @@ const Races = ({ races }) => {
     userID = Cookies.get('id');
     const navigationBar = Navbar(userID);
     const putRaceInDatabase = async (sendJson) => {
-        const response = await fetch(`https://running-tracker-swart.vercel.app///api/races`, {
+        const apiString = location.origin+"/api/races"
+        const response = await fetch(apiString, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -52,7 +52,8 @@ export default function Home() {
     }
     const teamHTML = displayTeams();
     const getTeams = async () => {
-        const response = await fetch(`https://running-tracker-swart.vercel.app//api/teams`, {
+        const apiString = location.origin + "/api/teams"
+        const response = await fetch(apiString, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -63,7 +64,6 @@ export default function Home() {
                 isUpdate: false,
             })
         });
-
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
         }
