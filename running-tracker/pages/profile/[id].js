@@ -5,7 +5,8 @@ import Image from 'next/image';
 import PFP from '../../images/defaultPFP.png';
 import CHART from '../../images/chart.png';
 import Navbar from '../../componenets/navbar.js';
-import {useReducer, useState} from "react"
+import {useReducer, useState} from "react";
+import Cookies from 'js-cookie';
 const db = require('../../db/db_connection.js')
 function reducer(state, action) {
   switch (action.type) {
@@ -37,10 +38,11 @@ function reducer(state, action) {
 }
 export default function Profile(startingState) {
   const { user, error, isLoading } = useUser();
-  const navigationBar = Navbar();
   const [state, dispatch] = useReducer(reducer, startingState);
-  const [data, setData] = useState([]);
-
+  const [data, setData] = useState([]); 
+  var userID = "";
+  userID = Cookies.get('id');
+  const navigationBar = Navbar(userID);
   const putRunDataInDatabase = async (sendJson) => {
     const apiString = location.origin+ '/api/stat-tracking'
     const response = await fetch(apiString, {
@@ -154,6 +156,11 @@ export default function Profile(startingState) {
     return runData[0];
   };
   if (!isLoading && user) {
+    var path = window.location.pathname;
+    var page = path.split("/").pop();
+    if(userID != page){
+      location.href = "/"
+    }
     return (
       <div className={styles.profileImage}>
         <header className={styles.header}>
