@@ -6,6 +6,8 @@ import PFP from "../../images/defaultPFP.png";
 import CHART from "../../images/chart.png";
 import Navbar from "../../componenets/navbar.js";
 import { useReducer, useState } from "react";
+const db = require('../../db/db_connection.js')
+
 
 function reducer(state, action) {
   switch (action.type) {
