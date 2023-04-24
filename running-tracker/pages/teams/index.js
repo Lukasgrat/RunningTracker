@@ -52,7 +52,8 @@ export default function Home() {
     }
     const teamHTML = displayTeams();
     const getTeams = async () => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const apiString = location.origin + "/api/teams"
+        const response = await fetch(apiString, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -63,7 +64,6 @@ export default function Home() {
                 isUpdate: false,
             })
         });
-
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
         }
@@ -87,7 +87,7 @@ export default function Home() {
     }
 
     const setTeams = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app//api/teams`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -102,7 +102,7 @@ export default function Home() {
         return teams;
     }
     const updateTeams = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000/api/teams`, {
+        const response = await fetch(`https://running-tracker-swart.vercel.app//api/teams`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -156,7 +156,7 @@ export default function Home() {
                         <p>Below are your joined teams and join codes! Send your codes to other racers for them to join aswell</p>
                     </a>
                         <div>
-                            <table className={styles.racesTable}>
+                            <table className={styles.formTable}>
                                 <thead >
                                     <tr>
                                         <th scope="col">Team</th>
@@ -169,7 +169,7 @@ export default function Home() {
                             </table>
                         </div> <div>
 
-                        <table className= {styles.racesTable}>
+                        <table className= {styles.formTable}>
                             <tbody>
                                 <tr>
                                     <td>Team Name</td>
@@ -184,7 +184,7 @@ export default function Home() {
                     </div>
                         <button type="button" id =  "createTeam">Register Team</button>
                         <div>
-                            <table className= {styles.racesTable}>
+                            <table className= {styles.formTable}>
                                 <tbody>
                                     <tr>
                                         <td>Join Code</td>
@@ -221,9 +221,10 @@ export default function Home() {
                             var joinCode = "";
                             updateButton.addEventListener('click', () => {
                                 joinCode  = document.getElementById("joinCode").value;
-                                if(joinCode == ""){
-                                    joinCode = "a";
+                                if(joinCode.length != 6){
+                                    alert("Invalid join code. Join code must be 6 characters in length.");
                                 }
+                                else{
                                 var sendJson =
                                 {
                                     'code' : joinCode,
@@ -233,6 +234,7 @@ export default function Home() {
                                 }
                                 updateTeams(sendJson);
                                 getTeams();
+                            }
                             })
                         }
                     }

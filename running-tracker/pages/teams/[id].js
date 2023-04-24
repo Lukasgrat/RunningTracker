@@ -78,7 +78,8 @@ const ProfileList = ({profileData}) => {
 export async function getServerSideProps(context) {
     let id = context.params.id;
     console.log(id);
-    const profileList = await fetch(`http://localhost:3000/api/teamstats`, {
+    const apiString = location.origin + "/api/teamstats"
+    const profileList = await fetch(apiString, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -5,7 +5,8 @@ import Image from 'next/image';
 import PFP from '../../images/defaultPFP.png';
 import CHART from '../../images/chart.png';
 import Navbar from '../../componenets/navbar.js';
-import {useReducer, useState} from "react"
+import {useReducer, useState} from "react";
+import Cookies from 'js-cookie';
 const db = require('../../db/db_connection.js')
 function reducer(state, action) {
   switch (action.type) {
@@ -37,12 +38,14 @@ function reducer(state, action) {
 }
 export default function Profile(startingState) {
   const { user, error, isLoading } = useUser();
-  const navigationBar = Navbar();
   const [state, dispatch] = useReducer(reducer, startingState);
-  const [data, setData] = useState([]);
-
+  const [data, setData] = useState([]); 
+  var userID = "";
+  userID = Cookies.get('id');
+  const navigationBar = Navbar(userID);
   const putRunDataInDatabase = async (sendJson) => {
-    const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
+    const apiString = location.origin+ '/api/stat-tracking'
+    const response = await fetch(apiString, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -153,8 +156,13 @@ export default function Profile(startingState) {
     return runData[0];
   };
   if (!isLoading && user) {
+    var path = window.location.pathname;
+    var page = path.split("/").pop();
+    if(userID != page){
+      location.href = "/"
+    }
     return (
-      <div className={styles.container}>
+      <div className={styles.profileImage}>
         <header className={styles.header}>
           <title>All in Run | Profile</title>
           <link rel="icon" href="/favicon.ico" />
@@ -172,7 +180,7 @@ export default function Profile(startingState) {
           ></Script>
           {navigationBar}
         </header>
-        <main className={styles.main}>
+        <main className={styles.mainImage}>
           <h3 className={styles.outsideText}>Welcome {user.name}</h3>
           <div className={styles.grid}>
             <a className={styles.card}>
@@ -198,7 +206,7 @@ export default function Profile(startingState) {
               <h4>Trend of Preferred Races: {state.trendOfRaces}</h4>
             </a>
           </div>
-          <table className={styles.racesTable}>
+          <table className={styles.profileTable}>
             <h3 className={styles.stats}>Input a new race below</h3>
             <div className={styles.grid}>
               <th className="inputGrid">

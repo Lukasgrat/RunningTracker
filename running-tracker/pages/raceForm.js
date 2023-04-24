@@ -9,7 +9,8 @@ const Races = ({ races }) => {
     userID = Cookies.get('id');
     const navigationBar = Navbar(userID);
     const putRaceInDatabase = async (sendJson) => {
-        const response = await fetch(`http://localhost:3000//api/races`, {
+        const apiString = location.origin+"/api/races"
+        const response = await fetch(apiString, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -52,9 +53,9 @@ const Races = ({ races }) => {
                         </div>
                       
                     </div>
-                    <h6>Insert info here</h6>
+                    <h3>Insert info here</h3>
                     <div>
-                        <table className= {styles.racesTable}>
+                        <table className= {styles.formTable}>
                             <tbody id = "races">
                                 <tr>
                                     <td>Race Name/Type</td>
@@ -100,16 +101,21 @@ const Races = ({ races }) => {
                             distance = document.getElementById("distance").value;
                             contact = document.getElementById("contact").value;
                             if(parseInt(distance,10).toString()===distance && parseInt(distance,10) >= 0){
-                            var sendJson = 
-                                {
-                                    'name': raceName,
-                                    'time': time,
-                                    'location': location,
-                                    'distance': distance,
-                                    'contact':contact,
+                                if(raceName.length < 30){
+                                    var sendJson = 
+                                        {
+                                            'name': raceName,
+                                            'time': time,
+                                            'location': location,
+                                            'distance': distance,
+                                            'contact':contact,
+                                        }
+                                    putRaceInDatabase(sendJson);
+                                    alert("You inserted the following race with a distance of "+distance+" named"+raceName);
                                 }
-                            putRaceInDatabase(sendJson);
-                            alert("You inserted the following race with a distance of ",distance," named",raceName);
+                                else{
+                                    alert("Please use a shorter race name");
+                                }
                             }
                             else{
                                 alert("Please enter the distance of the run to the nearest integer and make it positive.");
