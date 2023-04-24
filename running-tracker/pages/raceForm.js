@@ -2,10 +2,12 @@ import styles from '../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
-
+import Cookies from 'js-cookie';
 const Races = ({ races }) => {
-    const{user, error, isLoading} = useUser();
-    const navigationBar = Navbar();
+    const{user, error, isLoading} = useUser();  
+    var userID = "";
+    userID = Cookies.get('id');
+    const navigationBar = Navbar(userID);
     const putRaceInDatabase = async (sendJson) => {
         const response = await fetch(`https://running-tracker-swart.vercel.app///api/races`, {
             method: "POST",
@@ -23,7 +25,7 @@ const Races = ({ races }) => {
         console.log(races);
         return;
     }
-    if(user && !isLoading){
+    if(user && !isLoading&& (Cookies.get("roleID") == 1|| Cookies.get("roleID")==2)){
     return (
             <div className={styles.container}>
                 <header className ={styles.header}>
@@ -137,7 +139,7 @@ const Races = ({ races }) => {
             </div>
             )
     }
-    else if(!isLoading && !user){
+    else if(!isLoading){
         location.href = "/";
     }
 }

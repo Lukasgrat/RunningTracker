@@ -8,7 +8,7 @@ const Navbar = (profileLink) => {
     var profileRoute = "";
     var teamRoute = "";
   if(user){
-    profileRoute = "/profile/"+user.email.toString();
+    profileRoute = "profile/"+profileLink;
     teamRoute = "/teams";
     
     return(

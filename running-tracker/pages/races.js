@@ -4,17 +4,21 @@ import Script from 'next/script';
 import Link from 'next/link';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Navbar from '../componenets/navbar';
+import Cookies from 'js-cookie';
+const db = require('../db/db_connection.js')
 
 const Races = ({ races }) => {
-    const{user, error, isLoading} = useUser();
-    const navigationBar = Navbar();
+    const{user, error, isLoading} = useUser();  
+    var userID = "";
+    userID = Cookies.get('id');
+    const navigationBar = Navbar(userID);
     var x = Object.keys(races).length;
     const raceList = [];
     for(var key  = 0; key < x;key++){
         raceList[key] = races[key];
     }
     const displayedRaces = displayRaces(raceList);
-    if (!isLoading && user) {
+    if (!isLoading && user && (Cookies.get("roleID") == 1|| Cookies.get("roleID")==2)) {
     return (
             <div className={styles.racesImage}>
                 <header className ={styles.header}>
@@ -133,16 +137,10 @@ const Races = ({ races }) => {
 }
 
 export async function getServerSideProps(context) {
-    const races = await fetch(`https://running-tracker-swart.vercel.app/api/races`);
-    const data = await races.json();
-    if (!data) {
-        return {
-            notFound: true
-        };
-    }
-
+    const [rows, fields] = await db.execute('SELECT * FROM Race');
+    let results = JSON.parse(JSON.stringify(rows));
     return {
-        props: { races: data }
+        props: { races: results }
     };
 }
 const RaceDisplay = ({race}) => {

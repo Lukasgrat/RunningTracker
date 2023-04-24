@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Navbar from '../../componenets/navbar';
 import { useReducer, useState } from "react";
+import Cookies from 'js-cookie';
 const initialState = {
     teamNames: [],
     teamCodes: [],
@@ -27,9 +28,10 @@ export default function Home() {
                             return state;
         }
     }
-
     const { user, error, isLoading } = useUser();
-    const navigationBar = Navbar();
+    var userID = "";
+    userID = Cookies.get('id');
+    const navigationBar = Navbar(userID);
     const [state, dispatch] = useReducer(reducer, initialState);
     const [data, setData] = useState([]);
     const TeamDisplay = ({vals}) => {
