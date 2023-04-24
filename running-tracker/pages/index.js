@@ -26,7 +26,7 @@ const initialState = {
 export default function Home() {
   const { user, error, isLoading } = useUser();
   const [state, dispatch] = useReducer(reducer, initialState);
-  
+  var userID = "";
   const putUserDataInDatabase = async () => {
     if (runQueries) {
       runQueries = false;
@@ -47,11 +47,14 @@ export default function Home() {
       payload: { id: person[0].id }
     });
     Cookies.set('id',person[0].id);
+    console.log(person[0].id);
     return person[0];
     }
   };
-  var userID = "";
-  userID = Cookies.get('id');
+  if (user) {	  
+    putUserDataInDatabase();	 
+    userID = Cookies.get('id'); 
+  }
   const navigationBar = Navbar(userID);
   return (
     <div className={styles.container}>

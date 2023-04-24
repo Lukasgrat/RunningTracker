@@ -163,126 +163,6 @@ export default function Profile(startingState) {
     }
     return runData[0];
   };
-  const getRunDataFromDatabase = async (sendJson) => {
-    const response = await fetch(`http://localhost:3000/api/stat-tracking`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(sendJson),
-    });
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-    const runData = await response.json();
-    var length = Object.keys(runData).length;
-    if (length > 0) {
-      var distanceList = [];
-      var countList = [];
-      for (var x = 0; x < length; x++) {
-        var hasFoundDistance = false;
-        for (var z = 0; z < distanceList.length; z++) {
-          if (distanceList[z] == runData[x].runLength) {
-            countList[z]++;
-            hasFoundDistance = true;
-          }
-        }
-        if (!hasFoundDistance) {
-          distanceList.push(runData[x].runLength);
-          countList.push(0);
-        }
-      }
-      var largestIndex = 0;
-      for (var x = 0; x < countList.length; x++) {
-        if (countList[x] > countList[largestIndex]) {
-          largestIndex = x;
-        }
-      }
-      console.log(countList);
-      console.log(distanceList);
-      dispatch({
-        type: "UPDATE_MOSTDONERACE",
-        payload: { mostDoneRace: distanceList[largestIndex] },
-      });
-      var fastestDistance = 100000000;
-      var sumTime = 0;
-      var count = 0;
-      var previousRaceTime = 0;
-      var differenceList = [];
-      for (var x = 0; x < length; x++) {
-        if (distanceList[largestIndex] == runData[x].runLength) {
-          var stringTime = runData[x].runTime.split(":");
-          console.log(stringTime);
-          count++;
-          var intTime =
-            parseInt(stringTime[0]) * 3600 +
-            parseInt(stringTime[1]) * 60 +
-            parseInt(stringTime[1]);
-          if (count == 1) {
-            previousRaceTime = intTime;
-          } else {
-            differenceList.push(intTime - previousRaceTime);
-            console.log(intTime - previousRaceTime);
-            previousRaceTime = intTime;
-          }
-          sumTime += intTime;
-          if (intTime < fastestDistance) {
-            fastestDistance = intTime;
-          }
-        }
-      }
-      dispatch({
-        type: "UPDATE_BESTRACETIME",
-        payload: { bestRaceTime: Math.trunc(fastestDistance / 60) },
-      });
-      dispatch({
-        type: "UPDATE_AVERAGERACETIME",
-        payload: { averageRaceTime: Math.trunc(sumTime / 60 / count) },
-      });
-      if (differenceList.length > 0) {
-        var sumOfDistances = 0;
-        for (var y = 0; y < differenceList.length; y++) {
-          console.log(differenceList[y]);
-          sumOfDistances += differenceList[y];
-        }
-        var slope = sumOfDistances / 60 / differenceList.length;
-        console.log(slope);
-        if (slope < 0) {
-          dispatch({
-            type: "UPDATE_TRENDOFRACES",
-            payload: {
-              trendOfRaces:
-                "You have improved your time on average by " +
-                -1 * slope.toFixed(2) +
-                " minutes per run.",
-            },
-          });
-        } else if (slope > 0) {
-          dispatch({
-            type: "UPDATE_TRENDOFRACES",
-            payload: {
-              trendOfRaces:
-                "You have worsened your time on average by " +
-                slope.toFixed(2) +
-                " minutes per run.",
-            },
-          });
-        } else {
-          dispatch({
-            type: "UPDATE_TRENDOFRACES",
-            payload: {
-              trendOfRaces:
-                "There hasn't been a major change in your race times",
-            },
-          });
-        }
-      }
-    }
-    return runData[0];
-  };
-
-  let person;
-
   if (!isLoading && user) {
     return (
       <div className={styles.container}>
@@ -546,6 +426,14 @@ export async function getServerSideProps(context) {
         bestRaceTime: best,
         trendOfRaces: trend,
       }
-  }
+  };
 }
+return {
+  props: {
+      mostDoneRace: 0,
+      averageRaceTime: 0,
+      bestRaceTime: 0,
+      trendOfRaces: "",
+    }
+};
 }
