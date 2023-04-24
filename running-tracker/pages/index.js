@@ -1,11 +1,12 @@
 import styles from "../styles/Home.module.css";
 import Script from "next/script";
-import { Component, React } from "react";
+import { Component, React,useEffect } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { render } from "react-dom";
 import Navbar from "../componenets/navbar.js";
 import { useReducer } from "react";
+import Cookies from 'js-cookie';
 var runQueries = true;
 
 function reducer(state, action) {
@@ -17,15 +18,9 @@ function reducer(state, action) {
     }
   }
 }
-
-const initialState = {
-  url: "/profile/"
-};
-
 export default function Home() {
   const { user, error, isLoading } = useUser();
-  const [state, dispatch] = useReducer(reducer, initialState);
-  
+  var userID = "";
   const putUserDataInDatabase = async () => {
     if (runQueries) {
       runQueries = false;
@@ -36,24 +31,20 @@ export default function Home() {
       },
       body: JSON.stringify(user),
     });
-
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
     }
     const person = await response.json();
-    dispatch({
-      type: "UPDATE_URL",
-      payload: { id: person[0].id }
-    });
+    Cookies.set('id',person[0].id);
+    Cookies.set('roleID',person[0].roleID);
     return person[0];
     }
   };
-  
-  if (user) {
-    putUserDataInDatabase();
+  if (user) {	  
+    putUserDataInDatabase();	 
+    userID = Cookies.get('id'); 
   }
-  
-  const navigationBar = Navbar(state.url);
+  const navigationBar = Navbar(userID);
   return (
     <div className={styles.container}>
       <header className={styles.header}>
