@@ -69,6 +69,25 @@
   min-height: 15vh;
   align-content:stretch;
 }
+
+.jumbotronRace{
+  min-width: 100%;
+  padding-left: 25vw;
+  padding-right: 25vw;
+  padding-top: 4%;
+  text-align: center;
+  background-color: #2d2622!important;
+  color: #000000 !important;
+  font-size: 60px;
+  vertical-align: middle;
+  margin: 1rem;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-height: 20vh;
+  min-height: 15vh;
+  align-content:stretch;
+}
 .footer {
   display: flex;
   flex: 1;
@@ -253,7 +272,7 @@
 }
 .racesTable{
   color:#9c7b0e !important;
-  background-color: #776960!important;
+  background-color: #2d2622!important;
 }
 .racesTable td{
   min-width: 10%;
