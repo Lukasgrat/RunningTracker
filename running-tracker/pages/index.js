@@ -24,7 +24,8 @@ export default function Home() {
   const putUserDataInDatabase = async () => {
     if (runQueries) {
       runQueries = false;
-      const apiString = location.origin+"/api/login"
+      const apiString = location.origin+"/api/login";
+      console.log(apiString);
       const response = await fetch(apiString, {
       method: "POST",
       headers: {
@@ -45,6 +46,7 @@ export default function Home() {
     putUserDataInDatabase();	 
     userID = Cookies.get('id'); 
   }
+  console.log(userID);
   const navigationBar = Navbar(userID);
   return (
     <div className={styles.indexImage}>

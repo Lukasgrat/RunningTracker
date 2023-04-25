@@ -159,7 +159,9 @@ export default function Profile(startingState) {
     var path = window.location.pathname;
     var page = path.split("/").pop();
     if(userID != page){
-      location.href = "/"
+      Cookies.set("id",userID);
+      location.href = "/profile/"+userID;
+
     }
     return (
       <div className={styles.profileImage}>
@@ -332,6 +334,7 @@ export default function Profile(startingState) {
 
 export async function getServerSideProps(context) {
   const id = context.params.id;
+  console.log(id);
   const [rows, fields, errors] = await db.execute(
     "SELECT * FROM `Run` WHERE `Run`.userID = ?",
     [id]
@@ -403,7 +406,7 @@ export async function getServerSideProps(context) {
         sumOfDistances += differenceList[y];
       }
       var slope = sumOfDistances / 60 / differenceList.length;
-      var trend = ""
+      var trend = "";
       if (slope < 0) {
         trend =  "You have improved your time on average by " + -1 * slope.toFixed(2) + " minutes per run.";
       } else if (slope > 0) {
