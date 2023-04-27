@@ -95,7 +95,7 @@ const ProfileList = ({profileData}) => {
         return (
             <div className={styles.container}>
                 <header className={styles.header}>
-                    <title>All in Run | Profile</title>
+                    <title>All in Run | Teams</title>
                     <link rel="icon" href="/favicon.ico"/>
                     <link
                         rel="stylesheet"

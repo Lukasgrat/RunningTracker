@@ -59,8 +59,10 @@ const Races = ({ races }) => {
                             </tbody>
                         </table>
                     </div>
+                    <div className= {styles.createRaceCard}>
                         <Link className={styles.card} id = "linkToForm" href = "/raceForm">Create Race
                             </Link>
+                    </div>
                 </main>
 
                 <footer className={styles.footer}>
