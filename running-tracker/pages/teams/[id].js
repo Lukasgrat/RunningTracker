@@ -1,15 +1,97 @@
 import styles from '../../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
-import Image from 'next/image';
-import PFP from '../../images/defaultPFP.png';
 import {InferGetServerSidePropsType} from 'next';
 import Navbar from '../../componenets/navbar.js';
-
+const db = require('../../db/db_connection.js')
+import {useReducer, useState} from "react";
+import Cookies from 'js-cookie';
 const ProfileList = ({profileData}) => {
+    function reducer(state, action) {
+        switch (action.type) {
+            case "UPDATE_TEAM_NAMES":
+                return {
+                    ...state,
+                    teamNames: action.payload.names
+                };
+            case "UPDATE_TEAM_MOSTRAN":
+                return {
+                    ...state,
+                    mostDoneRaces: action.payload.mostDoneRaces
+                };
+            case "UPDATE_TEAM_AVERAGE":
+                return {
+                    ...state,
+                    averageRaces: action.payload.averageRaces
+                };
+            case "UPDATE_TEAM_BESTRACE":
+                return {
+                    ...state,
+                    bestRaces: action.payload.bestRaces
+                };
+            case "UPDATE_TEAM_TREND":
+                return {
+                    ...state,
+                    trends: action.payload.trends
+                };
+            case "CLEAR":
+                return initialState;
+                default:
+                    return state;
+        }
+    }
+    var names = [];
+    for(var x = 0; x < profileData.length;x++){
+        names.push(profileData[x].name);
+    }
+    var mostDoneRaces = [];
+    for(var x = 0; x < profileData.length;x++){
+        mostDoneRaces.push(profileData[x].mostDoneRace);
+    }
+    var averageRaces = [];
+    for(var x = 0; x < profileData.length;x++){
+        averageRaces.push(profileData[x].averageRaceTime);
+    }
+    var bestRaces = [];
+    for(var x = 0; x < profileData.length;x++){
+        bestRaces.push(profileData[x].bestRaceTime);
+    }
+    var trends = [];
+    for(var x = 0; x < profileData.length;x++){
+        trends.push(profileData[x].trendOfRaces);
+    }
+    const initialState = {
+        names: names,
+        mostDoneRaces: mostDoneRaces,
+        averageRaces: averageRaces,
+        bestRaces: bestRaces,
+        trends: trends,
+    };
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [data, setData] = useState([]);
     const {user, error, isLoading} = useUser();
-    const navigationBar = Navbar();
+    var userID = "";
+    userID = Cookies.get('id');
+    const navigationBar = Navbar(userID);
     if (!isLoading && user) {
+        console.log(state);
+        const TeamStatsDisplay = ({vals}) => {
+            return (<a className={styles.profileCard}>
+                        <h4>Name: {vals[0]}</h4>
+                        <h4>Prefered Running Distance: {vals[1]}km</h4>
+                        <h4>Average Running Time for Prefered Distance:{vals[2]}  minutes</h4>
+                        <h4>Best Race Time for Prefered Distance:{vals[3]} minutes</h4>
+                        <h4>Trend of Preferred Races: {vals[4]}</h4>
+                    </a>);
+        }
+        var list = []
+        for(var x =0; x < profileData.length;x++){
+            list.push(x);
+        }
+        const displayTeamStats  = () =>{
+            return ((list || []).map(element => <TeamStatsDisplay key={element} vals={[state.names[element],state.mostDoneRaces[element],state.averageRaces[element],state.bestRaces[element],state.trends[element]]}/>));
+        }
+        const teamStatsHTML = displayTeamStats();
         return (
             <div className={styles.container}>
                 <header className={styles.header}>
@@ -28,18 +110,8 @@ const ProfileList = ({profileData}) => {
                     {navigationBar}
                 </header>
                 <main className={styles.main}>
-                    <h3 className={styles.outsideText}>Welcome {state.firstName}</h3>
                     <div className={styles.grid}>
-                        <a className={styles.card}>
-                            <Image className={styles.image} src={PFP} alt="profile picture" width={300} height={444}/>
-                        </a>
-                        <a className={styles.profileCard}>
-                            <h4>Name: {state.firstName} {state.lastName}</h4>
-                            <h4>Prefered Running Distance: {state.mostDoneRace}km</h4>
-                            <h4>Average Running Time for Prefered Distance: {state.averageRaceTime} minutes</h4>
-                            <h4>Best Race Time for Prefered Distance: {state.bestRaceTime} minutes</h4>
-                            <h4>Trend of Preferred Races: {state.trendOfRaces}</h4>
-                        </a>
+                     {teamStatsHTML}
                     </div>
 
                 </main>
@@ -77,27 +149,124 @@ const ProfileList = ({profileData}) => {
 
 export async function getServerSideProps(context) {
     let id = context.params.id;
-    console.log(id);
-    const apiString = location.origin + "/api/teamstats"
-    const profileList = await fetch(apiString, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            ID: id,
-            isGet: true
-        })
-    });
-    const data = await profileList.json();
-    if (!data) {
+    const [rows] = await db.execute(`select concat(Person.firstName, " ", Person.lastName) as name,
+                                                                                    id,
+                                                                                    runTime,
+                                                                                    runLength,
+                                                                                    runDate
+                                                                                from Person
+                                                                                    join Run
+                                                                                        on Run.userID = Person.id
+                                                                                where id in
+                                                                                (select userID
+                                                                                    from Membership
+                                                                                    join Team
+                                                                                    on Membership.teamID = Team.teamID
+                                                                                    where Team.teamCode = ?)
+                                                                                order by id`, [id]);
+    let results = JSON.parse(JSON.stringify(rows));
+    if (!results) {
         return {
             notFound: true
         };
     }
-
+    const runStats = (runData) => {
+        var distanceList = [];
+        var countList = [];
+        for (var x = 0; x < runData.length; x++) {
+            var hasFoundDistance = false;
+            for (var z = 0; z < distanceList.length; z++) {
+            if (distanceList[z] == runData[x].runLength) {
+                countList[z]++;
+                hasFoundDistance = true;
+            }
+            }
+            if (!hasFoundDistance) {
+            distanceList.push(runData[x].runLength);
+            countList.push(0);
+            }
+        }
+        var largestIndex = 0;
+        for (var x = 0; x < countList.length; x++) {
+            if (countList[x] > countList[largestIndex]) {
+            largestIndex = x;
+            }
+        }
+        const most = distanceList[largestIndex];
+        var fastestDistance = 100000000;
+        var sumTime = 0;
+        var count = 0;
+        var previousRaceTime = 0;
+        var differenceList = [];
+        for (var x = 0; x < runData.length; x++) {
+            if (distanceList[largestIndex] == runData[x].runLength) {
+            var stringTime = runData[x].runTime.split(":");
+            count++;
+            var intTime =
+                parseInt(stringTime[0]) * 3600 +
+                parseInt(stringTime[1]) * 60 +
+                parseInt(stringTime[1]);
+            if (count == 1) {
+                previousRaceTime = intTime;
+            } else {
+                differenceList.push(intTime - previousRaceTime);
+                previousRaceTime = intTime;
+            }
+            sumTime += intTime;
+            if (intTime < fastestDistance) {
+                fastestDistance = intTime;
+            }
+            }
+        }
+        const best = Math.trunc(fastestDistance / 60);
+        const avg =  Math.trunc(sumTime / 60 / count);
+        if (differenceList.length > 0) {
+            var sumOfDistances = 0;
+            for (var y = 0; y < differenceList.length; y++) {
+            sumOfDistances += differenceList[y];
+            }
+            var slope = sumOfDistances / 60 / differenceList.length;
+            var trend = "";
+            if (slope < 0) {
+            trend =  "You have improved your time on average by " + -1 * slope.toFixed(2) + " minutes per run.";
+            } else if (slope > 0) {
+            trend = "You have worsened your time on average by " + slope.toFixed(2) + " minutes per run.";
+            } else {
+            trend = "There hasn't been a major change in your race times";
+        }
+        }
+        var returnSet = 
+            {
+            name: runData[0].name,
+            mostDoneRace: most,
+            averageRaceTime: avg,
+            bestRaceTime: best,
+            trendOfRaces: trend,
+            };
+        return returnSet;
+    }
+    var setID = results[0].id;
+    var beginIndex = 0;
+    var returnProps = [];
+    var tempList = [];
+    for(var x = 1; x < results.length;x++){
+        if(setID != results[x].id){
+            for(var y = beginIndex; y < x;y++){
+                tempList.push(results[y]);
+            }
+            returnProps.push(runStats(tempList));
+            beginIndex = x;
+            setID = results[x].id;
+            tempList = [];
+        }
+    }
+    for(var y = beginIndex; y < results.length;y++){
+        tempList.push(results[y]);
+    }
+    returnProps.push(runStats(tempList));
+    let profileList = returnProps;
     return {
-        props: {profileData: data}
+        props: {profileData: profileList}
     };
 }
 

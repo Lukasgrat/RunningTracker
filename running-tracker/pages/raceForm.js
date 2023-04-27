@@ -23,7 +23,6 @@ const Races = ({ races }) => {
         }
 
         const races = await response.json();
-        console.log(races);
         return;
     }
     if(user && !isLoading&& (Cookies.get("roleID") == 1|| Cookies.get("roleID")==2)){

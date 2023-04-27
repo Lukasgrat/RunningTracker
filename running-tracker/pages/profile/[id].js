@@ -334,7 +334,6 @@ export default function Profile(startingState) {
 
 export async function getServerSideProps(context) {
   const id = context.params.id;
-  console.log(id);
   const [rows, fields, errors] = await db.execute(
     "SELECT * FROM `Run` WHERE `Run`.userID = ?",
     [id]

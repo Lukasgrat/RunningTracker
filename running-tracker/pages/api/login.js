@@ -21,7 +21,6 @@ export default async function handler(req, res) {
                 if (errors) {
                     return res.status(500);
                 } else {
-                    console.log(rows);
                     return res.status(200).json(rows);
                 }
             }

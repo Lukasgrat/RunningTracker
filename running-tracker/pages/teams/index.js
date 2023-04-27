@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Navbar from '../../componenets/navbar';
 import { useReducer, useState } from "react";
+import Link  from 'next/link';
 import Cookies from 'js-cookie';
 const initialState = {
     teamNames: [],
@@ -37,7 +38,7 @@ export default function Home() {
     const TeamDisplay = ({vals}) => {
         const sendTo = "/teams/"+vals[1];
         return (<tr>
-            <td href = {sendTo} >{vals[0]}</td>
+            <td ><Link href = {sendTo} >{vals[0]}</Link></td>
             <td>{vals[1]}</td>
         </tr>);
     }
@@ -68,7 +69,6 @@ export default function Home() {
             throw new Error(`Error: ${response.status}`);
         }
         const returnData = await response.json();
-        console.log(returnData);
         var teams = [];
         var codes = [];
         for(var x = 0; x < returnData.length;x++){
@@ -87,7 +87,8 @@ export default function Home() {
     }
 
     const setTeams = async (sendJson) => {
-        const response = await fetch(`https://running-tracker-swart.vercel.app//api/teams`, {
+        const apiString = location.origin + "/api/teams"
+        const response = await fetch(apiString, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -102,7 +103,8 @@ export default function Home() {
         return teams;
     }
     const updateTeams = async (sendJson) => {
-        const response = await fetch(`https://running-tracker-swart.vercel.app//api/teams`, {
+        const apiString = location.origin + "/api/teams"
+        const response = await fetch(apiString, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -140,7 +142,6 @@ export default function Home() {
                             strategy="lazyOnload"
                             onLoad={() =>
                         {
-                            console.log("60");
                             const teams = getTeams();
                         }
                     }
