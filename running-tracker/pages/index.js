@@ -8,16 +8,6 @@ import Navbar from "../componenets/navbar.js";
 import { useReducer } from "react";
 import Cookies from 'js-cookie';
 var runQueries = true;
-
-function reducer(state, action) {
-  switch(action.type) {
-    case "UPDATE_URL": 
-    return {
-      ...state,
-      url: "/profile/" + action.payload.id
-    }
-  }
-}
 export default function Home() {
   const { user, error, isLoading } = useUser();
   var userID = "";

@@ -1,17 +1,16 @@
-import styles from '../../styles/Home.module.css'
+import styles from '../../../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
-import Navbar from '../../componenets/navbar';
+import Navbar from '../../../componenets/navbar';
 import Cookies from 'js-cookie';
-import Link from 'next/link';
-const db = require('../../db/db_connection.js')
-const Races = ({ races }) => {
+const db = require('../../../db/db_connection.js')
+const Races = ({ races,raceID }) => {
     const{user, error, isLoading} = useUser();  
     var userID = "";
     userID = Cookies.get('id');
     const navigationBar = Navbar(userID);
-    const putRaceInDatabase = async (sendJson) => {
-        const apiString = location.origin+"/api/races"
+    const updateRaceInDatabase = async (sendJson) => {
+        const apiString = location.origin+"/api/raceForm"
         const response = await fetch(apiString, {
             method: "POST",
             headers: {
@@ -58,7 +57,7 @@ const Races = ({ races }) => {
                     <div class="container">
                         <div className = {styles.card}>
                         <h1 >Welcome Organizer</h1>
-                        <h3>Please enter your race info below</h3>
+                        <h3>Please update your race info below</h3>
                         </div>
                     <div>
                         <table className= {styles.racesTable}>
@@ -69,8 +68,6 @@ const Races = ({ races }) => {
                                     <th>Location</th>
                                     <th>Length</th>
                                     <th>Contact Info</th>
-                                    <th></th>
-                                    <th></th>
 
                                 </tr>
                             </thead>
@@ -109,7 +106,7 @@ const Races = ({ races }) => {
                             </tbody>
                         </table>
                     </div>
-                    <input id = "formSubmission" type = "button" value = "Submit" href = "/races" ></input>
+                    <button id = "formSubmission" value = "Submit" href = "/races" >Update Race</button>
                 </main>
                 <Script
                     src="https://connect.facebook.net/en_US/sdk.js"
@@ -137,11 +134,11 @@ const Races = ({ races }) => {
                                             'location': place,
                                             'distance': distance,
                                             'contact':contact,
-                                            'ID':userID,
+                                            'ID':raceID,
                                             'isDelete':false
                                         }
-                                    putRaceInDatabase(sendJson);
-                                    alert("You inserted the following race with a distance of "+distance+" named "+raceName);
+                                    updateRaceInDatabase(sendJson);
+                                    alert("You updated the race with a distance of "+distance+" named "+raceName);
                                     const formLink = "/raceForm/"+userID;
                                     location.href = formLink;
                                 }
@@ -176,45 +173,14 @@ const Races = ({ races }) => {
         location.href = "/";
     }
 }
-function leaveButton(input,userID){
-        var sendJson =
-        {
-            'isDelete': true,
-            'ID' : input,
-        }
-        deleteRace(sendJson);
-        alert("You have successfully deleted the race");
-        var formLink = "/raceForm/"+userID;
-        location.href = formLink;
-}
-
-async function deleteRace(sendJson){
-    const apiString = location.origin + "/api/races";
-    const response = await fetch(apiString, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(sendJson)
-    });
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-    }
-}
 const RaceDisplay = ({race}) => {
     let display = new Date(race.raceDate);
-    const id = race.raceID;
-    const ogID = race.organizerID
-    var editLink = "/raceForm/alterRace/"+id;
     return (<tr>
     <td>{race.raceName}</td>
     <td>{display.getMonth()+1}/{display.getDate()}/{display.getFullYear()}</td>
     <td>{race.raceLocation}</td>
     <td>{race.raceLength}km</td>
     <td>{race.Signup}</td>
-    <td><Link href = {editLink}>Edit</Link></td>
-    <td><button id = {id} onClick={()=>{leaveButton(document.getElementById(id).id,ogID)}}>Delete</button></td>
     </tr>);
 }
 const displayRaces = ( raceArray ) => { 
@@ -224,10 +190,12 @@ const displayRaces = ( raceArray ) => {
 }
 export async function getServerSideProps(context) {
     const id = context.params.id;
-    const [rows, fields] = await db.execute('SELECT * FROM Race WHERE organizerID = ?',[id]);
+    const [rows, fields] = await db.execute('SELECT * FROM Race WHERE raceID = ?',[id]);
     let results = JSON.parse(JSON.stringify(rows));
     return {
-        props: { races: results }
+        props: { races: results,
+                 raceID: id,
+        }
     };
 }
 export default Races;
