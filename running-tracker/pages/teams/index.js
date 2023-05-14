@@ -149,7 +149,7 @@ export default function Home() {
                     </header>
                     <main className={styles.main}>
                         <div class="container">
-                            <h1 className={styles.jumbotron}>All in Run</h1>
+                            <h1 className={styles.jumbotron}>Teams</h1>
                         </div><a
                         className={styles.card}
                         >
@@ -217,6 +217,7 @@ export default function Home() {
                                 }
                                 setTeams(sendJson);
                                 getTeams();
+                                location.reload();
                             })
                             const updateButton = document.getElementById("updateTeam");
                             var joinCode = "";
@@ -235,6 +236,7 @@ export default function Home() {
                                 }
                                 updateTeams(sendJson);
                                 getTeams();
+                                location.reload();
                             }
                             })
                         }

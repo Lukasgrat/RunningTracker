@@ -1,6 +1,6 @@
 .container {
   padding: 0 2rem;
-  background-color: #e7e7e7;
+  text-align: center !important;
 }
 
 .heading{
@@ -269,6 +269,22 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   background-color: #ff4744;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 350px;
+  max-height: 500px;
+  align-content:stretch;
+}
+
+.teamCard{
+  vertical-align: top;
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: #000000 !important;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  background-color: #a90805;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 350px;
   max-height: 500px;

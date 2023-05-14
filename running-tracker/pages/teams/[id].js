@@ -1,12 +1,42 @@
 import styles from '../../styles/Home.module.css'
 import Script from 'next/script';
 import {useUser} from '@auth0/nextjs-auth0/client';
-import {InferGetServerSidePropsType} from 'next';
 import Navbar from '../../componenets/navbar.js';
 const db = require('../../db/db_connection.js')
 import {useReducer, useState} from "react";
 import Cookies from 'js-cookie';
-const ProfileList = ({profileData}) => {
+const ProfileList = ({profileData,teamInfo,teamCode}) => {
+    function leaveButton(input){
+        console.log("there");
+        if(input == teamCode){
+            alert(Cookies.get("id"));
+            var sendJson =
+            {
+                'isGet' :false,
+                'isLeave': true,
+                'ID' : Cookies.get("id"),
+                'teamID': teamInfo.teamID,
+            }
+            leaveTeams(sendJson);
+            location.href = "/"
+        }
+    }
+
+    async function leaveTeams(sendJson){
+        const apiString = location.origin + "/api/teamstats";
+        console.log(apiString);
+        const response = await fetch(apiString, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendJson)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+    }
     function reducer(state, action) {
         switch (action.type) {
             case "UPDATE_TEAM_NAMES":
@@ -74,7 +104,6 @@ const ProfileList = ({profileData}) => {
     userID = Cookies.get('id');
     const navigationBar = Navbar(userID);
     if (!isLoading && user) {
-        console.log(state);
         const TeamStatsDisplay = ({vals}) => {
             return (<a className={styles.profileCard}>
                         <h4>Name: {vals[0]}</h4>
@@ -93,7 +122,8 @@ const ProfileList = ({profileData}) => {
         }
         const teamStatsHTML = displayTeamStats();
         return (
-            <div className={styles.container}>
+            
+            <div className={styles.profileImage}>
                 <header className={styles.header}>
                     <title>All in Run | Teams</title>
                     <link rel="icon" href="/favicon.ico"/>
@@ -109,17 +139,26 @@ const ProfileList = ({profileData}) => {
                     </Script>
                     {navigationBar}
                 </header>
-                <main className={styles.main}>
-                    <div className={styles.grid}>
+                <main className={styles.mainImage}> 
+                    <div className={styles.container}>
+                        <h1 className={styles.teamCard}>{teamInfo.teamName}</h1>
+                    </div>
+                    <a className={styles.profileCard}>
+                        <h4>{teamInfo.teamDesc}</h4>
+                    </a>
+                    <div className={styles.grid}>  
                      {teamStatsHTML}
                     </div>
-
+                    <div className={styles.profileCard}>If you are sure you want to leave the team. Enter its join code below.</div>
+                    <div><input id = "joinCode" type = "text"></input></div>
+                    <button type="button" id =  "leaveTeam" onClick={()=>{leaveButton(document.getElementById("joinCode").value)}}>Leave the Team</button>
+                  
                 </main>
             </div>
         )
     } else {
         return (
-            <div className={styles.container}>
+            <div className={styles.profileImage}>
                 <header className={styles.header}>
                     <title>All in Run | Login</title>
                     <link rel="icon" href="/favicon.ico"/>
@@ -133,14 +172,11 @@ const ProfileList = ({profileData}) => {
                     <Script id="4" src=
                         "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
                     </Script>
-                    {navigationBar}
                 </header>
-                <main className={styles.main}>
-                    <div class="container">
+                <main className={styles.mainImage}>
                         <div class="jumbotron text-center background-color: #b08802 !important">
-                            <h1 className={styles.heading}></h1>
+                            {navigationBar}
                         </div>
-                    </div>
                 </main>
             </div>
         )
@@ -242,6 +278,7 @@ export async function getServerSideProps(context) {
             averageRaceTime: avg,
             bestRaceTime: best,
             trendOfRaces: trend,
+            teamID:context.params.id,
             };
         return returnSet;
     }
@@ -265,8 +302,13 @@ export async function getServerSideProps(context) {
     }
     returnProps.push(runStats(tempList));
     let profileList = returnProps;
+    const [teamInfo] = await db.execute(`select * from Team where teamCode = ?`, [id]);
+    let teamResults = JSON.parse(JSON.stringify(teamInfo));
     return {
-        props: {profileData: profileList}
+        props: {profileData: profileList,
+                teamInfo:teamResults[0],
+                teamCode:id,
+        }
     };
 }
 

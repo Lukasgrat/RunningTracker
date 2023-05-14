@@ -2,6 +2,7 @@ const db = require('../../db/db_connection.js')
 
 export default function handler(req, res) {
     let {method} = req;
+    console.log("here");
     if (method === "POST") {
         let {body} = req;
         if (body.isGet) {
@@ -22,6 +23,10 @@ export default function handler(req, res) {
             } else {
                 res.status(200).json(rows);
             }
+        }
+        else if(body.isLeave){
+            db.execute('delete from Membership where userID = ? and teamID = ?',[body.ID,body.teamID])
+            res.status(200);
         }
     }
 }

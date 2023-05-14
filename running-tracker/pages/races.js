@@ -19,6 +19,7 @@ const Races = ({ races }) => {
     }
     const displayedRaces = displayRaces(raceList);
     if (!isLoading && user && (Cookies.get("roleID") == 1|| Cookies.get("roleID")==2)) {
+        var formLink = "/raceForm/"+userID;
     return (
             <div className={styles.racesImage}>
                 <header className ={styles.header}>
@@ -60,8 +61,7 @@ const Races = ({ races }) => {
                         </table>
                     </div>
                     <div className= {styles.createRaceCard}>
-                        <Link className={styles.card} id = "linkToForm" href = "/raceForm">Create Race
-                            </Link>
+                        <Link className={styles.card} id = "linkToForm" href = {formLink}>Manage Races</Link>
                     </div>
                 </main>
 
