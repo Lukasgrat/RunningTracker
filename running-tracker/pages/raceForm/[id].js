@@ -214,7 +214,7 @@ const RaceDisplay = ({race}) => {
     <td>{race.raceLength}km</td>
     <td>{race.Signup}</td>
     <td><Link href = {editLink}>Edit</Link></td>
-    <td><button id = {id} onClick={()=>{leaveButton(document.getElementById(id).id,ogID)}}>Delete</button></td>
+    <td><button id = {id} className= {styles.gridButton}onClick={()=>{leaveButton(document.getElementById(id).id,ogID)}}>Delete</button></td>
     </tr>);
 }
 const displayRaces = ( raceArray ) => { 

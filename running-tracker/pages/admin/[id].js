@@ -131,9 +131,9 @@ const UserDisplay = ({user}) => {
     <td>{user.email}</td>
     <td>{user.firstName} {user.lastName}</td>
     <td>{user.roleID}</td>
-    <td><button id = {id} onClick={()=>{updateButton(0,id)}}>Make Runner</button></td>
-    <td><button id = {id} onClick={()=>{updateButton(1,id)}}>Make Organizer</button></td>
-    <td><button id = {id} onClick={()=>{updateButton(2,id)}}>Make Admin</button></td>
+    <td><button id = {id} className = {styles.gridButton} onClick={()=>{updateButton(0,id)}}>Make Runner</button></td>
+    <td><button id = {id} className = {styles.gridButton} onClick={()=>{updateButton(1,id)}}>Make Organizer</button></td>
+    <td><button id = {id} className = {styles.gridButton} onClick={()=>{updateButton(2,id)}}>Make Admin</button></td>
     </tr>);
 }
 const displayUsers = ( userArray ) => { 
