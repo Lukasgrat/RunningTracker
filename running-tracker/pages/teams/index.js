@@ -217,7 +217,7 @@ export default function Home() {
                                 }
                                 setTeams(sendJson);
                                 getTeams();
-                                location.reload();
+                                location.href = "/teams";
                             })
                             const updateButton = document.getElementById("updateTeam");
                             var joinCode = "";
@@ -236,7 +236,7 @@ export default function Home() {
                                 }
                                 updateTeams(sendJson);
                                 getTeams();
-                                location.reload();
+                                location.href = "/teams";
                             }
                             })
                         }

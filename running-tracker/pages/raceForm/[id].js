@@ -9,7 +9,7 @@ const Races = ({ races }) => {
     const{user, error, isLoading} = useUser();  
     var userID = "";
     userID = Cookies.get('id');
-    const navigationBar = Navbar(userID);
+    const navigationBar = Navbar(userID, "../");
     const putRaceInDatabase = async (sendJson) => {
         const apiString = location.origin+"/api/races"
         const response = await fetch(apiString, {

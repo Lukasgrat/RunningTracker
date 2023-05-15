@@ -100,7 +100,7 @@ const ProfileList = ({profileData,teamInfo,teamCode}) => {
     const {user, error, isLoading} = useUser();
     var userID = "";
     userID = Cookies.get('id');
-    const navigationBar = Navbar(userID);
+    const navigationBar = Navbar(userID,"../");
     if (!isLoading && user) {
         const TeamStatsDisplay = ({vals}) => {
             return (<a className={styles.profileCard}>

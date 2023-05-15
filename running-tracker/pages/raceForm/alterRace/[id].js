@@ -8,7 +8,7 @@ const Races = ({ races,raceID }) => {
     const{user, error, isLoading} = useUser();  
     var userID = "";
     userID = Cookies.get('id');
-    const navigationBar = Navbar(userID);
+    const navigationBar = Navbar(userID, "../../");
     const updateRaceInDatabase = async (sendJson) => {
         const apiString = location.origin+"/api/raceForm"
         const response = await fetch(apiString, {

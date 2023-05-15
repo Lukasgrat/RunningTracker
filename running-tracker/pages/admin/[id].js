@@ -9,7 +9,7 @@ const Admin = ({ users }) => {
     const{user, error, isLoading} = useUser();  
     var userID = "";
     userID = Cookies.get('id');
-    const navigationBar = Navbar(userID);
+    const navigationBar = Navbar(userID, "../");
     if(user && !isLoading&& Cookies.get("roleID")==2){
         var path = window.location.pathname;
         var page = path.split("/").pop();

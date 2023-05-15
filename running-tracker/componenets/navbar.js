@@ -2,13 +2,13 @@ import styles from '../styles/Home.module.css';
 import {Component, React} from 'react';
 import {useUser} from '@auth0/nextjs-auth0/client';
 import Username from '../componenets/userComponents';
-const Navbar = (profileLink) => {
+const Navbar = (profileLink,preset = "") => {
     const{user, error, isLoading} = useUser();
     const login = Username(user,error,isLoading);
     var profileRoute = "";
     var teamRoute = "";
   if(user){
-    profileRoute = "profile/"+profileLink;
+    profileRoute = preset+"profile/"+profileLink;
     teamRoute = "/teams";
     
     return(
