@@ -1,13 +1,15 @@
-import styles from '../../styles/Home.module.css'
-import Script from 'next/script';
-import {useUser} from '@auth0/nextjs-auth0/client';
-import Image from 'next/image';
-import PFP from '../../images/defaultPFP.png';
-import CHART from '../../images/chart.png';
-import Navbar from '../../componenets/navbar.js';
-import {useReducer, useState} from "react";
-import Cookies from 'js-cookie';
-const db = require('../../db/db_connection.js')
+import styles from "../../styles/Home.module.css";
+import Script from "next/script";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import Image from "next/image";
+import PFP from "../../images/defaultPFP.png";
+import CHART from "../../images/chart.png";
+import Navbar from "../../componenets/navbar.js";
+import { useReducer, useState } from "react";
+import Cookies from "js-cookie";
+const db = require("../../db/db_connection.js");
+import { CldImage } from 'next-cloudinary';
+
 function reducer(state, action) {
   switch (action.type) {
     case "UPDATE_MOSTDONERACE":
@@ -39,12 +41,12 @@ function reducer(state, action) {
 export default function Profile(startingState) {
   const { user, error, isLoading } = useUser();
   const [state, dispatch] = useReducer(reducer, startingState);
-  const [data, setData] = useState([]); 
+  const [data, setData] = useState([]);
   var userID = "";
-  userID = Cookies.get('id');
+  userID = Cookies.get("id");
   const navigationBar = Navbar(userID);
   const putRunDataInDatabase = async (sendJson) => {
-    const apiString = location.origin+ '/api/stat-tracking'
+    const apiString = location.origin + "/api/stat-tracking";
     const response = await fetch(apiString, {
       method: "POST",
       headers: {
@@ -158,8 +160,8 @@ export default function Profile(startingState) {
   if (!isLoading && user) {
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    if(userID != page){
-      location.href = "/"
+    if (userID != page) {
+      location.href = "/";
     }
     return (
       <div className={styles.profileImage}>
@@ -183,15 +185,14 @@ export default function Profile(startingState) {
         <main className={styles.mainImage}>
           <h3 className={styles.outsideText}>Welcome {user.name}</h3>
           <div className={styles.grid}>
-            <a className={styles.card}>
-              <Image
-                className={styles.image}
-                src={PFP}
-                alt="profile picture"
-                width={300}
-                height={444}
+            <button className={styles.card}>
+              <CldImage
+                width="300"
+                height="300"
+                src="/samples/people/smiling-man"
+                alt=""
               />
-            </a>
+            </button>
             <a className={styles.profileCard}>
               <h4>Name: {user.name}</h4>
               <h4>Prefered Running Distance: {state.mostDoneRace}km</h4>
@@ -249,7 +250,6 @@ export default function Profile(startingState) {
             src="https://connect.facebook.net/en_US/sdk.js"
             strategy="lazyOnload"
             onLoad={() => {
-
               let distance = "";
               let time = "";
               let hours = "";
@@ -346,7 +346,7 @@ export async function getServerSideProps(context) {
   );
   //TODO math stuff for runData and give information to the page
   var runData = rows;
-  var length = Object.keys(runData).length
+  var length = Object.keys(runData).length;
   if (length > 0) {
     var distanceList = [];
     var countList = [];
@@ -396,37 +396,43 @@ export async function getServerSideProps(context) {
       }
     }
     const best = Math.trunc(fastestDistance / 60);
-    const avg =  Math.trunc(sumTime / 60 / count);
+    const avg = Math.trunc(sumTime / 60 / count);
     if (differenceList.length > 0) {
       var sumOfDistances = 0;
       for (var y = 0; y < differenceList.length; y++) {
         sumOfDistances += differenceList[y];
       }
       var slope = sumOfDistances / 60 / differenceList.length;
-      var trend = ""
+      var trend = "";
       if (slope < 0) {
-        trend =  "You have improved your time on average by " + -1 * slope.toFixed(2) + " minutes per run.";
+        trend =
+          "You have improved your time on average by " +
+          -1 * slope.toFixed(2) +
+          " minutes per run.";
       } else if (slope > 0) {
-        trend = "You have worsened your time on average by " + slope.toFixed(2) + " minutes per run.";
+        trend =
+          "You have worsened your time on average by " +
+          slope.toFixed(2) +
+          " minutes per run.";
       } else {
         trend = "There hasn't been a major change in your race times";
+      }
     }
-  }
-  return {
-    props: {
+    return {
+      props: {
         mostDoneRace: most,
         averageRaceTime: avg,
         bestRaceTime: best,
         trendOfRaces: trend,
-      }
-  };
-}
-return {
-  props: {
+      },
+    };
+  }
+  return {
+    props: {
       mostDoneRace: 0,
       averageRaceTime: 0,
       bestRaceTime: 0,
       trendOfRaces: "",
-    }
-};
+    },
+  };
 }
