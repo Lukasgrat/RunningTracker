@@ -7,9 +7,7 @@ import {useReducer, useState} from "react";
 import Cookies from 'js-cookie';
 const ProfileList = ({profileData,teamInfo,teamCode}) => {
     function leaveButton(input){
-        console.log("there");
         if(input == teamCode){
-            alert(Cookies.get("id"));
             var sendJson =
             {
                 'isGet' :false,
@@ -18,7 +16,7 @@ const ProfileList = ({profileData,teamInfo,teamCode}) => {
                 'teamID': teamInfo.teamID,
             }
             leaveTeams(sendJson);
-            location.href = "/"
+            location.href = "/teams"
         }
     }
 
