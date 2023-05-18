@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     if (e) {
       res.status(500).send(e);
     }
-    console.log(r);
+
     const [rows, fields, errors] = await db.execute("SELECT profilePicture FROM Person WHERE Person.id = ?", [body[0].id]);
     if (errors) {
       res.status(500).send(errors);
