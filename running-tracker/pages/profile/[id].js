@@ -8,7 +8,7 @@ import Navbar from "../../componenets/navbar.js";
 import { useReducer, useState } from "react";
 import Cookies from "js-cookie";
 const db = require("../../db/db_connection.js");
-import { CldImage } from 'next-cloudinary';
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -32,6 +32,11 @@ function reducer(state, action) {
         ...state,
         trendOfRaces: action.payload.trendOfRaces,
       };
+    case "UPDATE_PROFILEPICTURE":
+      return {
+        ...state,
+        profilePicture: action.payload.profilePicture,
+      };
     case "CLEAR":
       return startingState;
     default:
@@ -45,6 +50,25 @@ export default function Profile(startingState) {
   var userID = "";
   userID = Cookies.get("id");
   const navigationBar = Navbar(userID);
+  const putPfpInDatabase = async (pfp_id) => {
+    const apiString = location.origin + "/api/profile-picture"
+    const response = await fetch(apiString, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([{pic: pfp_id, id: userID}])
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    dispatch({
+      type: "UPDATE_PROFILEPICTURE",
+      payload: { profilePicture: data[0].profilePicture },
+    });
+  }
   const putRunDataInDatabase = async (sendJson) => {
     const apiString = location.origin + "/api/stat-tracking";
     const response = await fetch(apiString, {
@@ -160,10 +184,9 @@ export default function Profile(startingState) {
   if (!isLoading && user) {
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    if(userID != page){
-      Cookies.set("id",userID);
-      location.href = "/profile/"+userID;
-
+    if (userID != page) {
+      Cookies.set("id", userID);
+      location.href = "/profile/" + userID;
     }
     return (
       <div className={styles.profileImage}>
@@ -187,14 +210,28 @@ export default function Profile(startingState) {
         <main className={styles.mainImage}>
           <h3 className={styles.outsideText}>Welcome {user.name}</h3>
           <div className={styles.grid}>
-            <button className={styles.card}>
-              <CldImage
-                width="300"
-                height="300"
-                src="/samples/people/smiling-man"
-                alt=""
-              />
-            </button>
+            <CldUploadWidget uploadPreset="default" onUpload={(result, widget) => {
+              putPfpInDatabase(result?.info.public_id);
+              widget.close();
+            }}>
+              {({ open }) => {
+                function handleOnClick(e) {
+                  e.preventDefault();
+                  open();
+                }
+                
+                return (
+                  <button className={styles.card} onClick={handleOnClick}>
+                    <CldImage
+                      width="300"
+                      height="300"
+                      src={state.profilePicture} 
+                      alt="Profile Picture"
+                    />
+                  </button>
+                );
+              }}
+            </CldUploadWidget>
             <a className={styles.profileCard}>
               <h4>Name: {user.name}</h4>
               <h4>Prefered Running Distance: {state.mostDoneRace}km</h4>
@@ -346,6 +383,11 @@ export async function getServerSideProps(context) {
     "select raceName, raceDate from Racer join Race on Racer.raceID = Race.raceID where Racer.userID = ?",
     [id]
   );
+
+  const [pfp, fields4, errors4] = await db.execute(
+    'SELECT profilePicture FROM Person WHERE Person.id = ?', [id]
+  );
+  console.log(pfp);
   //TODO math stuff for runData and give information to the page
   var runData = rows;
   var length = Object.keys(runData).length;
@@ -426,6 +468,7 @@ export async function getServerSideProps(context) {
         averageRaceTime: avg,
         bestRaceTime: best,
         trendOfRaces: trend,
+        profilePicture: pfp[0].profilePicture
       },
     };
   }
@@ -435,6 +478,7 @@ export async function getServerSideProps(context) {
       averageRaceTime: 0,
       bestRaceTime: 0,
       trendOfRaces: "",
+      profilePicture: pfp[0].profilePicture
     },
   };
 }

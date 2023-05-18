@@ -12,8 +12,8 @@ export default async function handler(req, res) {
         } else {      
             let [first, last] = body.name.split(" ");
             let id = await makeid();
-            const [r2, f2, e2] = await db.execute('INSERT INTO Person (firstName, lastName, email, id) VALUES (?, ?, ?, ?)',
-                                                    [first, last, body.email, id]);
+            const [r2, f2, e2] = await db.execute('INSERT INTO Person (firstName, lastName, email, id, profilePicture) VALUES (?, ?, ?, ?, ?)',
+                                                    [first, last, body.email, id, "user-pfps/default"]);
             if (e2) {
                 return res.status(500);
             } else {
