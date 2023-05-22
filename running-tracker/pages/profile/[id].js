@@ -188,6 +188,12 @@ export default function Profile(startingState) {
       Cookies.set("id", userID);
       location.href = "/profile/" + userID;
     }
+    var x = Object.keys(startingState.runs).length;
+      const runList = [];
+    for(var key  = 0; key < x;key++){
+        runList[key] = startingState.runs[key];
+    }
+    const displayedRuns = displayRuns(runList);
     return (
       <div className={styles.profileImage}>
         <header className={styles.header}>
@@ -326,6 +332,7 @@ export default function Profile(startingState) {
                     },
                   ];
                   putRunDataInDatabase(sendData);
+                  location.href = "/profile/"+userID;
                 } else {
                   alert(
                     "Please enter in only whole number times and distances for your races."
@@ -334,6 +341,19 @@ export default function Profile(startingState) {
               });
             }}
           />
+          
+          <table className= {styles.racesTable}>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Date</th>
+                    <th>Length</th>
+                </tr>
+            </thead>
+            <tbody id = "races">
+                {displayedRuns}
+            </tbody>
+          </table>
         </main>
       </div>
     );
@@ -369,6 +389,50 @@ export default function Profile(startingState) {
   }
 }
 
+function deleteButton(input,userID){
+  var sendJson =
+  {
+      'isDelete': true,
+      'isUpdate':false,
+      'ID' : input,
+  }
+  deleteRun(sendJson);
+  alert("You have successfully deleted the run");
+  var formLink = "/profile/"+userID;
+  location.href = formLink;
+}
+
+async function deleteRun(sendJson){
+const apiString = location.origin + "/api/profileRun";
+const response = await fetch(apiString, {
+  method: "POST",
+  headers: {
+      "Content-Type": "application/json"
+  },
+  body: JSON.stringify(sendJson)
+});
+
+if (!response.ok) {
+  throw new Error(`Error: ${response.status}`);
+}
+}
+const RunsDisplay = ({run}) => {
+  let display = new Date(run.runDate);
+  const id = run.runID;
+  const userID  = run.userID;
+  return (<tr>
+  <td>{run.runTime}</td>
+  <td>{display.getMonth()+1}/{display.getDate()}/{display.getFullYear()}</td>
+  <td>{run.runLength}km</td>
+  
+  <td><button id = {id} className = {styles.gridButton} onClick={()=>{deleteButton(id,userID)}}>Delete Run</button></td>
+  </tr>);
+}
+const displayRuns = ( runArray ) => { 
+  return (
+    (runArray || []).map(run => <RunsDisplay key={run.runID} run={run} />)
+  );
+}
 export async function getServerSideProps(context) {
   const id = context.params.id;
   const [rows, fields, errors] = await db.execute(
@@ -387,8 +451,8 @@ export async function getServerSideProps(context) {
   const [pfp, fields4, errors4] = await db.execute(
     'SELECT profilePicture FROM Person WHERE Person.id = ?', [id]
   );
-  console.log(pfp);
   //TODO math stuff for runData and give information to the page
+  let results = JSON.parse(JSON.stringify(rows));
   var runData = rows;
   var length = Object.keys(runData).length;
   if (length > 0) {
@@ -441,13 +505,15 @@ export async function getServerSideProps(context) {
     }
     const best = Math.trunc(fastestDistance / 60);
     const avg = Math.trunc(sumTime / 60 / count);
+    console.log("here");
+    var trend = "No trend can be made";
     if (differenceList.length > 0) {
+      console.log(differenceList[0]);
       var sumOfDistances = 0;
       for (var y = 0; y < differenceList.length; y++) {
         sumOfDistances += differenceList[y];
       }
       var slope = sumOfDistances / 60 / differenceList.length;
-      var trend = "";
       if (slope < 0) {
         trend =
           "You have improved your time on average by " +
@@ -468,8 +534,10 @@ export async function getServerSideProps(context) {
         averageRaceTime: avg,
         bestRaceTime: best,
         trendOfRaces: trend,
-        profilePicture: pfp[0].profilePicture
+        profilePicture: pfp[0].profilePicture,
+        runs: results,
       },
+
     };
   }
   return {
@@ -477,8 +545,9 @@ export async function getServerSideProps(context) {
       mostDoneRace: 0,
       averageRaceTime: 0,
       bestRaceTime: 0,
-      trendOfRaces: "",
-      profilePicture: pfp[0].profilePicture
+      trendOfRaces: "No trend currently exists",
+      profilePicture: pfp[0].profilePicture,
+      runs:[]
     },
   };
 }
