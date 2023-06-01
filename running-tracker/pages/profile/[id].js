@@ -49,7 +49,7 @@ export default function Profile(startingState) {
   const [data, setData] = useState([]);
   var userID = "";
   userID = Cookies.get("id");
-  const navigationBar = Navbar(userID);
+  const navigationBar = Navbar(userID,"../");
   const putPfpInDatabase = async (pfp_id) => {
     const apiString = location.origin + "/api/profile-picture"
     const response = await fetch(apiString, {
@@ -317,12 +317,6 @@ export default function Profile(startingState) {
                   parseInt(seconds, 10) >= 0
                 ) {
                   time = hours + ":" + minutes + ":" + seconds;
-                  alert(
-                    "Inserted run with distance of " +
-                      distance +
-                      " kms and time of " +
-                      time
-                  );
                   let sendData = [
                     {
                       distance: distance,
@@ -332,6 +326,12 @@ export default function Profile(startingState) {
                     },
                   ];
                   putRunDataInDatabase(sendData);
+                  alert(
+                    "Inserted run with distance of " +
+                      distance +
+                      " kms and time of " +
+                      time
+                  );
                   location.href = "/profile/"+userID;
                 } else {
                   alert(

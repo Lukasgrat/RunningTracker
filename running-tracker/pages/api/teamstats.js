@@ -18,15 +18,16 @@ export default function handler(req, res) {
                                                              (select userID
                                                               from Membership
                                                               where teamID = ?)`, [body.ID]);
+            console.log("here");
             if (errors) {
-                res.status(500);
+                return res.status(500);
             } else {
-                res.status(200).json(rows);
+                return res.status(200);
             }
         }
         else if(body.isLeave){
             db.execute('delete from Membership where userID = ? and teamID = ?',[body.ID,body.teamID])
-            res.status(200);
+            return res.status(200);
         }
     }
 }

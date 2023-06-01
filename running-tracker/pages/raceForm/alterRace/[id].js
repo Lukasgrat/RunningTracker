@@ -106,55 +106,44 @@ const Races = ({ races,raceID }) => {
                             </tbody>
                         </table>
                     </div>
-                    <button id = "formSubmission" value = "Submit" href = "/races" >Update Race</button>
+                    <button id = "formSubmission" value = "Submit" href = "/races" onClick={()=>{
+                         var raceName = "";
+                         var time = "";
+                         var place = "";
+                         var distance = "";
+                         var contact = "";
+                             raceName  = document.getElementById("raceName").value;
+                             time = document.getElementById("time").value;
+                             place = document.getElementById("location").value;
+                             distance = document.getElementById("distance").value;
+                             contact = document.getElementById("contact").value;
+                             if(parseInt(distance,10).toString()===distance && parseInt(distance,10) >= 0){
+                                 if(raceName.length < 30){
+                                     var sendJson = 
+                                         {
+                                             'name': raceName,
+                                             'time': time,
+                                             'location': place,
+                                             'distance': distance,
+                                             'contact':contact,
+                                             'ID':raceID,
+                                             'isDelete':false
+                                         }
+                                     updateRaceInDatabase(sendJson);
+                                     alert("You updated the race with a distance of "+distance+" named "+raceName);
+                                     const formLink = "/raceForm/"+userID;
+                                     location.href = formLink;
+                                 }
+                                 else{
+                                     alert("Please use a shorter race name");
+                                 }
+                             }
+                             else{
+                                 alert("Please enter the distance of the run to the nearest integer and make it positive.");
+                             }
+                        
+                    }}>Update Race</button>
                 </main>
-                <Script
-                    src="https://connect.facebook.net/en_US/sdk.js"
-                    strategy="lazyOnload"
-                    onLoad={() =>
-                        {
-                        const button = document.getElementById("formSubmission");
-                        var raceName = "";
-                        var time = "";
-                        var place = "";
-                        var distance = "";
-                        var contact = "";
-                        button.addEventListener('click', () => {
-                            raceName  = document.getElementById("raceName").value;
-                            time = document.getElementById("time").value;
-                            place = document.getElementById("location").value;
-                            distance = document.getElementById("distance").value;
-                            contact = document.getElementById("contact").value;
-                            if(parseInt(distance,10).toString()===distance && parseInt(distance,10) >= 0){
-                                if(raceName.length < 30){
-                                    var sendJson = 
-                                        {
-                                            'name': raceName,
-                                            'time': time,
-                                            'location': place,
-                                            'distance': distance,
-                                            'contact':contact,
-                                            'ID':raceID,
-                                            'isDelete':false
-                                        }
-                                    updateRaceInDatabase(sendJson);
-                                    alert("You updated the race with a distance of "+distance+" named "+raceName);
-                                    const formLink = "/raceForm/"+userID;
-                                    location.href = formLink;
-                                }
-                                else{
-                                    alert("Please use a shorter race name");
-                                }
-                            }
-                            else{
-                                alert("Please enter the distance of the run to the nearest integer and make it positive.");
-                            }
-                    }
-                        )
-                    }
-                    }    
-                />
-   
                 <footer className={styles.footer}>
                     <a
                         href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"

@@ -254,13 +254,13 @@ export async function getServerSideProps(context) {
         }
         const best = Math.trunc(fastestDistance / 60);
         const avg =  Math.trunc(sumTime / 60 / count);
+        var trend = "No trend can be made";
         if (differenceList.length > 0) {
             var sumOfDistances = 0;
             for (var y = 0; y < differenceList.length; y++) {
             sumOfDistances += differenceList[y];
             }
             var slope = sumOfDistances / 60 / differenceList.length;
-            var trend = "";
             if (slope < 0) {
             trend =  "You have improved your time on average by " + -1 * slope.toFixed(2) + " minutes per run.";
             } else if (slope > 0) {
@@ -302,6 +302,7 @@ export async function getServerSideProps(context) {
     let profileList = returnProps;
     const [teamInfo] = await db.execute(`select * from Team where teamCode = ?`, [id]);
     let teamResults = JSON.parse(JSON.stringify(teamInfo));
+    console.log(teamResults.length);
     return {
         props: {profileData: profileList,
                 teamInfo:teamResults[0],
